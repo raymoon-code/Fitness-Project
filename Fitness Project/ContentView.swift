@@ -96,7 +96,7 @@ struct ContentView: View {
         
         HStack{
             Spacer()
-            Text("Sign In")
+            Text("Sign Ingg")
               .font(Font.custom("Raleway", size: 32))
               .foregroundColor(.black)
              
