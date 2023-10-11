@@ -55,9 +55,9 @@
 			children = (
 				C818BEF82AD6225B00A4D559 /* Fitness_ProjectApp.swift */,
 				C818BEFA2AD6225B00A4D559 /* ContentView.swift */,
+				C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */,
 				C818BEFC2AD6225C00A4D559 /* Assets.xcassets */,
 				C818BEFE2AD6225C00A4D559 /* Preview Content */,
-				C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */,
 			);
 			path = "Fitness Project";
 			sourceTree = "<group>";
