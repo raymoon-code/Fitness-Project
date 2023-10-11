@@ -11,6 +11,7 @@
 		C818BEFB2AD6225B00A4D559 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C818BEFA2AD6225B00A4D559 /* ContentView.swift */; };
 		C818BEFD2AD6225C00A4D559 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C818BEFC2AD6225C00A4D559 /* Assets.xcassets */; };
 		C818BF002AD6225C00A4D559 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C818BEFF2AD6225C00A4D559 /* Preview Assets.xcassets */; };
+		C8E022D22AD74EBB00E1E743 /* newSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		C818BEFA2AD6225B00A4D559 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C818BEFC2AD6225C00A4D559 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C818BEFF2AD6225C00A4D559 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newSwiftUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 				C818BEFA2AD6225B00A4D559 /* ContentView.swift */,
 				C818BEFC2AD6225C00A4D559 /* Assets.xcassets */,
 				C818BEFE2AD6225C00A4D559 /* Preview Content */,
+				C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */,
 			);
 			path = "Fitness Project";
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8E022D22AD74EBB00E1E743 /* newSwiftUIView.swift in Sources */,
 				C818BEFB2AD6225B00A4D559 /* ContentView.swift in Sources */,
 				C818BEF92AD6225B00A4D559 /* Fitness_ProjectApp.swift in Sources */,
 			);
