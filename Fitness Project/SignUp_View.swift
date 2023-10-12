@@ -12,6 +12,7 @@ struct SignUp_View: View {
     @State var Email: String = ""
     @State var Pass: String = ""
     @State private var isSignInViewActive = false
+    @State private var isSignUpCircleActive = false
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         GeometryReader{
@@ -121,6 +122,12 @@ struct SignUp_View: View {
                 Circle()
                     .foregroundColor(Color(red: 0.38, green: 0.79, blue: 0.93))
                 .frame(width: 64, height: 64)
+                .onTapGesture {
+                    isSignUpCircleActive.toggle()
+                }
+                .sheet(isPresented: $isSignUpCircleActive) {
+                            QuestionView()
+                            }
                 
             }
             Spacer()
