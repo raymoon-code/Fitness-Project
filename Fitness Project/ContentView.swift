@@ -12,6 +12,8 @@ import SwiftUI
 struct ContentView: View {
     @State var Email: String = ""
     @State var Pass: String = ""
+    @State private var isSignUpViewActive = false
+    
     var body: some View {
         
         GeometryReader{
@@ -32,12 +34,7 @@ struct ContentView: View {
                 .offset(x:-163,y: -292)
                 .zIndex(2)
                 
-            Text("Sign In")
-              .font(Font.custom("Raleway", size: 46))
-              .foregroundColor(.white)
-              .frame(width: 216, height: 109, alignment: .bottomLeading)
-              .zIndex(3)
-              .offset(x:33,y: 52)
+           
             Rectangle()
 //                .padding(.top, 600.0)
               .foregroundColor(.clear)
@@ -65,38 +62,45 @@ struct ContentView: View {
                   
               )
               .offset(x:30,y:185)
-           
+            Text("Sign In")
+              .font(Font.custom("Raleway", size: 46))
+              .foregroundColor(.white)
+              .frame(width: 216, height: 109, alignment: .bottomLeading)
+              .zIndex(3)
+              .offset(x:33,y: 52)
         }.ignoresSafeArea()
         
         Spacer()
             .padding(.top)
         VStack {
-         
+            
             
             TextField("Your Email", text: $Email)
                 .padding()
-                .foregroundColor(.clear)
+                .foregroundColor(.black)
                 .frame(width: 303, height: 60)
                 .background(.white)
                 .cornerRadius(20)
                 .zIndex(6)
                 .autocorrectionDisabled()
-                
-                
+            
+            
             TextField("Password", text: $Pass)
                 .padding()
-                .foregroundColor(.clear)
+                .foregroundColor(.black)
                 .frame(width: 303, height: 60)
                 .background(.white)
                 .cornerRadius(20)
                 .zIndex(6)
-                .autocorrectionDisabled()        } .padding(.bottom)
+                .autocorrectionDisabled()
+        }
+        .padding(.bottom)
         
         
         
         HStack{
             Spacer()
-            Text("Sign Ingg")
+            Text("Sign In")
               .font(Font.custom("Raleway", size: 32))
               .foregroundColor(.black)
              
@@ -122,7 +126,9 @@ struct ContentView: View {
         HStack{
             Spacer()
            
-            Button(action: {}, label: {
+            Button(action: {
+                self.isSignUpViewActive = true
+            }, label: {
                 Text("Sign Up")
             })
             .frame(width: 134, height: 44, alignment: .center)
@@ -138,6 +144,9 @@ struct ContentView: View {
             )
             .foregroundColor(.black)
             .cornerRadius(10.68966)
+            .fullScreenCover(isPresented: $isSignUpViewActive) {
+                           SignUp_View()
+                       }
               
              
             Spacer()
