@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var Email: String = ""
     @State var Pass: String = ""
     @State private var isSignUpViewActive = false
+    @State private var isSignInViewActive = false
     
     var body: some View {
         
@@ -106,18 +107,29 @@ struct ContentView: View {
              
             Spacer()
             Spacer()
-            ZStack(alignment: .topLeading){
-                Image(systemName: "arrow.right")
-                    .foregroundColor(.white)
-                    .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
-                    .offset(x:10, y:10)
-                    .font(.system(size: 30))
+            
+                Button(action: {
+                    self.isSignInViewActive = true
+                }, label: {
+                    ZStack(alignment: .topLeading){
+                        Image(systemName: "arrow.right")
+                            .foregroundColor(.white)
+                            .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
+                            .offset(x:10, y:10)
+                            .font(.system(size: 30))
+                        
+                        Circle()
+                            .foregroundColor(Color(red: 0.38, green: 0.79, blue: 0.93))
+                        .frame(width: 64, height: 64)
+                    }
+                })
+                .fullScreenCover(isPresented: $isSignInViewActive) {
+                               HomeScreenView()
+                           }
                 
-                Circle()
-                    .foregroundColor(Color(red: 0.38, green: 0.79, blue: 0.93))
-                .frame(width: 64, height: 64)
                 
-            }
+            
+            
             Spacer()
       
         }

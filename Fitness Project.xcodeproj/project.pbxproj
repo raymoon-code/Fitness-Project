@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C80A806D2AE448C80021E2D8 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80A806C2AE448C80021E2D8 /* VideoView.swift */; };
 		C818BEF92AD6225B00A4D559 /* Fitness_ProjectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C818BEF82AD6225B00A4D559 /* Fitness_ProjectApp.swift */; };
 		C818BEFB2AD6225B00A4D559 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C818BEFA2AD6225B00A4D559 /* ContentView.swift */; };
 		C818BEFD2AD6225C00A4D559 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C818BEFC2AD6225C00A4D559 /* Assets.xcassets */; };
 		C818BF002AD6225C00A4D559 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C818BEFF2AD6225C00A4D559 /* Preview Assets.xcassets */; };
+		C81DD0A22AE23F9000FFCC35 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81DD0A12AE23F8F00FFCC35 /* ViewModel.swift */; };
+		C81DD0A42AE2406500FFCC35 /* ExerciseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81DD0A32AE2406500FFCC35 /* ExerciseDetailView.swift */; };
 		C84D454A2AD846DD00C4A8E3 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84D45492AD846DD00C4A8E3 /* QuestionView.swift */; };
 		C84D454E2AD84DB800C4A8E3 /* Question2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84D454D2AD84DB800C4A8E3 /* Question2View.swift */; };
 		C84D45502AD8557000C4A8E3 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84D454F2AD8557000C4A8E3 /* HomeScreenView.swift */; };
@@ -19,11 +22,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C80A806C2AE448C80021E2D8 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		C818BEF52AD6225B00A4D559 /* Fitness Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fitness Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C818BEF82AD6225B00A4D559 /* Fitness_ProjectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fitness_ProjectApp.swift; sourceTree = "<group>"; };
 		C818BEFA2AD6225B00A4D559 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C818BEFC2AD6225C00A4D559 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C818BEFF2AD6225C00A4D559 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C81DD0A12AE23F8F00FFCC35 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		C81DD0A32AE2406500FFCC35 /* ExerciseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseDetailView.swift; sourceTree = "<group>"; };
 		C84D45492AD846DD00C4A8E3 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
 		C84D454D2AD84DB800C4A8E3 /* Question2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question2View.swift; sourceTree = "<group>"; };
 		C84D454F2AD8557000C4A8E3 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
@@ -68,6 +74,9 @@
 				C84D45492AD846DD00C4A8E3 /* QuestionView.swift */,
 				C84D454D2AD84DB800C4A8E3 /* Question2View.swift */,
 				C84D454F2AD8557000C4A8E3 /* HomeScreenView.swift */,
+				C81DD0A12AE23F8F00FFCC35 /* ViewModel.swift */,
+				C81DD0A32AE2406500FFCC35 /* ExerciseDetailView.swift */,
+				C80A806C2AE448C80021E2D8 /* VideoView.swift */,
 				C818BEFC2AD6225C00A4D559 /* Assets.xcassets */,
 				C818BEFE2AD6225C00A4D559 /* Preview Content */,
 			);
@@ -153,11 +162,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C84D454A2AD846DD00C4A8E3 /* QuestionView.swift in Sources */,
+				C81DD0A42AE2406500FFCC35 /* ExerciseDetailView.swift in Sources */,
 				C8E022D42AD7B50400E1E743 /* SignUp_View.swift in Sources */,
 				C8E022D22AD74EBB00E1E743 /* newSwiftUIView.swift in Sources */,
 				C818BEFB2AD6225B00A4D559 /* ContentView.swift in Sources */,
 				C818BEF92AD6225B00A4D559 /* Fitness_ProjectApp.swift in Sources */,
+				C80A806D2AE448C80021E2D8 /* VideoView.swift in Sources */,
 				C84D45502AD8557000C4A8E3 /* HomeScreenView.swift in Sources */,
+				C81DD0A22AE23F9000FFCC35 /* ViewModel.swift in Sources */,
 				C84D454E2AD84DB800C4A8E3 /* Question2View.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
