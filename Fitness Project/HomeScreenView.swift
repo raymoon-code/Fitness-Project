@@ -28,8 +28,12 @@ struct HomeScreenView: View {
         return viewModel2.food.filter {
             food in
             return food.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-            food.name.localizedCaseInsensitiveContains(searchTerm) ||
-            food.directions.localizedCaseInsensitiveContains(searchTerm)
+            food.kcal.description.localizedCaseInsensitiveContains(searchTerm) ||
+            food.minute.description.localizedCaseInsensitiveContains(searchTerm) ||
+            food.ingredients.contains { step in
+                    step.localizedCaseInsensitiveContains(searchTerm)
+                
+            }
         }
         
     }
@@ -121,7 +125,7 @@ struct HomeScreenView: View {
                                 }
                         }
                         
-                        .searchable(text: $searchTerm, prompt:"Enter name, level of difficult or muscle" ){
+                        .searchable(text: $searchTerm, prompt:"Enter name, level of difficult,minute or kcal" ){
                            
                            
                         } .background(Color(red: 0.625, green: 0.909, blue: 0.965))

@@ -15,8 +15,12 @@ struct FoodView: View {
         return viewModel2.food.filter {
             food in
             return food.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-            food.name.localizedCaseInsensitiveContains(searchTerm) ||
-            food.directions.localizedCaseInsensitiveContains(searchTerm)
+            food.kcal.description.localizedCaseInsensitiveContains(searchTerm) ||
+            food.minute.description.localizedCaseInsensitiveContains(searchTerm) ||
+            food.ingredients.contains { step in
+                    step.localizedCaseInsensitiveContains(searchTerm)
+                
+            }
         }
         
     }
@@ -86,7 +90,7 @@ struct FoodView: View {
                                         viewModel2.fetch()
                                     }
                         
-                        .searchable(text: $searchTerm, prompt:"Enter name, Type or muscle" )
+                        .searchable(text: $searchTerm, prompt:"Enter name, kcal, minute or ingredient" )
                         .listStyle(InsetListStyle())
                         //                        .onAppear {
                         //                            viewModel2.fetch()
