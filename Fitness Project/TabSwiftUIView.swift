@@ -14,6 +14,14 @@ struct TabSwiftUIView: View {
                 Image(systemName: "house")
                 Text("Home")
             }
+            ExercisesView().tabItem {
+                Image(systemName: "figure.run")
+                Text("Exercises")
+            }
+            FoodView().tabItem {
+                Image(systemName: "fork.knife")
+                Text("Recipes")
+            }
         }
         
     }
