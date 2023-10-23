@@ -124,7 +124,7 @@ struct ContentView: View {
                     }
                 })
                 .fullScreenCover(isPresented: $isSignInViewActive) {
-                               HomeScreenView()
+                    TabSwiftUIView()
                            }
                 
                 

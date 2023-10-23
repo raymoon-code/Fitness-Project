@@ -82,7 +82,7 @@ struct Question2View: View {
                 .frame(width: gw, height: gh)
                     .fullScreenCover(isPresented: $isFinished, content: {
                         
-                        HomeScreenView()
+                        TabSwiftUIView()
                     })
             }
         }.background(LinearGradient(
