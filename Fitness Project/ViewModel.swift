@@ -61,7 +61,7 @@ class ViewModel2: ObservableObject {
     
     @Published var food: [Foods] = []
     func fetch() {
-        guard let url = URL(string:"https://www.jsonkeeper.com/b/ZMZ2") else {return}
+        guard let url = URL(string:"https://www.jsonkeeper.com/b/SM04") else {return}
         let task = URLSession.shared.dataTask(with:url) {[weak self]
             data, _, error in
             guard let data = data, error == nil else {return}

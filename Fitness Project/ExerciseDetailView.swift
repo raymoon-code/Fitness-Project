@@ -23,7 +23,7 @@ struct ExerciseDetailView: View {
                     VStack (alignment:.center){
                         VideoViews(exercise: $exercise, videoID: exercise.videoURL)
                             .frame(height: geo.size.height * 0.4)
-                        var imagesize:Double  = 50.0
+                        let imagesize:Double  = 50.0
                         VStack{
                             Text(exercise.name)
                                 .font(.largeTitle)
@@ -35,7 +35,7 @@ struct ExerciseDetailView: View {
 //                                        .padding(2)
 //                                        .font(.title2)
 //                                        .fontWeight(.medium)
-                                    Image( "muscle_icon")
+                                    Image(exercise.muscle == "glutes" ? "glutes" : exercise.muscle == "full-body" || exercise.muscle == "whole body" ? "full_body" : exercise.muscle == "biceps" ? "Biceps 1" : exercise.muscle == "quadriceps" ? "Quadriceps" : exercise.muscle == "triceps" ? "Triceps 1" : exercise.muscle == "core" ? "lower-abs" : exercise.muscle == "flexibility" ? "flexibility" : "Chest1")
                                         .resizable()
                                         .foregroundColor(Color(hue: 0.161, saturation: 0.975, brightness: 0.98))
                                         .frame(width: imagesize, height: imagesize)
@@ -66,7 +66,7 @@ struct ExerciseDetailView: View {
                                     Image(systemName:  "dumbbell.fill")
                                         .resizable()
                                         .foregroundColor(Color(hue: 0.999, saturation: 0.978, brightness: 0.97, opacity: 0.727))
-                                        .frame(width: imagesize, height: imagesize)
+                                        .frame(width: imagesize, height: imagesize - 10)
                                     Text(exercise.equipment)
                                 }
                                 Spacer()
@@ -79,7 +79,7 @@ struct ExerciseDetailView: View {
                                         
                                         .resizable()
                                         .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-                                        .frame(width: imagesize, height: imagesize)
+                                        .frame(width: imagesize , height: imagesize - 10 )
                                         
                                     Text(exercise.type)
                                    
@@ -97,6 +97,7 @@ struct ExerciseDetailView: View {
                             Text("Instructions:")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
+                                .padding(.top)
                             Text(exercise.instructions)
                             
                             
@@ -123,13 +124,13 @@ struct ExerciseDetailView2: View {
 //            Color.blue // Set the background color to blue
 //                           .ignoresSafeArea()
         GeometryReader { geo in
-            ScrollView {
+            
                 
             
             let geow = geo.size.width
             let geoh = geo.size.height
                 VStack (alignment: .center){
-                    
+                    ScrollView {
                     AsyncImage(url:food.imageURL){
                         phase in
                         if let image = phase.image{
@@ -140,7 +141,7 @@ struct ExerciseDetailView2: View {
                         }
                     }
                        
-                    VStack{
+                        VStack(alignment:.center){
                         Text(food.name)
                             .font(.largeTitle)
                             .fontWeight(.semibold)
@@ -234,19 +235,23 @@ struct ExerciseDetailView2: View {
                                         .frame(width: 70)
                                         .foregroundColor(.yellow)
                                     Text("\(index + 1)")
-                                        .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+                                        .lineLimit(nil)
                                 }
                                 Text(step)
                                     .font(.title3)
                                     .fontWeight(.heavy)
-                                    .lineLimit(nil)
+                                    .lineLimit(4)
                                     .frame(height: geoh * 0.08)
+                                    .padding(.leading)
+                                    .padding(.trailing)
+                                    .minimumScaleFactor(0.5)
+                                    
                             }
                             
                         }.frame(height: geoh * 0.15)
                         
                         
-                    } .frame(width: geow * 0.8 ,height: geo.size.height * 1.7)
+                    } .frame(width: geow  )
                    Spacer()
                 }
             }
@@ -263,41 +268,41 @@ struct ExerciseDetailView2: View {
 
 struct ExerciseDetailView2_Previews: PreviewProvider {
     static var previews: some View {
-//        ExerciseDetailView2(food: Foods(
-//            name: "Vegetable Stir-Fry",
-//            minute: 15,
-//            kcal: 250,
-//            carbs: 30,
-//            fat: 8,
-//            protein: 12,
-//            ingredients: [
-//                "Broccoli",
-//                "Bell peppers",
-//                "Carrots",
-//                "Snap peas",
-//                "Soy sauce",
-//                "Sesame oil",
-//                "Garlic",
-//                "Ginger",
-//                "Rice"
-//            ],
-//            directions: [
-//                "Chop vegetables into bite-sized pieces.",
-//                "Heat sesame oil in a pan and add garlic and ginger.",
-//                "Stir-fry vegetables until tender.",
-//                "Add soy sauce.",
-//                "Serve over cooked rice."
-//            ],
-//            imageURL: URL(string: "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg")!
-//        ))
-        ExerciseDetailView(exercise: Exercise(
-            name: "Barbell Glute Bridge",
-                   type: "strength",
-                   muscle: "glutes",
-                   equipment: "barbell",
-                   difficulty: "beginner",
-                   instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
-            imageURL: URL(string: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg")!,
-                   videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong"))
+        ExerciseDetailView2(food: Foods(
+            name: "Vegetable Stir-Fry",
+            minute: 15,
+            kcal: 250,
+            carbs: 30,
+            fat: 8,
+            protein: 12,
+            ingredients: [
+                "Broccoli",
+                "Bell peppers",
+                "Carrots",
+                "Snap peas",
+                "Soy sauce",
+                "Sesame oil",
+                "Garlic",
+                "Ginger",
+                "Rice"
+            ],
+            directions: [
+                "Chop vegetables into bite-sized pieces.",
+                "Heat sesame oil in a pan and add garlic and ginger.",
+                "Stir-fry vegetables until tender.",
+                "Add soy sauce.",
+                "Serve over cooked rice."
+            ],
+            imageURL: URL(string: "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg")!
+        ))
+//        ExerciseDetailView(exercise: Exercise(
+//            name: "Barbell Glute Bridge",
+//                   type: "strength",
+//                   muscle: "glutes",
+//                   equipment: "barbell",
+//                   difficulty: "beginner",
+//                   instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
+//            imageURL: URL(string: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg")!,
+//                   videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong"))
     }
 }

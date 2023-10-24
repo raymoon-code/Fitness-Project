@@ -71,7 +71,7 @@ struct ExercisesView: View {
                                                         .minimumScaleFactor(0.5)
                                                     HStack(spacing:1){
                                                         VStack(spacing:0){
-                                                            Image( "muscle_icon")
+                                                            Image(exercise.muscle == "glutes" ? "glutes" : exercise.muscle == "full-body" || exercise.muscle == "whole body" ? "full_body" : exercise.muscle == "biceps" ? "Biceps 1" : exercise.muscle == "quadriceps" ? "Quadriceps" : exercise.muscle == "triceps" ? "Triceps 1" : exercise.muscle == "core" ? "lower-abs" : exercise.muscle == "flexibility" ? "flexibility" : "Chest1")
                                                                 .resizable()
                                                                 .frame(width: 30, height: 30)
                                                             

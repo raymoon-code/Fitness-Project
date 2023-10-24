@@ -91,7 +91,7 @@ struct HomeScreenView: View {
                                                         .minimumScaleFactor(0.5)
                                                     HStack(spacing:1){
                                                         VStack(spacing:0){
-                                                            Image( "muscle_icon")
+                                                            Image(exercise.muscle == "glutes" ? "glutes" : exercise.muscle == "full-body" || exercise.muscle == "whole body" ? "full_body" : exercise.muscle == "biceps" ? "Biceps 1" : exercise.muscle == "quadriceps" ? "Quadriceps" : exercise.muscle == "triceps" ? "Triceps 1" : exercise.muscle == "core" ? "lower-abs" : exercise.muscle == "flexibility" ? "flexibility" : "Chest1")
                                                                 .resizable()
                                                                 .frame(width: 30, height: 30)
                                                             
@@ -157,9 +157,10 @@ struct HomeScreenView: View {
                                                     }
                                                     //                                Spacer()
                                                     VStack {
-                                                        Text(food.name).font(.title3).multilineTextAlignment(.leading)
+                                                        Text(food.name).font(.title3).fontWeight(.semibold).multilineTextAlignment(.leading)
+                                                            .padding(.bottom,1)
                                                         HStack{
-                                                            Image( systemName: "timer")
+                                                            Image( systemName: "timer")    .foregroundColor(Color.pink)
                                                             Text("\(food.minute) minute")
                                                                 .font(.title3).multilineTextAlignment(.leading)
                                                             //                                                                .resizable()
@@ -167,10 +168,12 @@ struct HomeScreenView: View {
                                                             
                                                             //                                                            Text("")
                                                             //                                                                .font(.title3).multilineTextAlignment(.leading)
-                                                            Image( systemName: "carrot.fill")
+                                                            Image( systemName: "flame")
+                                                                .foregroundColor(Color.pink)
                                                             Text("\(food.kcal) kcal")
+                                                           
                                                                 .font(.title3).multilineTextAlignment(.leading)
-                                                        }
+                                                        }.padding(.leading)
                                                     }
                                                 }
                                             }

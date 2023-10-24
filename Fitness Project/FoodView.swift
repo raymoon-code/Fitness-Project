@@ -63,14 +63,12 @@ struct FoodView: View {
                                                         Text(food.name).font(.title3).multilineTextAlignment(.leading)
                                                         HStack{
                                                             Image( systemName: "timer")
+                                                                .foregroundColor(Color.pink)
                                                             Text("\(food.minute) minute")
                                                                 .font(.title3).multilineTextAlignment(.leading)
-                                                            //                                                                .resizable()
-                                                            //                                                                .frame(width: 30, height: 30)
-                                                            
-                                                            //                                                            Text("")
-                                                            //                                                                .font(.title3).multilineTextAlignment(.leading)
-                                                            Image( systemName: "carrot.fill")
+                                        
+                                                            Image( systemName: "flame")
+                                                                .foregroundColor(Color.pink)
                                                             Text("\(food.kcal) kcal")
                                                                 .font(.title3).multilineTextAlignment(.leading)
                                                         }
