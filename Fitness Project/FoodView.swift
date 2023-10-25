@@ -46,7 +46,7 @@ struct FoodView: View {
                                     .foregroundColor(Color.black)){
                                         ForEach(filteredTable2, id: \.self) { food in
                                             
-                                            NavigationLink(destination: ExerciseDetailView2(food: food)) {
+                                            NavigationLink(destination: FoodDetailView2(food: food)) {
                                                 HStack {
                                                     
                                                     AsyncImage(url:food.imageURL){

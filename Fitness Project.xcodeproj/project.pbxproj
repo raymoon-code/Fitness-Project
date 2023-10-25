@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C6EE7042AE85D8C00F2CBE7 /* FoodDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EE7032AE85D8C00F2CBE7 /* FoodDetailView.swift */; };
 		C8021EDB2AE6039F00AD0D52 /* ExercisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8021EDA2AE6039F00AD0D52 /* ExercisesView.swift */; };
 		C8021EDD2AE603C500AD0D52 /* FoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8021EDC2AE603C500AD0D52 /* FoodView.swift */; };
 		C80A806D2AE448C80021E2D8 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80A806C2AE448C80021E2D8 /* VideoView.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9C6EE7032AE85D8C00F2CBE7 /* FoodDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDetailView.swift; sourceTree = "<group>"; };
 		C8021EDA2AE6039F00AD0D52 /* ExercisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesView.swift; sourceTree = "<group>"; };
 		C8021EDC2AE603C500AD0D52 /* FoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodView.swift; sourceTree = "<group>"; };
 		C80A806C2AE448C80021E2D8 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 		C818BEF72AD6225B00A4D559 /* Fitness Project */ = {
 			isa = PBXGroup;
 			children = (
+				9C6EE7032AE85D8C00F2CBE7 /* FoodDetailView.swift */,
 				C818BEF82AD6225B00A4D559 /* Fitness_ProjectApp.swift */,
 				C818BEFA2AD6225B00A4D559 /* ContentView.swift */,
 				C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */,
@@ -181,6 +184,7 @@
 				C818BEF92AD6225B00A4D559 /* Fitness_ProjectApp.swift in Sources */,
 				C80A806D2AE448C80021E2D8 /* VideoView.swift in Sources */,
 				C84D45502AD8557000C4A8E3 /* HomeScreenView.swift in Sources */,
+				9C6EE7042AE85D8C00F2CBE7 /* FoodDetailView.swift in Sources */,
 				C81DD0A22AE23F9000FFCC35 /* ViewModel.swift in Sources */,
 				C84D454E2AD84DB800C4A8E3 /* Question2View.swift in Sources */,
 			);
