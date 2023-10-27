@@ -29,7 +29,7 @@ struct WorkoutView: View {
             let width = geo.size.width
             
             
-            NavigationView{
+            NavigationStack{
                 ZStack(alignment: .top){
                     
                     Rectangle()
@@ -38,13 +38,13 @@ struct WorkoutView: View {
                         .frame(height: height * 0.0001)
                     
                     VStack{
-            
+                        
                         List{
                             Section( header: Text("Your Workouts")
                                 .font(.headline)
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.black)){
-
+                                    
                                     ForEach(filteredTable3, id: \.title) { workout in
                                         NavigationLink(destination: WorkoutDetailView(workout: workout)){
                                             HStack{
@@ -60,10 +60,11 @@ struct WorkoutView: View {
                                                     }
                                                 }
                                                 Spacer()
-                                                HStack{
+                                                VStack{
                                                     
                                                     Text(workout.title)
                                                         .fontWeight(.bold)
+                                                    Text("No. Exercises: " + String(workout.exercises.count))
                                                     
                                                 }
                                                 .frame(width: width * 0.5)
@@ -71,7 +72,9 @@ struct WorkoutView: View {
                                                 
                                             }
                                         }
+                                        .isDetailLink(true)
                                     }
+                                    .onDelete(perform: deleteWorkout)
                                 }
                         }
                         .searchable(text: $searchTerm, prompt:"Enter name of the workout" ){
@@ -88,8 +91,9 @@ struct WorkoutView: View {
             }
         }
     }
-    
-}
+    func deleteWorkout(at offsets: IndexSet) {
+        viewModel3.workout.remove(atOffsets: offsets)
+    }}
 #Preview {
     WorkoutView()
 }

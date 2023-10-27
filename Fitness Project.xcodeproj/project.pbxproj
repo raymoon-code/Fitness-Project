@@ -81,6 +81,7 @@
 		C818BEF72AD6225B00A4D559 /* Fitness Project */ = {
 			isa = PBXGroup;
 			children = (
+				9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */,
 				9CFC5D912AEA48FC004ED854 /* WorkoutView.swift */,
 				9C6EE7032AE85D8C00F2CBE7 /* FoodDetailView.swift */,
 				C818BEF82AD6225B00A4D559 /* Fitness_ProjectApp.swift */,
@@ -99,7 +100,6 @@
 				C8BDA8422AEA1FF800DBBD80 /* DailyView.swift */,
 				C818BEFC2AD6225C00A4D559 /* Assets.xcassets */,
 				C818BEFE2AD6225C00A4D559 /* Preview Content */,
-				9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */,
 			);
 			path = "Fitness Project";
 			sourceTree = "<group>";
