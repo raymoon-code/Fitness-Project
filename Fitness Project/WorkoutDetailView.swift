@@ -1,25 +1,20 @@
 //
-//  ExercisesView.swift
+//  WorkoutDetailView.swift
 //  Fitness Project
 //
-//  Created by Tran Phat on 10/22/23.
+//  Created by user236922 on 10/26/23.
 //
 
 import SwiftUI
 
-struct ExercisesView: View {
-    @ObservedObject var viewModel = ViewModel()
+struct WorkoutDetailView: View {
+    
+    @State var workout: Workouts
+    
+    @ObservedObject var viewModel3 = ViewModel3()
+    
     @State private var searchTerm = ""
-    var filteredTable: [Exercise] {
-        guard !searchTerm.isEmpty else {return viewModel.exercise}
-        return viewModel.exercise.filter {
-            exercise in
-            return exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.muscle.localizedCaseInsensitiveContains(searchTerm)
-        }
-        
-    }
+    
     var body: some View {
         GeometryReader { geo in
             let geow = geo.size.width
@@ -36,11 +31,11 @@ struct ExercisesView: View {
                     VStack{
                         
                         List{
-                            Section( header: Text("Your Favorite Exercises")
+                            Section( header: Text(workout.title)
                                 .font(.headline)
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.black)){
-                                    ForEach(filteredTable, id: \.name) { exercise in
+                                    ForEach(workout.exercises, id: \.name) { exercise in
                                         
                                         NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
                                             HStack {
@@ -91,7 +86,7 @@ struct ExercisesView: View {
                                             }
                                         }
                                     }
-                                    .onDelete(perform: deleteExercise)
+                                    //.onDelete(perform: deleteExercise)
                                     .frame(height: geoh * 0.11)
                                     
                                     
@@ -101,14 +96,14 @@ struct ExercisesView: View {
                                 }
                         }
                         
-                        .searchable(text: $searchTerm, prompt:"Enter name, level of difficulty or muscle" ){
+                        .searchable(text: $searchTerm, prompt:"Search Exercises" ){
                             
                             
                         } .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                             .listStyle(InsetListStyle())
                             .onAppear {
-                                viewModel.fetch()
                                 
+                                viewModel3.fetch()
                             }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
                     }
@@ -117,11 +112,24 @@ struct ExercisesView: View {
             }
         }
     }
-    func deleteExercise(at offsets: IndexSet) {
-        viewModel.exercise.remove(atOffsets: offsets)
-    }
 }
-   
-#Preview {
-    ExercisesView()
+
+struct WorkoutDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        WorkoutDetailView(workout: Workouts(
+            title: "Default Workout 1",
+            exercises: [
+                Exercise(
+                            name: "Barbell Glute Bridge",
+                                  type: "Strength",
+                                   muscle: "Glutes",
+                                   equipment: "Barbell",
+                                   difficulty: "beginner",
+                                   instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
+                            imageURL: URL(string: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg")!,
+                            videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong")
+            ],
+            image: URL(string: "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg")!
+        ))
+    }
 }

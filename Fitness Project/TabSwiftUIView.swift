@@ -22,6 +22,10 @@ struct TabSwiftUIView: View {
                 Image(systemName: "fork.knife")
                 Text("Recipes")
             }
+            WorkoutView().tabItem{
+                Image(systemName: "circle")
+                Text("Workouts")
+            }
         }
         
     }

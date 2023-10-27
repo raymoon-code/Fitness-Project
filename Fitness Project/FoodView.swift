@@ -64,7 +64,7 @@ struct FoodView: View {
                                                         HStack{
                                                             Image( systemName: "timer")
                                                                 .foregroundColor(Color.pink)
-                                                            Text("\(food.minute) minute")
+                                                            Text("\(food.minute) Minutes")
                                                                 .font(.title3).multilineTextAlignment(.leading)
                                         
                                                             Image( systemName: "flame")

@@ -11,8 +11,12 @@ import SwiftUI
 struct HomeScreenView: View {
     @ObservedObject var viewModel = ViewModel()
     @ObservedObject var viewModel2 = ViewModel2()
+    @ObservedObject var viewModel3 = ViewModel3()
+    
     @State private var searchTerm = ""
     @State private var searchTerm2 = ""
+    @State private var searchTerm3 = ""
+    
     var filteredTable: [Exercise] {
         guard !searchTerm.isEmpty else {return viewModel.exercise}
         return viewModel.exercise.filter {
@@ -38,6 +42,13 @@ struct HomeScreenView: View {
         
     }
     
+    var filteredTable3: [Workouts] {
+        guard !searchTerm.isEmpty else {return viewModel3.workout}
+        return viewModel3.workout.filter {
+            workout in
+            return workout.title.description.localizedCaseInsensitiveContains(searchTerm)
+        }
+    }
     
     
     var body: some View {
@@ -95,7 +106,7 @@ struct HomeScreenView: View {
                                                                 .resizable()
                                                                 .frame(width: 30, height: 30)
                                                             
-                                                            Text(exercise.muscle).font(.subheadline).multilineTextAlignment(.leading)
+                                                            Text(exercise.muscle.capitalized).font(.subheadline).multilineTextAlignment(.leading)
                                                                 .frame(width: geow * 0.3)
                                                                 .padding(.bottom)
                                                         }
@@ -105,7 +116,7 @@ struct HomeScreenView: View {
                                                                 .resizable()
                                                                 .frame(width: 30, height: 30)
                                                                 .padding(.top)
-                                                            Text(exercise.difficulty).font(.subheadline).multilineTextAlignment(.leading)
+                                                            Text(exercise.difficulty.capitalized).font(.subheadline).multilineTextAlignment(.leading)
                                                                 .padding(.bottom)
                                                                 .padding(.bottom)
                                                             Spacer()
@@ -186,8 +197,17 @@ struct HomeScreenView: View {
                                         
                                         
                                     }}
+                        .searchable(text: $searchTerm, prompt:"Enter name, level of difficult,minute or kcal" ){
+                
+                        } .background(Color(red: 0.625, green: 0.909, blue: 0.965))
+                        .listStyle(InsetListStyle())
+                        .onAppear {
+                            viewModel.fetch()
+                            viewModel2.fetch()
+                        }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
+                            .background(Color.clear)
                         
-                        .searchable(text: $searchTerm, prompt:"Enter name, Type or muscle" )
+                        
                         .listStyle(InsetListStyle())
                         //                        .onAppear {
                         //                            viewModel2.fetch()

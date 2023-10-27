@@ -81,3 +81,35 @@ class ViewModel2: ObservableObject {
         task.resume()
     }
 }
+
+
+struct Workouts: Hashable, Codable {
+    let title: String
+    let exercises: [Exercise]
+    let image: URL
+}
+
+class ViewModel3: ObservableObject{
+    @Published var workout: [Workouts] = []
+    
+    //https://www.jsonkeeper.com/b/X613
+    
+    func fetch() {
+        guard let url = URL(string:"https://www.jsonkeeper.com/b/SUZB") else {return}
+        let task = URLSession.shared.dataTask(with:url) {[weak self]
+            data, _, error in
+            guard let data = data, error == nil else {return}
+            do {
+                let workout = try JSONDecoder().decode([Workouts].self, from: data)
+                DispatchQueue.main.async {
+                    self?.workout = workout
+                }
+            }
+            catch {
+               
+            }
+        }
+        task.resume()
+    }
+
+}
