@@ -26,6 +26,11 @@ struct TabSwiftUIView: View {
                 Image(systemName: "circle")
                 Text("Workouts")
             }
+            DailyView().tabItem{
+                
+                Image(systemName: "calendar")
+                Text("Daily")
+            }
         }
         
     }

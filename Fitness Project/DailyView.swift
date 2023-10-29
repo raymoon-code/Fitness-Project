@@ -10,7 +10,7 @@ import SwiftUI
 struct DailyView: View {
     let today = Date()
     @State var selectedday:Int = 0
-    @State var waterFill:[Int] = [0,0,0,0,0,0,0]
+    @State var waterFill:[Int] = [0,0,0,0,0,0,0,0]
     @State private var isSheetPresented = false
     @State private var progress: CGFloat = 0.1
     @State private var waveOffset: CGFloat = 0.0
@@ -71,7 +71,7 @@ struct DailyView: View {
                             ZStack{
                                 //                            let date = formattedDayOfMonth
                                 
-                                Text("\(formattedDayOfMonth - formattednumDayOfWeek + day)")
+                                Text("\((((formattedDayOfMonth - 1) - formattednumDayOfWeek + day) % 31 + 1 ) )")
                                     .zIndex(1)
                                 Circle()
                                     .frame(width: 48, height: 48)
@@ -96,11 +96,52 @@ struct DailyView: View {
                             
                         }
                     }
+                }.onAppear{
+                    
+                    if waterFill[selectedday] == 0 {
+                        progress = 0.1
+                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                            
+                            startAnimation = geoh
+                            
+                        }
+                        
+                    } else if waterFill[selectedday] == 500 {
+                        progress = 0.35
+                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                            startAnimation = geoh
+                            
+                        }
+                    } else if waterFill[selectedday] == 1000 {
+                        progress = 0.6
+                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                            startAnimation = geoh
+                            
+                        }
+                    } else if waterFill[selectedday] == 1500 {
+                        progress = 0.85
+                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                            startAnimation = geoh
+                            
+                        }
+                    } else {
+                        progress = 1.1
+                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                            startAnimation = geoh
+                        }
+                    }
                 }
                 ZStack {
                     
                     Button(action: {
-                        isSheetPresented.toggle() // Toggle the sheet presentation
+                        isSheetPresented = true // Toggle the sheet presentation
+                        if waterFill[selectedday] == 0 {
+                            progress = 0.1
+                            withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                                
+                                startAnimation = geoh
+                                
+                            }}
                     }) {
                         VStack{
                             Text("Water")
@@ -128,7 +169,7 @@ struct DailyView: View {
                                 )
                                 .overlay(
                                     Circle()
-                                        .trim(from: 0.0, to: waterFill[selectedday] == 1000 ? 0.25 : waterFill[selectedday] == 1500 ? 0.5 : waterFill[selectedday] == 2000 ? 0.75 : 0.0) // 25% of the circle
+                                        .trim(from: 0.0, to: waterFill[selectedday] == 1000 ? 0.25 : waterFill[selectedday] == 1500 ? 0.5 : waterFill[selectedday] >= 2000 ? 0.75 : 0.0) // 25% of the circle
                                         .stroke(Color.blue, lineWidth: 5) // Blue stroke
                                         .opacity(waterFill[selectedday] > 500 ? 1.0 : 0.0)
                                     // Show only when waterFill is over 500
@@ -156,87 +197,175 @@ struct DailyView: View {
                         .stroke(.black, lineWidth: 1)
                 )
                 .sheet(isPresented: $isSheetPresented) {
+                    
                     ZStack{
                         // Place your sheet content here
                         // For example, Text("Sheet Content") or another view
                         VStack{
                             VStack {
                                 Rectangle()
-                                  .foregroundColor(.clear)
-                                  .frame(width: 148, height: 54)
-                                  .background(Color(red: 0.85, green: 0.85, blue: 0.85))
-                                  .cornerRadius(18)
-                                  .overlay {HStack{
-                                      Image(systemName: "timer")
-                                      Text("\(formattedFullDate) \(formattedDayOfMonth - formattednumDayOfWeek + selectedday) ")
-                                          .font(.title).font(
+                                    .foregroundColor(.clear)
+                                    .frame(width: 148, height: 54)
+                                    .background(Color(red: 0.85, green: 0.85, blue: 0.85))
+                                    .cornerRadius(18)
+                                    .overlay {HStack{
+                                        Image(systemName: "timer")
+                                        let firstnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1
+                                        let secondnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday - 1)) % 31 + 1
+//                                        let thismonth = formattedFullDate(monthsInFuture: 0)
+                                        let nextmonth =   formattedFullDate(monthsInFuture: 1)
+                                       
+//                                        Text("\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday + 1)) % 31 + 1) ")
+//                                        Text("\(formattedFullDate(monthsInFuture: 1)) \(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1) ")
+                                       
+                                        Text( secondnum - firstnum  > 1 ? nextmonth : monthForPastDay(daysAgo: selectedday - 1)!)
+                                            .font(.title).font(
+                                                Font.custom("Raleway", size: 30)
+                                                    .weight(.bold)
+                                            )
+                                        Text("\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1) ").font(.title).font(
                                             Font.custom("Raleway", size: 30)
                                                 .weight(.bold)
-                                          )
-                                  }
-                                  }.padding()
+                                        )
+                                    }
+                                    }.padding()
+                                   
+                                    
                                 
                                 Spacer()
                                 Text("\(waterFill[selectedday]) ml")
+                                    .fontWeight(.heavy)
                                     .padding()
-                                    .font(.title).font(
+                                    .font(.largeTitle).font(
                                         Font.custom("Raleway", size: 48)
-                                        .weight(.bold)
-                                        )
+                                            .weight(.bold)
+                                    )
                                 Text("Goal: 2000ml")
                                     .font(.title).font(
                                         Font.custom("Raleway", size: 20)
                                         
-                                        )
+                                    )
                                 Spacer()
                             }.zIndex(1)
+                            
                             Spacer()
-                            Button(action:{
-                                
+                            HStack{
+                                Spacer()
+                                Button(action: {
+                                    isSheetPresented = false
+                                    startAnimation = 0
+                                    
+                                }){
+                                    Circle()
+                                        .frame(width:50)
+                                        .foregroundColor(.gray)
+                                        .opacity(0.7)
+                                        .overlay {
+                                            Text("X")
+                                                .font(.title2)
+                                                .fontWeight(.heavy)
+                                        }
+                                    //                                Image(systemName: "xmark.app")
+                                }
+                                .foregroundColor(Color.white)
+                                Spacer()
+                                Button(action:{
+                                    
                                     withAnimation { waterFill[selectedday] += 500
                                         if waterFill[selectedday] <= 2000 {
-                                        progress += 0.25
-                                    }
-                                }
-                            }){
-                                ZStack{
-                                    Circle()
-                                        .frame(width:90,height:90)
-                                        .foregroundColor(.white)
-                                        .overlay {
-                                            VStack(spacing:0){
-                                                HStack(spacing:5){
-                                                    Image(systemName: "waterbottle")
-                                                        .resizable()
-                                                        .frame(width:20,height:40)
-                                                    Text("+")
-                                                        .font(.title)
-                                                }
-                                                Text("500ml")
-                                            }
+                                            let newvalue = progress + 0.25
+                                            progress = newvalue
                                         }
-                                        .zIndex(1)
+                                    }
+                                }){
+                                    ZStack{
+                                        Circle()
+                                            .frame(width:90,height:90)
+                                            .foregroundColor(.white)
+                                            .overlay {
+                                                VStack(spacing:0){
+                                                    HStack(spacing:5){
+                                                        Image(systemName: "waterbottle")
+                                                            .resizable()
+                                                            .frame(width:20,height:40)
+                                                        Text("+")
+                                                            .font(.title)
+                                                    }
+                                                    Text("500ml")
+                                                }
+                                            }
+                                            .zIndex(1)
+                                        
+                                        
+                                        
+                                        
+                                    }.padding()
                                     
-                                   
-                                                       
                                     
-                                }.padding()
-
-                            }.onAppear {
+                                }
+                                Spacer()
+                                Text("      ")
+                                    .padding()
+                                Spacer()
+                            }
+                            Spacer()
+                        }.zIndex(1)
+                        ZStack{
+                            Wave(progress: progress, waveHeight: 0.02,offset: startAnimation)
+                                .offset(y:40)
+                                .fill(Color.blue)
+                                .zIndex(0)
+                            
+                        }.onAppear{
+                            withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                                
+                                startAnimation = geoh
+                                
+                            }
+                            if waterFill[selectedday] == 0 {
+                                progress = 0.1
+                                
+                                
+                            } else if waterFill[selectedday] == 500 {
+                                progress = 0.35
                                 withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
                                     startAnimation = geoh
                                     
                                 }
+                            } else if waterFill[selectedday] == 1000 {
+                                progress = 0.6
+                                withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                                    startAnimation = geoh
+                                    
+                                }
+                            } else if waterFill[selectedday] == 1500 {
+                                progress = 0.85
+                                withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                                    startAnimation = geoh
+                                    
+                                }
+                            } else {
+                                progress = 1.1
+                                withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                                    startAnimation = geoh
+                                }
                             }
-                            Spacer()
-                        }.zIndex(1)
-                        Wave(progress: progress, waveHeight: 0.02,offset: startAnimation)
-                                            .offset(y:40)
-                                            .fill(Color.blue)
-
-                                            .zIndex(0)
+                        }
+                            
+                        
                     }
-                }}
+                    
+                        .onDisappear{
+                            isSheetPresented = false
+                            startAnimation = geoh
+                            
+      
+                        }
+                }
+                
+                
+            }
+               
             }
         .onAppear {
                   
@@ -254,16 +383,47 @@ struct DailyView: View {
           dateFormatter.dateFormat = "EEEE" // This will give you the full day name
           return dateFormatter.string(from: today)
       }
-    var formattedFullDate: String {
-        let today = Date() // Replace this with the date you want to format
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM" // This will give you the abbreviated month and day without leading zeros
-        return dateFormatter.string(from: today)
+    
+    func monthForPastDay(daysAgo: Int) -> String? {
+        let calendar = Calendar.current
+        let targetDate = calendar.date(byAdding: .day, value: daysAgo, to: Date())
+        
+        if let targetDate = targetDate {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM"
+            return dateFormatter.string(from: targetDate)
+        } else {
+            return nil
+        }
+    }
+    
+//    var formattedFullDate: String {
+//        let today = Date()
+//        let calendar = Calendar.current
+//        if let nextMonth = calendar.date(byAdding: .month, value: 0, to: today) {
+//            let dateFormatter = DateFormatter()
+//            dateFormatter.dateFormat = "MMM"
+//            return dateFormatter.string(from: nextMonth)
+//        } else {
+//            return ""
+//        }
+//    }
+    
+    func formattedFullDate(monthsInFuture: Int) -> String {
+        let today = Date()
+        let calendar = Calendar.current
+        if let futureDate = calendar.date(byAdding: .month, value: monthsInFuture, to: today) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM"
+            return dateFormatter.string(from: futureDate)
+        } else {
+            return ""
+        }
     }
     
     var formattedDayOfMonth: Int {
         let calendar = Calendar.current
-        var dayOfMonth = calendar.component(.day, from: today)
+        let dayOfMonth = calendar.component(.day, from: today)
 //        dayOfMonth += 1
 //
 //         // Ensure it wraps around to the range 1-7 (Sunday to Saturday)
@@ -292,10 +452,13 @@ struct Wave: Shape {
     var progress: CGFloat
     var waveHeight: CGFloat
     var offset: CGFloat
+    
     var animatableData: CGFloat {
         get {offset}
         set{offset = newValue}
     }
+   
+    
     
     func path(in rect: CGRect) -> Path {
         
@@ -309,7 +472,7 @@ struct Wave: Shape {
             for value in stride(from: 0, to: rect.width, by: 2.2) {
                 
                 let x: CGFloat = value
-                let sine: CGFloat = sin(Angle(degrees: value + offset).radians)
+                let sine: CGFloat = sin( Angle(degrees: value + offset).radians )
                 let y: CGFloat = progressHeight + (height * sine) + 50
                 path.addLine(to: CGPoint(x: x, y: y))
             }
@@ -319,7 +482,8 @@ struct Wave: Shape {
             
             
         }
-    }}
+    }
+}
 
 
 

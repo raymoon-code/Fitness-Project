@@ -98,6 +98,7 @@
 				C8021EDA2AE6039F00AD0D52 /* ExercisesView.swift */,
 				C8021EDC2AE603C500AD0D52 /* FoodView.swift */,
 				C8BDA8422AEA1FF800DBBD80 /* DailyView.swift */,
+				9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */,
 				C818BEFC2AD6225C00A4D559 /* Assets.xcassets */,
 				C818BEFE2AD6225C00A4D559 /* Preview Content */,
 			);
