@@ -96,40 +96,6 @@ struct DailyView: View {
                             
                         }
                     }
-                }.onAppear{
-                    
-                    if waterFill[selectedday] == 0 {
-                        progress = 0.1
-                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                            
-                            startAnimation = geoh
-                            
-                        }
-                        
-                    } else if waterFill[selectedday] == 500 {
-                        progress = 0.35
-                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                            startAnimation = geoh
-                            
-                        }
-                    } else if waterFill[selectedday] == 1000 {
-                        progress = 0.6
-                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                            startAnimation = geoh
-                            
-                        }
-                    } else if waterFill[selectedday] == 1500 {
-                        progress = 0.85
-                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                            startAnimation = geoh
-                            
-                        }
-                    } else {
-                        progress = 1.1
-                        withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                            startAnimation = geoh
-                        }
-                    }
                 }
                 ZStack {
                     
@@ -196,8 +162,7 @@ struct DailyView: View {
                         .inset(by: 0.5)
                         .stroke(.black, lineWidth: 1)
                 )
-                .sheet(isPresented: $isSheetPresented) {
-                    
+                .fullScreenCover(isPresented: $isSheetPresented, content: {
                     ZStack{
                         // Place your sheet content here
                         // For example, Text("Sheet Content") or another view
@@ -295,7 +260,7 @@ struct DailyView: View {
                                                 }
                                             }
                                             .zIndex(1)
-                                        
+                                            
                                         
                                         
                                         
@@ -361,7 +326,10 @@ struct DailyView: View {
                             
       
                         }
-                }
+                })
+                    
+                   
+                
                 
                 
             }
