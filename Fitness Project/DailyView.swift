@@ -16,6 +16,9 @@ struct DailyView: View {
     @State private var waveOffset: CGFloat = 0.0
     @State private var startAnimation: CGFloat = 0
     @State private var isWaveAnimating = false
+    @State private var shouldAnimate = false
+    @State private var timer: Timer?
+    @State private var isButtonEnabled = true
     var body: some View {
         GeometryReader { geo in
             let geow = geo.size.width
@@ -103,11 +106,11 @@ struct DailyView: View {
                         isSheetPresented = true // Toggle the sheet presentation
                         if waterFill[selectedday] == 0 {
                             progress = 0.1
-                            withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
+                            
                                 
                                 startAnimation = geoh
                                 
-                            }}
+                            }
                     }) {
                         VStack{
                             Text("Water")
@@ -231,17 +234,16 @@ struct DailyView: View {
                                                 .fontWeight(.heavy)
                                         }
                                     //                                Image(systemName: "xmark.app")
-                                }
+                                }.disabled(!isButtonEnabled)
                                 .foregroundColor(Color.white)
                                 Spacer()
                                 Button(action:{
                                     
-                                    withAnimation { waterFill[selectedday] += 500
-                                        if waterFill[selectedday] <= 2000 {
-                                            let newvalue = progress + 0.25
-                                            progress = newvalue
-                                        }
-                                    }
+                                        waterFill[selectedday] += 500
+                                    timer?.invalidate()
+                                    startProgressTimer()
+
+                                    
                                 }){
                                     ZStack{
                                         Circle()
@@ -267,7 +269,7 @@ struct DailyView: View {
                                     }.padding()
                                     
                                     
-                                }
+                                }.disabled(!isButtonEnabled)
                                 Spacer()
                                 Text("      ")
                                     .padding()
@@ -280,40 +282,36 @@ struct DailyView: View {
                                 .offset(y:40)
                                 .fill(Color.blue)
                                 .zIndex(0)
+                                .onAppear {
+                                    
+                                    
+                                   
+                                    withAnimation(Animation.linear(duration: 4.2).repeatForever(autoreverses: false)) {
+                                        
+                                        startAnimation = 2600// Change the progress value to make the wave move
+                                    }
+                                }
                             
                         }.onAppear{
-                            withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                                
-                                startAnimation = geoh
-                                
-                            }
+                           
                             if waterFill[selectedday] == 0 {
                                 progress = 0.1
                                 
                                 
                             } else if waterFill[selectedday] == 500 {
-                                progress = 0.35
-                                withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                                    startAnimation = geoh
-                                    
-                                }
+                                
+
+                                    progress = 0.35
+
                             } else if waterFill[selectedday] == 1000 {
                                 progress = 0.6
-                                withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                                    startAnimation = geoh
-                                    
-                                }
+                               
                             } else if waterFill[selectedday] == 1500 {
                                 progress = 0.85
-                                withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                                    startAnimation = geoh
-                                    
-                                }
+                                
                             } else {
                                 progress = 1.1
-                                withAnimation(.linear(duration: 2.2).repeatForever(autoreverses: false)) {
-                                    startAnimation = geoh
-                                }
+                               
                             }
                         }
                             
@@ -377,6 +375,32 @@ struct DailyView: View {
 //        }
 //    }
     
+    private func startProgressTimer() {
+        var targetProgress: CGFloat = 0.35
+        if progress < 0.35 {
+                    targetProgress = 0.35
+                } else if progress < 0.6 {
+                    targetProgress = 0.6
+                } else if progress < 0.85 {
+                    targetProgress = 0.85
+                } else if progress < 1.1 {
+                    targetProgress = 1.1
+                }
+        else {
+                    // If progress is greater than or equal to 0.6, do nothing
+                    return
+                }
+        isButtonEnabled = false
+        timer = Timer.scheduledTimer(withTimeInterval: 0.005, repeats: true) { _ in
+            progress += 0.001
+            
+            if progress >= targetProgress {
+                // Stop the timer when progress reaches 1
+                timer?.invalidate()
+                isButtonEnabled = true
+            }
+        }}
+    
     func formattedFullDate(monthsInFuture: Int) -> String {
         let today = Date()
         let calendar = Calendar.current
@@ -403,6 +427,8 @@ struct DailyView: View {
         return dayOfMonth
     }
     
+    
+    
     var formattednumDayOfWeek: Int {
         let calendar = Calendar.current
         let dayOfWeek = calendar.component(.weekday, from: today)
@@ -416,43 +442,42 @@ struct DailyView: View {
 //       }
 }
 
-struct Wave: Shape {
+struct Wave: Shape, Animatable {
     var progress: CGFloat
     var waveHeight: CGFloat
     var offset: CGFloat
     
-    var animatableData: CGFloat {
-        get {offset}
-        set{offset = newValue}
-    }
-   
-    
-    
-    func path(in rect: CGRect) -> Path {
-        
-        return Path { path in
-            
-            path.move(to: .zero)
-            
-            let progressHeight: CGFloat = (1 - progress) * rect.height
-            let height = waveHeight * rect.height
-            
-            for value in stride(from: 0, to: rect.width, by: 2.2) {
-                
-                let x: CGFloat = value
-                let sine: CGFloat = sin( Angle(degrees: value + offset).radians )
-                let y: CGFloat = progressHeight + (height * sine) + 50
-                path.addLine(to: CGPoint(x: x, y: y))
-            }
-            
-            path.addLine(to: CGPoint(x: rect.width, y: rect.height))
-            path.addLine(to: CGPoint(x: 0, y: rect.height))
-            
-            
+    var animatableData: AnimatablePair<CGFloat, CGFloat> {
+        get {
+            AnimatablePair(progress, offset)
+        }
+        set {
+            progress = newValue.first
+            offset = newValue.second
         }
     }
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        let progressHeight: CGFloat = (1 - progress) * rect.height
+        let height = waveHeight * rect.height
+        
+        path.move(to: .zero)
+        
+        for value in stride(from: 0, to: rect.width, by: 2.2) {
+            let x: CGFloat = value
+            let sine: CGFloat = sin(Angle(degrees: value + offset).radians)
+            let y: CGFloat = progressHeight + (height * sine) + 50
+            path.addLine(to: CGPoint(x: x, y: y))
+        }
+        
+        path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+        path.addLine(to: CGPoint(x: 0, y: rect.height))
+        
+        return path
+    }
 }
-
 
 
 struct TriangleBorder: Shape {
