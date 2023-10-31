@@ -15,6 +15,7 @@ struct DailyView: View {
     @State private var progress: CGFloat = 0.1
     @State private var waveOffset: CGFloat = 0.0
     @State private var startAnimation: CGFloat = 0
+    @State private var startAnimation2: CGFloat = 200
     @State private var isWaveAnimating = false
     @State private var shouldAnimate = false
     @State private var timer: Timer?
@@ -82,6 +83,25 @@ struct DailyView: View {
                                     .onTapGesture {
                                         // Set the selectedday when the circle is tapped
                                         selectedday =  day
+                                        if waterFill[selectedday] == 0 {
+                                            progress = 0.1
+                                            
+                                            
+                                        } else if waterFill[selectedday] == 500 {
+                                            
+
+                                                progress = 0.35
+
+                                        } else if waterFill[selectedday] == 1000 {
+                                            progress = 0.6
+                                           
+                                        } else if waterFill[selectedday] == 1500 {
+                                            progress = 0.85
+                                            
+                                        } else {
+                                            progress = 1.1
+                                           
+                                        }
                                     }
                             }
                             Image(systemName: day == selectedday ? "triangle.inset.filled" : "")
@@ -109,6 +129,7 @@ struct DailyView: View {
                             
                                 
                                 startAnimation = geoh
+                            startAnimation2 = geoh + 200
                                 
                             }
                     }) {
@@ -220,8 +241,11 @@ struct DailyView: View {
                             HStack{
                                 Spacer()
                                 Button(action: {
-                                    isSheetPresented = false
-                                    startAnimation = 0
+                                   
+                                        isSheetPresented = false
+                                                                            startAnimation = 0
+                                                                            startAnimation2 = 200
+                                    
                                     
                                 }){
                                     Circle()
@@ -278,51 +302,47 @@ struct DailyView: View {
                             Spacer()
                         }.zIndex(1)
                         ZStack{
-                            Wave(progress: progress, waveHeight: 0.02,offset: startAnimation)
+                            Wave(progress: progress, waveHeight: 0.012,offset: startAnimation)
                                 .offset(y:40)
                                 .fill(Color.blue)
+                                .opacity(1)
                                 .zIndex(0)
                                 .onAppear {
                                     
                                     
                                    
-                                    withAnimation(Animation.linear(duration: 4.2).repeatForever(autoreverses: false)) {
+                                    withAnimation(Animation.linear(duration: 30.2).repeatForever(autoreverses: false)) {
                                         
-                                        startAnimation = 2600// Change the progress value to make the wave move
+                                        startAnimation = 12600// Change the progress value to make the wave move
+                                    }
+                                }
+                            Wave(progress: progress  , waveHeight: 0.015,offset: startAnimation2)
+                                .offset(y:40)
+                                .fill(Color.blue)
+                                .opacity(0.3)
+                                .zIndex(0)
+                                .onAppear {
+                                    
+                                    
+                                   
+                                    withAnimation(Animation.linear(duration: 30.2).repeatForever(autoreverses: false)) {
+                                        
+                                        startAnimation2 = 12900// Change the progress value to make the wave move
                                     }
                                 }
                             
-                        }.onAppear{
-                           
-                            if waterFill[selectedday] == 0 {
-                                progress = 0.1
-                                
-                                
-                            } else if waterFill[selectedday] == 500 {
-                                
-
-                                    progress = 0.35
-
-                            } else if waterFill[selectedday] == 1000 {
-                                progress = 0.6
-                               
-                            } else if waterFill[selectedday] == 1500 {
-                                progress = 0.85
-                                
-                            } else {
-                                progress = 1.1
-                               
-                            }
                         }
                             
                         
                     }
                     
                         .onDisappear{
-                            isSheetPresented = false
-                            startAnimation = geoh
                             
-      
+                                isSheetPresented = false
+                                startAnimation = 0
+                                startAnimation2 = 0 + 200
+                                
+                            
                         }
                 })
                     
