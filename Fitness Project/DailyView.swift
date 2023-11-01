@@ -129,233 +129,355 @@ struct DailyView: View {
                         }
                     }
                 }
-                ZStack {
-                    
-                    Button(action: {
-                        isSheetPresented = true // Toggle the sheet presentation
-                        if waterFill[selectedday] == 0 {
-                            progress = 0.1
-                            
+                HStack {
+                    Spacer()
+                    ZStack {
+                        
+                        Button(action: {
+                            isSheetPresented = true // Toggle the sheet presentation
+                            if waterFill[selectedday] == 0 {
+                                progress = 0.1
+                                
                                 
                                 startAnimation = geoh
-                            startAnimation2 = geoh + 200
+                                startAnimation2 = geoh + 200
                                 
                             }
-                    }) {
+                        }) {
+                            VStack{
+                                Text("Water")
+                                    .font(
+                                        Font.custom("Raleway", size: 20)
+                                            .weight(.semibold)
+                                    )
+                                    .foregroundColor(.black)
+                                
+                                    .frame(width: 68, height: 24, alignment: .topLeading)
+                                Circle()
+                                    .frame(width: 143, height: 102)
+                                    .foregroundColor(.clear)
+                                    .overlay(
+                                        Circle()
+                                        
+                                            .stroke(Color(red: 0.472, green: 0.484, blue: 0.488), lineWidth: 5) // Specify the stroke color and width
+                                    )
+                                    .overlay(
+                                        Circle()
+                                            .trim(from: 0.75, to: 1.0) // 25% of the circle
+                                            .stroke(Color.blue, lineWidth: 5) // Blue stroke
+                                            .opacity(waterFill[selectedday] >= 500 ? 1.0 : 0.0)
+                                        // Show only when waterFill is over 500
+                                    )
+                                    .overlay(
+                                        Circle()
+                                            .trim(from: 0.0, to: waterFill[selectedday] == 1000 ? 0.25 : waterFill[selectedday] == 1500 ? 0.5 : waterFill[selectedday] >= 2000 ? 0.75 : 0.0) // 25% of the circle
+                                            .stroke(Color.blue, lineWidth: 5) // Blue stroke
+                                            .opacity(waterFill[selectedday] > 500 ? 1.0 : 0.0)
+                                        // Show only when waterFill is over 500
+                                    )
+                                    .overlay(VStack{
+                                        Image(systemName: "drop.halffull")
+                                            .resizable()
+                                            .frame(width:20,height:30)
+                                            .foregroundColor(.blue)
+                                        Text("\(waterFill[selectedday])\n/2000 ml")
+                                            .font(.system(size: 12))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.black)
+                                        .multilineTextAlignment(.center)}
+                                    )
+                            }// An empty Text to make the entire ZStack tappable
+                        }
+                    }
+                    .frame(width: 143, height: 152)
+                    .background(Color(red: 0.32, green: 0.89, blue: 1).opacity(0.37))
+                    .cornerRadius(15)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .inset(by: 0.5)
+                            .stroke(.black, lineWidth: 1)
+                    )
+                    .fullScreenCover(isPresented: $isSheetPresented, content: {
+                        ZStack{
+                            // Place your sheet content here
+                            // For example, Text("Sheet Content") or another view
+                            VStack{
+                                VStack {
+                                    Rectangle()
+                                        .foregroundColor(.clear)
+                                        .frame(width: 148, height: 54)
+                                        .background(Color(red: 0.85, green: 0.85, blue: 0.85))
+                                        .cornerRadius(18)
+                                        .overlay {HStack{
+                                            Image(systemName: "timer")
+                                            let firstnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1
+                                            let secondnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday - 1)) % 31 + 1
+                                            //                                        let thismonth = formattedFullDate(monthsInFuture: 0)
+                                            let nextmonth =   formattedFullDate(monthsInFuture: 1)
+                                            
+                                            //                                        Text("\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday + 1)) % 31 + 1) ")
+                                            //                                        Text("\(formattedFullDate(monthsInFuture: 1)) \(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1) ")
+                                            
+                                            Text( secondnum - firstnum  > 1 ? nextmonth : monthForPastDay(daysAgo: selectedday - 1)!)
+                                                .font(.title).font(
+                                                    Font.custom("Raleway", size: 30)
+                                                        .weight(.bold)
+                                                )
+                                            Text("\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1) ").font(.title).font(
+                                                Font.custom("Raleway", size: 30)
+                                                    .weight(.bold)
+                                            )
+                                        }
+                                        }.padding()
+                                    
+                                    
+                                    
+                                    Spacer()
+                                    Text("\(waterFill[selectedday]) ml")
+                                        .fontWeight(.heavy)
+                                        .padding()
+                                        .font(.largeTitle).font(
+                                            Font.custom("Raleway", size: 48)
+                                                .weight(.bold)
+                                        )
+                                    Text("Goal: 2000ml")
+                                        .font(.title).font(
+                                            Font.custom("Raleway", size: 20)
+                                            
+                                        )
+                                    Spacer()
+                                }.zIndex(1)
+                                
+                                Spacer()
+                                HStack{
+                                    Spacer()
+                                    Button(action: {
+                                        
+                                        isSheetPresented = false
+                                        startAnimation = 0
+                                        startAnimation2 = 200
+                                        
+                                        
+                                    }){
+                                        Circle()
+                                            .frame(width:50)
+                                            .foregroundColor(.gray)
+                                            .opacity(0.7)
+                                            .overlay {
+                                                Text("X")
+                                                    .font(.title2)
+                                                    .fontWeight(.heavy)
+                                            }
+                                        //                                Image(systemName: "xmark.app")
+                                    }.disabled(!isButtonEnabled)
+                                        .foregroundColor(Color.white)
+                                    Spacer()
+                                    Button(action:{
+                                        
+                                        waterFill[selectedday] += 500
+                                        timer?.invalidate()
+                                        startProgressTimer()
+                                        
+                                        
+                                    }){
+                                        ZStack{
+                                            Circle()
+                                                .frame(width:90,height:90)
+                                                .foregroundColor(.white)
+                                                .overlay {
+                                                    VStack(spacing:0){
+                                                        HStack(spacing:5){
+                                                            Image(systemName: "waterbottle")
+                                                                .resizable()
+                                                                .frame(width:20,height:40)
+                                                            Text("+")
+                                                                .font(.title)
+                                                        }
+                                                        Text("500ml")
+                                                    }
+                                                }
+                                                .zIndex(1)
+                                            
+                                            
+                                            
+                                            
+                                        }.padding()
+                                        
+                                        
+                                    }.disabled(!isButtonEnabled)
+                                    Spacer()
+                                    Text("      ")
+                                        .padding()
+                                    Spacer()
+                                }
+                                Spacer()
+                            }.zIndex(1)
+                            ZStack{
+                                Wave(progress: progress, waveHeight: 0.012,offset: startAnimation)
+                                    .offset(y:40)
+                                    .fill(Color.blue)
+                                    .opacity(0.9)
+                                    .zIndex(0)
+                                    .onAppear {
+                                        
+                                        
+                                        
+                                        withAnimation(Animation.linear(duration: 30.2).repeatForever(autoreverses: false)) {
+                                            
+                                            startAnimation = 12600// Change the progress value to make the wave move
+                                        }
+                                    }
+                                Wave(progress: progress  , waveHeight: 0.015,offset: startAnimation2)
+                                    .offset(y:40)
+                                    .fill(Color.blue)
+                                    .opacity(0.3)
+                                    .zIndex(0)
+                                    .onAppear {
+                                        
+                                        
+                                        
+                                        withAnimation(Animation.linear(duration: 30.2).repeatForever(autoreverses: false)) {
+                                            
+                                            startAnimation2 = 12900// Change the progress value to make the wave move
+                                        }
+                                    }
+                                
+                            }
+                            
+                            
+                        }
+                        
+                        .onDisappear{
+                            
+                            isSheetPresented = false
+                            startAnimation = 0
+                            startAnimation2 = 0 + 200
+                            
+                            
+                        }
+                    })
+                    Spacer()
+                    ZStack {
                         VStack{
-                            Text("Water")
+                            Text("BMI")
                                 .font(
                                     Font.custom("Raleway", size: 20)
                                         .weight(.semibold)
                                 )
+                                .offset(x: -28)
                                 .foregroundColor(.black)
+                            
                             
                                 .frame(width: 68, height: 24, alignment: .topLeading)
                             Circle()
                                 .frame(width: 143, height: 102)
                                 .foregroundColor(.clear)
                                 .overlay(
+                                    ZStack {
+                                    Text("Normal")
+                                        .font(
+                                            Font.custom("Raleway", size: 12)
+                                                .weight(.heavy)
+                                        )
+                                        .font(.largeTitle)
+                                        .fontWeight(.heavy)
+                                        .foregroundColor(.white)
+
+                                        .offset(x:-2,y:-49)
+                                        .zIndex(1)
                                     Circle()
-                                    
-                                        .stroke(Color(red: 0.472, green: 0.484, blue: 0.488), lineWidth: 5) // Specify the stroke color and width
+                                        .trim(from: 0.66, to: 0.82)
+                                        .stroke(Color.green, lineWidth: 30) // Specify the stroke color and width
+                                    }
                                 )
                                 .overlay(
-                                    Circle()
-                                        .trim(from: 0.75, to: 1.0) // 25% of the circle
-                                        .stroke(Color.blue, lineWidth: 5) // Blue stroke
-                                        .opacity(waterFill[selectedday] >= 500 ? 1.0 : 0.0)
+                                    ZStack{
+                                        Text("Over")
+                                            .font(
+                                                Font.custom("Raleway", size: 12)
+                                                    .weight(.heavy)
+                                            )
+                                            .font(.largeTitle)
+                                            .fontWeight(.heavy)
+                                            .foregroundColor(.white)
+                                            .rotationEffect(.degrees(69), anchor: .center)
+                                            .offset(x:45, y:-23)
+                                            .zIndex(1)
+                                        Circle()
+                                            .trim(from: 0.82, to: 1.0) // 25% of the circle
+                                            .stroke(Color.red, lineWidth: 30) // Blue stroke
+                                            .opacity(1.0 )
+                                    }
                                     // Show only when waterFill is over 500
                                 )
                                 .overlay(
-                                    Circle()
-                                        .trim(from: 0.0, to: waterFill[selectedday] == 1000 ? 0.25 : waterFill[selectedday] == 1500 ? 0.5 : waterFill[selectedday] >= 2000 ? 0.75 : 0.0) // 25% of the circle
-                                        .stroke(Color.blue, lineWidth: 5) // Blue stroke
-                                        .opacity(waterFill[selectedday] > 500 ? 1.0 : 0.0)
-                                    // Show only when waterFill is over 500
+                                    ZStack{
+                                        Text("Under")
+                                            .font(
+                                                Font.custom("Raleway", size: 12)
+                                                    .weight(.heavy)
+                                            )
+                                            .font(.largeTitle)
+                                            .fontWeight(.heavy)
+                                            .foregroundColor(.white)
+                                            .rotationEffect(.degrees(-69), anchor: .center)
+                                            .offset(x:-45, y:-23)
+                                            .zIndex(1)
+                                        Circle()
+                                            .trim(from: 0.5, to: 0.66) // 25% of the circle
+                                            .stroke(Color.blue, lineWidth: 30) // Blue stroke
+                                            .opacity(1.0 )
+                                            
+                                    }
+                                
+                                   
                                 )
+
                                 .overlay(VStack{
-                                    Image(systemName: "drop.halffull")
+                                    Image("Normal")
                                         .resizable()
-                                        .frame(width:20,height:30)
-                                        .foregroundColor(.blue)
-                                    Text("\(waterFill[selectedday])\n/2000 ml")
-                                        .font(.system(size: 12))
-                                        .fontWeight(.bold)
+                                        .frame(width:60,height:60)
                                         .foregroundColor(.black)
-                                    .multilineTextAlignment(.center)}
+                                    
+                                        .offset(x:0,y: -5)
+                                    
+                                    HStack{
+                                        VStack{
+                                            Text("height(ft)")
+                                            Text("5 ft 7 in").fontWeight(.bold)
+                                        }
+                                        
+                                        VStack{
+                                           
+                                            Text("23.5")
+                                                .font(.system(size: 12))
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.black)
+                                                .multilineTextAlignment(.center)
+                                            Text("BMI")
+                                                .font(.system(size: 8))
+                                        }.offset(y:-12)
+                                        VStack {
+                                            Text("weight(lb)")
+                                            Text("155.0").fontWeight(.bold)
+                                        }
+                                    }  .font(.system(size: 9))
+                                }
                                 )
-                        }// An empty Text to make the entire ZStack tappable
+                        }
+                       
                     }
-                }
-                .frame(width: 143, height: 152)
-                .background(Color(red: 0.32, green: 0.89, blue: 1).opacity(0.37))
-                .cornerRadius(15)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
+                    .frame(width: 143, height: 152)
+                    .background(Color(red: 0.32, green: 0.89, blue: 1).opacity(0.37))
+                    .cornerRadius(15)
+                    .overlay(
+                      RoundedRectangle(cornerRadius: 15)
                         .inset(by: 0.5)
                         .stroke(.black, lineWidth: 1)
-                )
-                .fullScreenCover(isPresented: $isSheetPresented, content: {
-                    ZStack{
-                        // Place your sheet content here
-                        // For example, Text("Sheet Content") or another view
-                        VStack{
-                            VStack {
-                                Rectangle()
-                                    .foregroundColor(.clear)
-                                    .frame(width: 148, height: 54)
-                                    .background(Color(red: 0.85, green: 0.85, blue: 0.85))
-                                    .cornerRadius(18)
-                                    .overlay {HStack{
-                                        Image(systemName: "timer")
-                                        let firstnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1
-                                        let secondnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday - 1)) % 31 + 1
-//                                        let thismonth = formattedFullDate(monthsInFuture: 0)
-                                        let nextmonth =   formattedFullDate(monthsInFuture: 1)
-                                       
-//                                        Text("\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday + 1)) % 31 + 1) ")
-//                                        Text("\(formattedFullDate(monthsInFuture: 1)) \(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1) ")
-                                       
-                                        Text( secondnum - firstnum  > 1 ? nextmonth : monthForPastDay(daysAgo: selectedday - 1)!)
-                                            .font(.title).font(
-                                                Font.custom("Raleway", size: 30)
-                                                    .weight(.bold)
-                                            )
-                                        Text("\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1) ").font(.title).font(
-                                            Font.custom("Raleway", size: 30)
-                                                .weight(.bold)
-                                        )
-                                    }
-                                    }.padding()
-                                   
-                                    
-                                
-                                Spacer()
-                                Text("\(waterFill[selectedday]) ml")
-                                    .fontWeight(.heavy)
-                                    .padding()
-                                    .font(.largeTitle).font(
-                                        Font.custom("Raleway", size: 48)
-                                            .weight(.bold)
-                                    )
-                                Text("Goal: 2000ml")
-                                    .font(.title).font(
-                                        Font.custom("Raleway", size: 20)
-                                        
-                                    )
-                                Spacer()
-                            }.zIndex(1)
-                            
-                            Spacer()
-                            HStack{
-                                Spacer()
-                                Button(action: {
-                                   
-                                        isSheetPresented = false
-                                                                            startAnimation = 0
-                                                                            startAnimation2 = 200
-                                    
-                                    
-                                }){
-                                    Circle()
-                                        .frame(width:50)
-                                        .foregroundColor(.gray)
-                                        .opacity(0.7)
-                                        .overlay {
-                                            Text("X")
-                                                .font(.title2)
-                                                .fontWeight(.heavy)
-                                        }
-                                    //                                Image(systemName: "xmark.app")
-                                }.disabled(!isButtonEnabled)
-                                .foregroundColor(Color.white)
-                                Spacer()
-                                Button(action:{
-                                    
-                                        waterFill[selectedday] += 500
-                                    timer?.invalidate()
-                                    startProgressTimer()
-
-                                    
-                                }){
-                                    ZStack{
-                                        Circle()
-                                            .frame(width:90,height:90)
-                                            .foregroundColor(.white)
-                                            .overlay {
-                                                VStack(spacing:0){
-                                                    HStack(spacing:5){
-                                                        Image(systemName: "waterbottle")
-                                                            .resizable()
-                                                            .frame(width:20,height:40)
-                                                        Text("+")
-                                                            .font(.title)
-                                                    }
-                                                    Text("500ml")
-                                                }
-                                            }
-                                            .zIndex(1)
-                                            
-                                        
-                                        
-                                        
-                                    }.padding()
-                                    
-                                    
-                                }.disabled(!isButtonEnabled)
-                                Spacer()
-                                Text("      ")
-                                    .padding()
-                                Spacer()
-                            }
-                            Spacer()
-                        }.zIndex(1)
-                        ZStack{
-                            Wave(progress: progress, waveHeight: 0.012,offset: startAnimation)
-                                .offset(y:40)
-                                .fill(Color.blue)
-                                .opacity(0.9)
-                                .zIndex(0)
-                                .onAppear {
-                                    
-                                    
-                                   
-                                    withAnimation(Animation.linear(duration: 30.2).repeatForever(autoreverses: false)) {
-                                        
-                                        startAnimation = 12600// Change the progress value to make the wave move
-                                    }
-                                }
-                            Wave(progress: progress  , waveHeight: 0.015,offset: startAnimation2)
-                                .offset(y:40)
-                                .fill(Color.blue)
-                                .opacity(0.3)
-                                .zIndex(0)
-                                .onAppear {
-                                    
-                                    
-                                   
-                                    withAnimation(Animation.linear(duration: 30.2).repeatForever(autoreverses: false)) {
-                                        
-                                        startAnimation2 = 12900// Change the progress value to make the wave move
-                                    }
-                                }
-                            
-                        }
-                            
-                        
-                    }
+                    )
+                    Spacer()
                     
-                        .onDisappear{
-                            
-                                isSheetPresented = false
-                                startAnimation = 0
-                                startAnimation2 = 0 + 200
-                                
-                            
-                        }
-                })
-                    
-                   
+                }
                 
                 
                 
