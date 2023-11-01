@@ -113,3 +113,36 @@ class ViewModel3: ObservableObject{
     }
 
 }
+
+struct Profiles: Hashable, Codable {  //needs additional variables
+    
+    let firstName: String
+    let lastName: String
+    let age: Int
+    let startingWeight: Int
+    let currentWeight: Int
+    
+}
+
+class ViewModel4: ObservableObject{
+    @Published var profile: [Profiles] = []
+    
+    func fetch() {
+        guard let url = URL(string:"https://www.jsonkeeper.com/b/VY8F") else {return}
+        let task = URLSession.shared.dataTask(with:url) {[weak self]
+            data, _, error in
+            guard let data = data, error == nil else {return}
+            do {
+                let profile = try JSONDecoder().decode([Profiles].self, from: data)
+                DispatchQueue.main.async {
+                    self?.profile = profile
+                }
+            }
+            catch {
+               
+            }
+        }
+        task.resume()
+    }
+
+}

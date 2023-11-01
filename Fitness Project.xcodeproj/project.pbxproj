@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9C6EE7042AE85D8C00F2CBE7 /* FoodDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6EE7032AE85D8C00F2CBE7 /* FoodDetailView.swift */; };
 		9CAA11BC2AEA61100049079E /* WorkoutDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */; };
+		9CFAE0632AF30930009B8DF8 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFAE0622AF30930009B8DF8 /* ProfileView.swift */; };
 		9CFC5D922AEA48FC004ED854 /* WorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFC5D912AEA48FC004ED854 /* WorkoutView.swift */; };
 		C8021EDB2AE6039F00AD0D52 /* ExercisesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8021EDA2AE6039F00AD0D52 /* ExercisesView.swift */; };
 		C8021EDD2AE603C500AD0D52 /* FoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8021EDC2AE603C500AD0D52 /* FoodView.swift */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		9C6EE7032AE85D8C00F2CBE7 /* FoodDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDetailView.swift; sourceTree = "<group>"; };
 		9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
+		9CFAE0622AF30930009B8DF8 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		9CFC5D912AEA48FC004ED854 /* WorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutView.swift; sourceTree = "<group>"; };
 		C8021EDA2AE6039F00AD0D52 /* ExercisesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExercisesView.swift; sourceTree = "<group>"; };
 		C8021EDC2AE603C500AD0D52 /* FoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodView.swift; sourceTree = "<group>"; };
@@ -81,7 +83,7 @@
 		C818BEF72AD6225B00A4D559 /* Fitness Project */ = {
 			isa = PBXGroup;
 			children = (
-				9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */,
+				9CFAE0622AF30930009B8DF8 /* ProfileView.swift */,
 				9CFC5D912AEA48FC004ED854 /* WorkoutView.swift */,
 				9C6EE7032AE85D8C00F2CBE7 /* FoodDetailView.swift */,
 				C818BEF82AD6225B00A4D559 /* Fitness_ProjectApp.swift */,
@@ -193,6 +195,7 @@
 				C8A9BD572AE5EE1E000E7AD1 /* TabSwiftUIView.swift in Sources */,
 				C8E022D22AD74EBB00E1E743 /* newSwiftUIView.swift in Sources */,
 				C818BEFB2AD6225B00A4D559 /* ContentView.swift in Sources */,
+				9CFAE0632AF30930009B8DF8 /* ProfileView.swift in Sources */,
 				C818BEF92AD6225B00A4D559 /* Fitness_ProjectApp.swift in Sources */,
 				C80A806D2AE448C80021E2D8 /* VideoView.swift in Sources */,
 				9CAA11BC2AEA61100049079E /* WorkoutDetailView.swift in Sources */,
