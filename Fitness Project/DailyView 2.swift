@@ -73,18 +73,9 @@ struct DailyView: View {
                     ForEach([1,2,3,4,5,6,7], id: \.self) { day in
                         VStack{
                             ZStack{
-                                let date = "\((((formattedDayOfMonth - 1) - formattednumDayOfWeek + day) % 31 + 1 ) )"
-                                var lastday = lastDayOfPreviousMonth()
-                                var lastDayInt = Int(lastday!)
-                              
-                                Text(date == "0" ? lastday! : 
-                                        date == "-1" ? "\(String(describing: lastDayInt! - 1))" :
-                                        date == "-2" ? "\(String(describing: lastDayInt! - 2))" :
-                                        date == "-3" ? "\(String(describing: lastDayInt! - 3))" :
-                                        date == "-4" ? "\(String(describing: lastDayInt! - 4))" :
-                                        date == "-5" ? "\(String(describing: lastDayInt! - 5))" :
-                                        date == "-6" ? "\(String(describing: lastDayInt! - 6))" :
-                                     date )
+                                //                            let date = formattedDayOfMonth
+                                
+                                Text("\((((formattedDayOfMonth - 1) - formattednumDayOfWeek + day) % 31 + 1 ) )")
                                     .zIndex(1)
                                 Circle()
                                     .frame(width: 48, height: 48)
@@ -314,7 +305,7 @@ struct DailyView: View {
                             Wave(progress: progress, waveHeight: 0.012,offset: startAnimation)
                                 .offset(y:40)
                                 .fill(Color.blue)
-                                .opacity(0.9)
+                                .opacity(1)
                                 .zIndex(0)
                                 .onAppear {
                                     
@@ -403,27 +394,6 @@ struct DailyView: View {
 //            return ""
 //        }
 //    }
-    
-    func lastDayOfPreviousMonth() -> String? {
-        let calendar = Calendar.current
-        let currentDate = Date()
-
-        guard let lastMonth = calendar.date(byAdding: .month, value: -1, to: currentDate) else {
-            return nil
-        }
-
-        let lastDayComponents = DateComponents(year: calendar.component(.year, from: lastMonth), month: calendar.component(.month, from: lastMonth) + 1, day: 0)
-        let lastDayOfPreviousMonth = calendar.date(from: lastDayComponents)
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd"
-
-        if let lastDay = lastDayOfPreviousMonth {
-            return dateFormatter.string(from: lastDay)
-        } else {
-            return nil
-        }
-    }
     
     private func startProgressTimer() {
         var targetProgress: CGFloat = 0.35
