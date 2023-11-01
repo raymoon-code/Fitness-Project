@@ -11,6 +11,8 @@ struct SignUp_View: View {
     @State var Name: String = ""
     @State var Email: String = ""
     @State var Pass: String = ""
+    @Binding var selectFeet: Int
+    @Binding var selectInch: Int
     @State private var isSignInViewActive = false
     @State private var isSignUpCircleActive = false
     @Environment(\.presentationMode) var presentationMode
@@ -126,7 +128,7 @@ struct SignUp_View: View {
                     isSignUpCircleActive.toggle()
                 }
                 .sheet(isPresented: $isSignUpCircleActive) {
-                            QuestionView()
+                    QuestionView(selectFeet: $selectFeet, selectInch: $selectInch)
                             }
                 
             }
@@ -179,5 +181,5 @@ struct SignUp_View: View {
 }
 
 #Preview {
-    SignUp_View()
+    SignUp_View(selectFeet: .constant(5), selectInch: .constant(7))
 }

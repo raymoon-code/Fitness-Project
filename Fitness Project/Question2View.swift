@@ -9,9 +9,12 @@ import SwiftUI
 
 struct Question2View: View {
     @State private var selectlb: Int = 0
-    @State private var selectInch: Int = 0
+//    @State private var selectInch: Int = 0
     @State private var isselected2: Bool = false
     @State private var isFinished: Bool = false
+    @Binding var selectFeet: Int
+    @Binding var selectInch: Int
+    
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         GeometryReader {
@@ -82,7 +85,7 @@ struct Question2View: View {
                 .frame(width: gw, height: gh)
                     .fullScreenCover(isPresented: $isFinished, content: {
                         
-                        TabSwiftUIView()
+                        TabSwiftUIView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb)
                     })
             }
         }.background(LinearGradient(
@@ -97,5 +100,5 @@ struct Question2View: View {
 }
 
 #Preview {
-    Question2View()
+    Question2View(selectFeet: .constant(5), selectInch: .constant(7))
 }

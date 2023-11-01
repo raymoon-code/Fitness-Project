@@ -14,7 +14,9 @@ struct ContentView: View {
     @State var Pass: String = ""
     @State private var isSignUpViewActive = false
     @State private var isSignInViewActive = false
-    
+    @Binding var selectFeet: Int
+    @Binding var selectInch: Int
+    @Binding var selectlb: Int
     var body: some View {
         
         GeometryReader{
@@ -124,7 +126,7 @@ struct ContentView: View {
                     }
                 })
                 .fullScreenCover(isPresented: $isSignInViewActive) {
-                    TabSwiftUIView()
+                    TabSwiftUIView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb)
                            }
                 
                 
@@ -157,7 +159,7 @@ struct ContentView: View {
             .foregroundColor(.black)
             .cornerRadius(10.68966)
             .fullScreenCover(isPresented: $isSignUpViewActive) {
-                           SignUp_View()
+                SignUp_View(selectFeet: $selectFeet, selectInch: $selectInch)
                        }
               
              
@@ -194,5 +196,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(selectFeet: .constant(5), selectInch: .constant(7), selectlb: .constant(148))
 }

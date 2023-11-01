@@ -20,12 +20,42 @@ struct DailyView: View {
     @State private var shouldAnimate = false
     @State private var timer: Timer?
     @State private var isButtonEnabled = true
+    @ObservedObject var viewModel3 = ViewModel3()
+    @State private var searchTerm = ""
+    @Binding var selectFeet: Int
+    @Binding var selectInch: Int
+    @Binding var selectlb: Int
+    
+    var bmi: Double {
+        let totalInches = (selectFeet * 12) + selectInch
+        let weightInKg = Double(selectlb) * 0.453592
+        if totalInches > 0 {
+            return (weightInKg / pow(Double(totalInches) * 0.0254, 2))
+        } else {
+            return 0
+        }
+    }
+    
+    var filteredTable3: [Workouts] {
+        guard !searchTerm.isEmpty else {return viewModel3.workout}
+        return viewModel3.workout.filter {
+            workout in
+            return workout.title.description.localizedCaseInsensitiveContains(searchTerm)
+        }
+       
+    }
+    var randomWorkouts: [Workouts] {
+        let shuffledWorkouts = filteredTable3.shuffled()
+            return Array(shuffledWorkouts.prefix(2))
+        }
     var body: some View {
+        NavigationStack{
         GeometryReader { geo in
             let geow = geo.size.width
             let geoh = geo.size.height
             
             VStack{
+                
                 ZStack{
                     Text("Generic Fitness App")
                         .font(
@@ -34,7 +64,7 @@ struct DailyView: View {
                         )
                         .foregroundColor(.black)
                     
-                        .frame(width: geow * 0.9, height: geoh * 0.14, alignment: .topLeading)
+                        .frame(width: geow * 0.9, height: geoh * 0.14, alignment: .leading)
                         .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
                     Rectangle()
                         .foregroundColor(.clear)
@@ -42,15 +72,17 @@ struct DailyView: View {
                         .background(Color(red: 0.62, green: 0.91, blue: 0.96))
                         .cornerRadius(10)
                         .ignoresSafeArea()
-                }
+                }.frame(height: geoh * 0.07)
+                   
                 Text("Week goal")
                     .font(
                         Font.custom("Raleway", size: 30)
                             .weight(.semibold)
                     )
-                    .multilineTextAlignment(.center)
+//                    .multilineTextAlignment(.center)
                     .foregroundColor(.black)
-                    .frame(width: geow * 0.9, height: geoh * 0.14, alignment: .topLeading)
+                    .frame(width: geow * 0.9, alignment: .topLeading)
+                    .padding()
                 //                Text(formattedDayOfWeek.prefix(1))
                 HStack{
                     ForEach(["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], id: \.self) { day in
@@ -74,8 +106,8 @@ struct DailyView: View {
                         VStack{
                             ZStack{
                                 let date = "\((((formattedDayOfMonth - 1) - formattednumDayOfWeek + day) % 31 + 1 ) )"
-                                var lastday = lastDayOfPreviousMonth()
-                                var lastDayInt = Int(lastday!)
+                                let lastday = lastDayOfPreviousMonth()
+                                let lastDayInt = Int(lastday!)
                               
                                 Text(date == "0" ? lastday! : 
                                         date == "-1" ? "\(String(describing: lastDayInt! - 1))" :
@@ -129,6 +161,68 @@ struct DailyView: View {
                         }
                     }
                 }
+               
+                   
+                ZStack{
+                   
+                        
+                        
+                        VStack{
+                           
+                            List{
+                                Section( header: Text("Today's schedule")
+                                    .font(.headline)
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color.black)){
+                                        
+                                        ForEach(randomWorkouts, id: \.title) { workout in
+                                            NavigationLink(destination: WorkoutDetailView(workout: workout)){
+                                                HStack{
+                                                    Text("   ")
+                                                    Spacer()
+                                                    AsyncImage(url: workout.image){
+                                                        phase in
+                                                        if let image = phase.image{
+                                                            image
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fill)
+                                                                .frame(width: geow * 0.2, height: geoh * 0.1)
+                                                        }
+                                                    }
+                                                    Spacer()
+                                                    VStack{
+                                                        
+                                                        Text(workout.title)
+                                                            .fontWeight(.bold)
+                                                        Text("No. Exercises: " + String(workout.exercises.count))
+                                                        
+                                                    }
+                                                    .frame(width: geow * 0.4)
+                                                    Spacer()
+                                                    
+                                                }
+                                            }
+                                            .isDetailLink(true)
+                                           
+                                        }
+                                        
+                                    }
+                            }
+                            
+
+                            .listStyle(InsetGroupedListStyle())
+                            .onAppear {
+                                viewModel3.fetch()
+                            }
+                        }.frame(height: geoh * 0.36)
+                        
+                    }.frame(width: geow * 0.9)
+                    .cornerRadius(20)
+                   
+                    
+                    
+                    
+               
                 HStack {
                     Spacer()
                     ZStack {
@@ -215,23 +309,48 @@ struct DailyView: View {
                                             //                                        let thismonth = formattedFullDate(monthsInFuture: 0)
                                             let nextmonth =   formattedFullDate(monthsInFuture: 1)
                                             
+                                            let lastmonth =   formattedFullDate(monthsInFuture: -1)
+                                            
                                             //                                        Text("\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday + 1)) % 31 + 1) ")
                                             //                                        Text("\(formattedFullDate(monthsInFuture: 1)) \(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1) ")
-                                            
-                                            Text( secondnum - firstnum  > 1 ? nextmonth : monthForPastDay(daysAgo: selectedday - 1)!)
+//                                            Text("\(secondnum)")
+//                                            Text("\(firstnum)")
+                                            Text( secondnum - firstnum  > 1 ? nextmonth :  secondnum + firstnum  < 1 ? lastmonth : monthForPastDay(daysAgo: selectedday - 1)!)
                                                 .font(.title).font(
                                                     Font.custom("Raleway", size: 30)
                                                         .weight(.bold)
                                                 )
-                                            Text("\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1) ").font(.title).font(
+                                            let d = "\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1)"
+                                            let ld = lastDayOfPreviousMonth()
+                                            let ldInt = Int(ld!)
+//                                            Text(d == "0" ? "ka" : "ko" )
+//                                            Text(ld!)
+//                                            Text("\(String(describing: ldInt! - 1))")
+                                            Text(d == "0" ? ld! :
+                                                    d == "-1" ? "\(String(describing: ldInt! - 1))" :
+                                                    d == "-2" ? "\(String(describing: ldInt! - 2))" :
+                                                    d == "-3" ? "\(String(describing: ldInt! - 3))" :
+                                                    d == "-4" ? "\(String(describing: ldInt! - 4))" :
+                                                    d == "-5" ? "\(String(describing: ldInt! - 5))" :
+                                                    d == "-6" ? "\(String(describing: ldInt! - 6))" :
+                                                 d )
+                                                .font(.title).font(
                                                 Font.custom("Raleway", size: 30)
                                                     .weight(.bold)
                                             )
                                         }
                                         }.padding()
                                     
-                                    
-                                    
+                                    Spacer()
+                                   
+                                    Text(waterFill[selectedday] >= 2000 ? "🎊 Excellent job! You've successfully reached your goal" : waterFill[selectedday] == 1000 ? "👏 Great work! You're making fantastic progress" : waterFill[selectedday] == 1500 ? "🙌You're almost there! Keep up the good work." : "" )
+                                        .fontWeight(.bold)
+                                        .multilineTextAlignment(.center)
+                                        .padding()
+                                        .font(.largeTitle).font(
+                                            Font.custom("Raleway", size: 18)
+                                                .weight(.bold)
+                                        )
                                     Spacer()
                                     Text("\(waterFill[selectedday]) ml")
                                         .fontWeight(.heavy)
@@ -434,22 +553,22 @@ struct DailyView: View {
                                 )
 
                                 .overlay(VStack{
-                                    Image("Normal")
+                                    Image(bmi < 18.4 ? "Under" : bmi >= 18.4 && bmi < 24.9 ? "Normal" : bmi >= 24.9 ? "Over" : "house")
                                         .resizable()
                                         .frame(width:60,height:60)
                                         .foregroundColor(.black)
                                     
-                                        .offset(x:0,y: -5)
+                                        .offset(x: bmi >= 24.9 ? 8 : bmi < 18.4 ? -8 : 0,y: -5)
                                     
                                     HStack{
                                         VStack{
                                             Text("height(ft)")
-                                            Text("5 ft 7 in").fontWeight(.bold)
+                                            Text("\(selectFeet) ft \(selectInch) in").fontWeight(.bold)
                                         }
                                         
                                         VStack{
                                            
-                                            Text("23.5")
+                                            Text(String(format: "%.1f", bmi))
                                                 .font(.system(size: 12))
                                                 .fontWeight(.bold)
                                                 .foregroundColor(.black)
@@ -459,7 +578,7 @@ struct DailyView: View {
                                         }.offset(y:-12)
                                         VStack {
                                             Text("weight(lb)")
-                                            Text("155.0").fontWeight(.bold)
+                                            Text("\(selectlb)").fontWeight(.bold)
                                         }
                                     }  .font(.system(size: 9))
                                 }
@@ -477,20 +596,20 @@ struct DailyView: View {
                     )
                     Spacer()
                     
-                }
+                }.padding(.top)
+            }
+        }
                 
+            } .onAppear {
                 
-                
+                selectedday = formattednumDayOfWeek
+         
             }
                
             }
-        .onAppear {
-                  
-                  selectedday = formattednumDayOfWeek
-           
-              }
+       
         
-        }
+        
     
     var formattedDayOfWeek: String {
 //          let calendar = Calendar.current
@@ -669,7 +788,7 @@ struct TriangleBorder: Shape {
 
 struct DailyView_Previews: PreviewProvider {
     static var previews: some View {
-        DailyView()
+        DailyView(selectFeet: .constant(5), selectInch: .constant(7), selectlb: .constant(126))
             
     }
 }

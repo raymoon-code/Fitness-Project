@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct TabSwiftUIView: View {
+    @Binding var selectFeet: Int
+    @Binding var selectInch: Int
+    @Binding var selectlb: Int
     var body: some View {
         TabView {
             HomeScreenView().tabItem {
@@ -26,7 +29,7 @@ struct TabSwiftUIView: View {
                 Image(systemName: "circle")
                 Text("Workouts")
             }
-            DailyView().tabItem{
+            DailyView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb).tabItem{
                 
                 Image(systemName: "calendar")
                 Text("Daily")
@@ -37,5 +40,5 @@ struct TabSwiftUIView: View {
 }
 
 #Preview {
-    TabSwiftUIView()
+    TabSwiftUIView(selectFeet: .constant(5), selectInch: .constant(7), selectlb: .constant(148))
 }

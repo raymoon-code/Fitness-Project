@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct QuestionView: View {
-    @State private var selectFeet: Int = 0
-    @State private var selectInch: Int = 0
+    @Binding var selectFeet: Int
+    @Binding var selectInch: Int
     @State private var isselected: Bool = false
     @State private var isNext: Bool = false
     var body: some View {
@@ -92,7 +92,7 @@ struct QuestionView: View {
                     .cornerRadius(19)
                 .frame(width: gw, height: gh)
                     .sheet(isPresented: $isNext, content: {
-                        Question2View()
+                        Question2View(selectFeet: $selectFeet, selectInch: $selectInch)
                     })
             }
         }.background(LinearGradient(
@@ -108,5 +108,5 @@ struct QuestionView: View {
 }
 
 #Preview {
-    QuestionView()
+    QuestionView(selectFeet: .constant(5), selectInch: .constant(7))
 }
