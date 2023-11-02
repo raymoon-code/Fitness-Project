@@ -113,12 +113,14 @@ class ViewModel3: ObservableObject{
     }
 
 }
-
+//login
 struct Profiles: Hashable, Codable {  //needs additional variables
-    
+    let profileID: Int
     let firstName: String
     let lastName: String
     let age: Int
+    let email: String
+    let password: String
     let startingWeight: Int
     let currentWeight: Int
     
@@ -127,8 +129,13 @@ struct Profiles: Hashable, Codable {  //needs additional variables
 class ViewModel4: ObservableObject{
     @Published var profile: [Profiles] = []
     
+    @Published var email: String = ""
+    @Published var password: String = ""
+    
+    @State var isSignUpViewActive = false
+    
     func fetch() {
-        guard let url = URL(string:"https://www.jsonkeeper.com/b/VY8F") else {return}
+        guard let url = URL(string:"https://jsonkeeper.com/b/029W") else {return}
         let task = URLSession.shared.dataTask(with:url) {[weak self]
             data, _, error in
             guard let data = data, error == nil else {return}
@@ -139,6 +146,56 @@ class ViewModel4: ObservableObject{
                 }
             }
             catch {
+                
+            }
+        }
+        task.resume()
+    }
+    
+    func fetchLogin() {
+        guard let url = URL(string:"https://genericfitness.azurewebsites.net/api/Profiles/Email/\(email)/Password/\(password)") else {return}
+        
+        let task = URLSession.shared.dataTask(with:url) {[weak self]
+            data, _, error in
+            guard let data = data, error == nil else {return}
+            do {
+                let profile = try JSONDecoder().decode([Profiles].self, from: data)
+                DispatchQueue.main.async {
+                    self?.profile = profile
+                }
+            }
+            catch {
+                
+            }
+        }
+        task.resume()
+    }
+    
+}
+    
+
+class LogInViewModel: ObservableObject{
+    @Published var profile: [Profiles] = []
+    
+    @State var isSignUpViewActive = false
+    
+    func fetchLogin(email: String, password: String) {
+        guard let url = URL(string:"https://genericfitness.azurewebsites.net/api/Profiles/Email/\(email)/Password/\(password)") else {return}
+        let task = URLSession.shared.dataTask(with:url) {[weak self]
+            data, _, error in
+            guard let data = data, error == nil else {return}
+            do {
+                let profile = try JSONDecoder().decode([Profiles].self, from: data)
+                DispatchQueue.main.async {
+                    if((self?.profile.isEmpty) != nil){
+                        self?.isSignUpViewActive = true
+                    } else {
+                        self?.isSignUpViewActive = false
+                    }
+                    //self?.profile = profile
+                }
+            }
+            catch {
                
             }
         }
@@ -146,3 +203,4 @@ class ViewModel4: ObservableObject{
     }
 
 }
+

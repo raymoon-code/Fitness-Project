@@ -6,14 +6,56 @@
 //
 
 import SwiftUI
+import Firebase
 
+@MainActor
+final class SignInEmail: ObservableObject{
+    
+    @Published var Email: String = ""
+    @Published var Pass: String = ""
+    
+    func signUp() async throws {
+        guard !Email.isEmpty, !Pass.isEmpty else{
+            print("invalid information")
+            return
+        }
+        Task{
+            do{
+                let returnedUserData = try await AuthenticationManager.shared.signInUser(email: Email, password: Pass)
+                print("success")
+                print(returnedUserData)
+            }catch{
+                print("Error: \(error)")
+            }
+        }
+        //let returnedUserData = try await AuthenticationManager.shared.createUser(email: Email, password: Pass)
+    }
+    
+    func signIn() async throws{
+        guard !Email.isEmpty, !Pass.isEmpty else{
+            print("Invalid information")
+            return
+        }
+        
+        try await AuthenticationManager.shared.signInUser(email:Email, password: Pass)
 
+    }
+    
+    
+    
+}
 
 struct ContentView: View {
-    @State var Email: String = ""
-    @State var Pass: String = ""
+    //@State var Email: String = ""
+    //@State var Pass: String = ""
+    @StateObject private var viewModel = SignInEmail()
+    
     @State private var isSignUpViewActive = false
     @State private var isSignInViewActive = false
+    
+    //@State var profile: Profiles
+    @ObservedObject var viewModel4 = ViewModel4()
+    
     @Binding var selectFeet: Int
     @Binding var selectInch: Int
     @Binding var selectlb: Int
@@ -78,7 +120,7 @@ struct ContentView: View {
         VStack {
             
             
-            TextField("Your Email", text: $Email)
+            TextField("Your Email", text: $viewModel.Email)
                 .padding()
                 .foregroundColor(.black)
                 .frame(width: 303, height: 60)
@@ -86,9 +128,10 @@ struct ContentView: View {
                 .cornerRadius(20)
                 .zIndex(6)
                 .autocorrectionDisabled()
+                .autocapitalization(.none)
             
             
-            TextField("Password", text: $Pass)
+            SecureField("Password", text: $viewModel.Pass)
                 .padding()
                 .foregroundColor(.black)
                 .frame(width: 303, height: 60)
@@ -96,6 +139,7 @@ struct ContentView: View {
                 .cornerRadius(20)
                 .zIndex(6)
                 .autocorrectionDisabled()
+                .autocapitalization(.none)
         }
         .padding(.bottom)
         
@@ -111,7 +155,16 @@ struct ContentView: View {
             Spacer()
             
                 Button(action: {
-                    self.isSignInViewActive = true
+                    Task{
+                        do{
+                            try await viewModel.signIn()
+                            self.isSignInViewActive = true
+                        } catch {
+                            print(error)
+                        }
+                    }
+                    //attemptSignIn()
+                    //self.isSignInViewActive = true
                 }, label: {
                     ZStack(alignment: .topLeading){
                         Image(systemName: "arrow.right")
@@ -141,7 +194,9 @@ struct ContentView: View {
             Spacer()
            
             Button(action: {
-                self.isSignUpViewActive = true
+                
+                 isSignUpViewActive = true
+
             }, label: {
                 Text("Sign Up")
             })
@@ -193,8 +248,15 @@ struct ContentView: View {
         
     }
     
+    func attemptSignIn(){
+        
+        viewModel4.fetchLogin()
+        
+        
+    }
+    
 }
 
-#Preview {
-    ContentView(selectFeet: .constant(5), selectInch: .constant(7), selectlb: .constant(148))
-}
+//#Preview {
+    //ContentView(selectFeet: 5, selectInch: 7, selectlb: 148)
+//}

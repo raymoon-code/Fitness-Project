@@ -6,11 +6,40 @@
 //
 
 import SwiftUI
+import Firebase
+
+@MainActor
+final class SignUpEmail: ObservableObject{
+    
+    @StateObject private var viewModel = SignUpEmail()
+    
+    @Published var Email: String = ""
+    @Published var Pass: String = ""
+    
+    func signUp(){
+        guard !Email.isEmpty, !Pass.isEmpty else{
+            print("invalid information")
+            return
+        }
+        
+            
+        Task{
+            do{
+                 let result = try await AuthenticationManager.shared.createUser(email: Email, password: Pass)
+            } catch {
+                print("Error")
+            }
+        }
+    
+    }
+
+}
 
 struct SignUp_View: View {
-    @State var Name: String = ""
-    @State var Email: String = ""
-    @State var Pass: String = ""
+    @StateObject private var viewModel = SignUpEmail()
+    //@State var Name: String = ""
+    //@State var Email: String = ""
+    //@State var Pass: String = ""
     @Binding var selectFeet: Int
     @Binding var selectInch: Int
     @State private var isSignInViewActive = false
@@ -77,17 +106,17 @@ struct SignUp_View: View {
             .padding(.top)
         VStack {
          
-            TextField("Name", text: $Name)
+            //TextField("Name", text: $viewModel.Name)
+                //.padding()
+                //.foregroundColor(.clear)
+                //.frame(width: 303, height: 60)
+                //.background(.white)
+                //.cornerRadius(20)
+                //.zIndex(6)
+                //.autocorrectionDisabled()
+            TextField("Your Email", text: $viewModel.Email)
                 .padding()
-                .foregroundColor(.clear)
-                .frame(width: 303, height: 60)
-                .background(.white)
-                .cornerRadius(20)
-                .zIndex(6)
-                .autocorrectionDisabled()
-            TextField("Your Email", text: $Email)
-                .padding()
-                .foregroundColor(.clear)
+                .foregroundColor(.black)
                 .frame(width: 303, height: 60)
                 .background(.white)
                 .cornerRadius(20)
@@ -95,9 +124,10 @@ struct SignUp_View: View {
                 .autocorrectionDisabled()
                 
                 
-            TextField("Password", text: $Pass)
+                
+            TextField("Password", text: $viewModel.Pass)
                 .padding()
-                .foregroundColor(.clear)
+                .foregroundColor(.black)
                 .frame(width: 303, height: 60)
                 .background(.white)
                 .cornerRadius(20)
@@ -125,7 +155,14 @@ struct SignUp_View: View {
                     .foregroundColor(Color(red: 0.38, green: 0.79, blue: 0.93))
                 .frame(width: 64, height: 64)
                 .onTapGesture {
-                    isSignUpCircleActive.toggle()
+                    Task{
+                        do{
+                            viewModel.signUp()
+                            isSignUpCircleActive.toggle()
+                        }catch{
+                            print(error)
+                        }
+                    }
                 }
                 .sheet(isPresented: $isSignUpCircleActive) {
                     QuestionView(selectFeet: $selectFeet, selectInch: $selectInch)
