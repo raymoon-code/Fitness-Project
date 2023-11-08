@@ -11,7 +11,6 @@
 		9C3F8B502AF391FD009394A0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 9C3F8B4F2AF391FD009394A0 /* FirebaseFirestore */; };
 		9C3F8B532AF39528009394A0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F8B522AF39528009394A0 /* UserManager.swift */; };
 		9C3F8B5A2AF3A372009394A0 /* AuthenificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F8B592AF3A372009394A0 /* AuthenificationViewModel.swift */; };
-		9C54E7662AF372C000F86BFC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C54E7652AF372C000F86BFC /* GoogleService-Info.plist */; };
 		9C54E7692AF3736F00F86BFC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9C54E7682AF3736F00F86BFC /* FirebaseAnalytics */; };
 		9C54E76B2AF3736F00F86BFC /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 9C54E76A2AF3736F00F86BFC /* FirebaseAnalyticsOnDeviceConversion */; };
 		9C54E76D2AF3736F00F86BFC /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9C54E76C2AF3736F00F86BFC /* FirebaseAnalyticsSwift */; };
@@ -37,6 +36,7 @@
 		C84D45502AD8557000C4A8E3 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84D454F2AD8557000C4A8E3 /* HomeScreenView.swift */; };
 		C8A9BD572AE5EE1E000E7AD1 /* TabSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8A9BD562AE5EE1E000E7AD1 /* TabSwiftUIView.swift */; };
 		C8BDA8432AEA1FF800DBBD80 /* DailyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BDA8422AEA1FF800DBBD80 /* DailyView.swift */; };
+		C8D910FE2AFB609E00A70206 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8D910FD2AFB609E00A70206 /* GoogleService-Info.plist */; };
 		C8E022D22AD74EBB00E1E743 /* newSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */; };
 		C8E022D42AD7B50400E1E743 /* SignUp_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E022D32AD7B50400E1E743 /* SignUp_View.swift */; };
 /* End PBXBuildFile section */
@@ -44,7 +44,6 @@
 /* Begin PBXFileReference section */
 		9C3F8B522AF39528009394A0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		9C3F8B592AF3A372009394A0 /* AuthenificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenificationViewModel.swift; sourceTree = "<group>"; };
-		9C54E7652AF372C000F86BFC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9C54E7752AF3781200F86BFC /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		9C6EE7032AE85D8C00F2CBE7 /* FoodDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDetailView.swift; sourceTree = "<group>"; };
 		9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailView.swift; sourceTree = "<group>"; };
@@ -65,6 +64,7 @@
 		C84D454F2AD8557000C4A8E3 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		C8A9BD562AE5EE1E000E7AD1 /* TabSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSwiftUIView.swift; sourceTree = "<group>"; };
 		C8BDA8422AEA1FF800DBBD80 /* DailyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyView.swift; sourceTree = "<group>"; };
+		C8D910FD2AFB609E00A70206 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newSwiftUIView.swift; sourceTree = "<group>"; };
 		C8E022D32AD7B50400E1E743 /* SignUp_View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp_View.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -177,7 +177,7 @@
 				C80A806C2AE448C80021E2D8 /* VideoView.swift */,
 				C8BDA8422AEA1FF800DBBD80 /* DailyView.swift */,
 				C818BEFC2AD6225C00A4D559 /* Assets.xcassets */,
-				9C54E7652AF372C000F86BFC /* GoogleService-Info.plist */,
+				C8D910FD2AFB609E00A70206 /* GoogleService-Info.plist */,
 				C818BEFE2AD6225C00A4D559 /* Preview Content */,
 			);
 			path = "Fitness Project";
@@ -263,8 +263,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C818BF002AD6225C00A4D559 /* Preview Assets.xcassets in Resources */,
+				C8D910FE2AFB609E00A70206 /* GoogleService-Info.plist in Resources */,
 				C818BEFD2AD6225C00A4D559 /* Assets.xcassets in Resources */,
-				9C54E7662AF372C000F86BFC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
