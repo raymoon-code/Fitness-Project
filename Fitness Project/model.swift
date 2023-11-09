@@ -12,3 +12,11 @@ struct todos: Identifiable {
     var name: String
     
 }
+
+struct wout: Identifiable {
+    var id: String
+    var title: String
+    var image: String
+    var ref1: String
+
+}

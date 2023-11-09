@@ -7,12 +7,19 @@
 
 import SwiftUI
 
+import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseSwift
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
 struct WorkoutDetailView: View {
     
     @State var workout: wout
-    
-    @ObservedObject var viewModel3 = ViewModel3()
-    
+    @ObservedObject var modelbyid = ViewModelexercises()
+    @ObservedObject var viewModel3 = ViewModeltest()
+    @State var woutlist = ()
+//    @State var exercises: todo
     @State private var searchTerm = ""
     
     var body: some View {
@@ -35,13 +42,20 @@ struct WorkoutDetailView: View {
                                 .font(.headline)
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.black)){
+                                   
+                                    Text(workout.image)
+                                   
+//                                    ForEach(exercises, id:\.id) { x in
+//                                        Text(x.name)
+//                                        Text(x.type)
+//                                    }
 //                                    ForEach(workout.exercises, id: \.name) { exercise in
-//                                        
+//
 //                                        NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
 //                                            HStack {
-//                                                
-//                                                
-//                                                
+//
+//
+//
 //                                                AsyncImage(url: URL(string:exercise.imageURL)){
 //                                                    phase in
 //                                                    if let image = phase.image{
@@ -65,7 +79,7 @@ struct WorkoutDetailView: View {
 //                                                            Image(exercise.muscle == "glutes" ? "glutes" : exercise.muscle == "full-body" || exercise.muscle == "whole body" ? "full_body" : exercise.muscle == "biceps" ? "Biceps 1" : exercise.muscle == "quadriceps" ? "Quadriceps" : exercise.muscle == "triceps" ? "Triceps 1" : exercise.muscle == "core" ? "lower-abs" : exercise.muscle == "flexibility" ? "flexibility" : "Chest1")
 //                                                                .resizable()
 //                                                                .frame(width: 30, height: 30)
-//                                                            
+//
 //                                                            Text(exercise.muscle.capitalized).font(.subheadline).multilineTextAlignment(.leading)
 //                                                                .frame(width: geow * 0.3)
 //                                                                .padding(.bottom)
@@ -94,17 +108,21 @@ struct WorkoutDetailView: View {
                                     
                                     
                                 }
+                            
                         }
                         
                         .searchable(text: $searchTerm, prompt:"Search Exercises" ){
                             
                             
-                        } .background(Color(red: 0.625, green: 0.909, blue: 0.965))
+                        }
+                        .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                             .listStyle(InsetListStyle())
                             .onAppear {
-                                
-                                viewModel3.fetch()
-                            }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
+                                modelbyid.getExerciseByID(documentID: workout.ref1)
+                                                            // Update the exercises array with the fetched exercise
+//                                exercises = modelbyid.exercise
+                            }
+                            .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
                     }
                     
@@ -112,24 +130,31 @@ struct WorkoutDetailView: View {
             }
         }
     }
+//    init(){
+//       
+//    }
 }
+
+
+
 
 struct WorkoutDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutDetailView(workout: wout(
-            id: "1", title: "Default Workout 1",
-//            exercises: [
-//                todo(
-//                    id: "a", name: "Barbell Glute Bridge",
-//                                  type: "Strength",
-//                                   muscle: "Glutes",
-//                                   equipment: "Barbell",
-//                                   difficulty: "beginner",
-//                                   instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
-//                            imageURL: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg",
-//                            videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong")
-//            ],
-            image:  "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg", ref1: "2EYR6xL7jULX1WxHrIBj"
-        ))
+        WorkoutDetailView(workout:wout(id: "1",
+            title: "Default Workout 1",
+            image: "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg", ref1: "2EYR6xL7jULX1WxHrIBj"
+        )
+        )
     }
 }
+//exercises: [
+////                todo(
+////                    id: "a", name: "Barbell Glute Bridge",
+////                                  type: "Strength",
+////                                   muscle: "Glutes",
+////                                   equipment: "Barbell",
+////                                   difficulty: "beginner",
+////                                   instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
+////                            imageURL: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg",
+////                            videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong")
+////            ],

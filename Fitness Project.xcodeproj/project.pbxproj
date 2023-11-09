@@ -116,10 +116,10 @@
 		9C3F8B552AF39CA9009394A0 /* Exercises */ = {
 			isa = PBXGroup;
 			children = (
-				9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */,
 				C8021EDA2AE6039F00AD0D52 /* ExercisesView.swift */,
 				C81DD0A32AE2406500FFCC35 /* ExerciseDetailView.swift */,
 				9CFC5D912AEA48FC004ED854 /* WorkoutView.swift */,
+				9CAA11BB2AEA61100049079E /* WorkoutDetailView.swift */,
 			);
 			path = Exercises;
 			sourceTree = "<group>";

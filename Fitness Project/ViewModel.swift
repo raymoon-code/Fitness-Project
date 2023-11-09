@@ -45,6 +45,7 @@ struct testtodo: Identifiable {
 class ViewModelexercises: ObservableObject {
     
     @Published var exercise = [todo]()
+    @Published var exercisebyid = todo(id: String(), name: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())
     func getData(){
         let db = Firestore.firestore()
         db.collection("exercises").getDocuments{ snapshot, error in
@@ -70,7 +71,41 @@ class ViewModelexercises: ObservableObject {
             }
         }
     }
+    func getExerciseByID(documentID: String) {
+        let db = Firestore.firestore()
+        let exerciseRef = db.collection("exercises").document(documentID)
+        
+        exerciseRef.getDocument { document, error in
+            if let error = error {
+                print("Error getting document by ID: \(error)")
+            } else if let document = document, document.exists {
+                DispatchQueue.main.async {
+                    let data = document.data() ?? [:]
+                    self.exercisebyid =
+                        todo(
+                            id: document.documentID,
+                            name: data["name"] as? String ?? "",
+                            type: data["type"] as? String ?? "",
+                            muscle: data["muscle"] as? String ?? "",
+                            equipment: data["equipment"] as? String ?? "",
+                            difficulty: data["difficulty"] as? String ?? "",
+                            instructions: data["instructions"] as? String ?? "",
+                            imageURL: data["imageURL"] as? String ?? "",
+                            videoURL: data["videoURL"] as? String ?? ""
+                        )
+                    
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
 }
+
+
+
+
 
 class ViewModeltest: ObservableObject {
     
@@ -164,13 +199,7 @@ class ViewModel2: ObservableObject {
     }
 }
 
-struct wout: Identifiable {
-    var id: String
-    var title: String
-    var image: String
-    var ref1: String
 
-}
 
 
 
