@@ -169,51 +169,51 @@ struct DailyView: View {
                         
                         VStack{
                            
-                            List{
-                                Section( header: Text("Today's schedule")
-                                    .font(.headline)
-                                    .fontWeight(.heavy)
-                                    .foregroundColor(Color.black)){
-                                        
-                                        ForEach(randomWorkouts, id: \.title) { workout in
-                                            NavigationLink(destination: WorkoutDetailView(workout: workout)){
-                                                HStack{
-                                                    Text("   ")
-                                                    Spacer()
-                                                    AsyncImage(url: workout.image){
-                                                        phase in
-                                                        if let image = phase.image{
-                                                            image
-                                                                .resizable()
-                                                                .aspectRatio(contentMode: .fill)
-                                                                .frame(width: geow * 0.2, height: geoh * 0.1)
-                                                        }
-                                                    }
-                                                    Spacer()
-                                                    VStack{
-                                                        
-                                                        Text(workout.title)
-                                                            .fontWeight(.bold)
-                                                        Text("No. Exercises: " + String(workout.exercises.count))
-                                                        
-                                                    }
-                                                    .frame(width: geow * 0.4)
-                                                    Spacer()
-                                                    
-                                                }
-                                            }
-                                            .isDetailLink(true)
-                                           
-                                        }
-                                        
-                                    }
-                            }
+//                            List{
+//                                Section( header: Text("Today's schedule")
+//                                    .font(.headline)
+//                                    .fontWeight(.heavy)
+//                                    .foregroundColor(Color.black)){
+//                                        
+//                                        ForEach(randomWorkouts, id: \.title) { workout in
+//                                            NavigationLink(destination: WorkoutDetailView(workout: workout)){
+//                                                HStack{
+//                                                    Text("   ")
+//                                                    Spacer()
+//                                                    AsyncImage(url: workout.image){
+//                                                        phase in
+//                                                        if let image = phase.image{
+//                                                            image
+//                                                                .resizable()
+//                                                                .aspectRatio(contentMode: .fill)
+//                                                                .frame(width: geow * 0.2, height: geoh * 0.1)
+//                                                        }
+//                                                    }
+//                                                    Spacer()
+//                                                    VStack{
+//                                                        
+//                                                        Text(workout.title)
+//                                                            .fontWeight(.bold)
+//                                                        Text("No. Exercises: " + String(workout.exercises.count))
+//                                                        
+//                                                    }
+//                                                    .frame(width: geow * 0.4)
+//                                                    Spacer()
+//                                                    
+//                                                }
+//                                            }
+//                                            .isDetailLink(true)
+//                                           
+//                                        }
+//                                        
+//                                    }
+//                            }
                             
 
-                            .listStyle(InsetGroupedListStyle())
-                            .onAppear {
-                                viewModel3.fetch()
-                            }
+//                            .listStyle(InsetGroupedListStyle())
+//                            .onAppear {
+//                                viewModel3.fetch()
+//                            }
                         }.frame(height: geoh * 0.36)
                         
                     }.frame(width: geow * 0.9)

@@ -37,7 +37,7 @@ struct extractID: View {
 }
 
 struct VideoViews: UIViewRepresentable {
-    @Binding var exercise: Exercise
+    @Binding var exercise: todo
     @State var videoID: String
     
     func makeUIView(context: Context) -> WKWebView {

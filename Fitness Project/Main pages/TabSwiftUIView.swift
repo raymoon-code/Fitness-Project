@@ -34,6 +34,7 @@ struct TabSwiftUIView: View {
                 Image(systemName: "calendar")
                 Text("Daily")
             }
+           
         }
         
     }

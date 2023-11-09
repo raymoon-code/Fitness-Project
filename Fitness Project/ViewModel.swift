@@ -7,6 +7,11 @@
 
 import Foundation
 import SwiftUI
+import Firebase
+import FirebaseDatabase
+import FirebaseDatabaseSwift
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 struct Exercise: Hashable, Codable {
     let name: String
@@ -17,6 +22,83 @@ struct Exercise: Hashable, Codable {
     let instructions:String
     var imageURL:URL
     let videoURL:String
+}
+
+struct todo: Identifiable {
+    
+    var id: String
+    var name: String
+    var type:String
+    var muscle:String
+    var equipment:String
+    var difficulty:String
+    var instructions:String
+    var imageURL:String
+    var videoURL:String
+}
+struct testtodo: Identifiable {
+    var id: String
+    var name: String
+    
+}
+
+class ViewModelexercises: ObservableObject {
+    
+    @Published var exercise = [todo]()
+    func getData(){
+        let db = Firestore.firestore()
+        db.collection("exercises").getDocuments{ snapshot, error in
+            if error == nil {
+                if let snapshot = snapshot {
+                    DispatchQueue.main.async {
+                        self.exercise = snapshot.documents.map { d in
+                            return todo( id:d.documentID, name: d["name"] as? String ?? "",
+                                             type: d["type"] as? String ?? "",
+                                             muscle: d["muscle"] as? String ?? "",
+                                             equipment: d["equipment"] as? String ?? "",
+                                             difficulty: d["difficulty"] as? String ?? "",
+                                             instructions: d["instructions"] as? String ?? "",
+                                             imageURL: (d["imageURL"] as? String ?? ""),
+                                             videoURL: d["videoURL"] as? String ?? "")
+                        }
+                    }
+                    
+                   
+                }
+            } else {
+                return print("error")
+            }
+        }
+    }
+}
+
+class ViewModeltest: ObservableObject {
+    
+    @Published var list = [wout]()
+    
+    func getData(){
+        
+        let db = Firestore.firestore()
+        db.collection("workouts").getDocuments { snapshot, error in
+            if error == nil {
+                if let snapshot = snapshot {
+                    DispatchQueue.main.async {
+                        self.list = snapshot.documents.map { d in
+                            return wout(id:d.documentID
+                                        , title: d["title"] as? String ?? ""
+                                        , image: d["image"] as? String ?? ""
+                                        , ref1: d["ref1"] as? String ?? "")
+                                            
+                        }
+                    }
+                    
+                   
+                }
+            } else {
+                return print("error")
+            }
+        }
+    }
 }
 
 class ViewModel: ObservableObject {
@@ -81,6 +163,15 @@ class ViewModel2: ObservableObject {
         task.resume()
     }
 }
+
+struct wout: Identifiable {
+    var id: String
+    var title: String
+    var image: String
+    var ref1: String
+
+}
+
 
 
 struct Workouts: Hashable, Codable {

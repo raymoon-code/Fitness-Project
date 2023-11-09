@@ -9,14 +9,14 @@ import SwiftUI
 
 struct WorkoutView: View {
     
-    @ObservedObject var viewModel3 = ViewModel3()
+    @ObservedObject var viewModel3 = ViewModeltest()
     @ObservedObject var viewModel = ViewModel()
     
     @State private var searchTerm = ""
     
-    var filteredTable3: [Workouts] {
-        guard !searchTerm.isEmpty else {return viewModel3.workout}
-        return viewModel3.workout.filter {
+    var filteredTable3: [wout] {
+        guard !searchTerm.isEmpty else {return viewModel3.list}
+        return viewModel3.list.filter {
             workout in
             return workout.title.description.localizedCaseInsensitiveContains(searchTerm)
         }
@@ -45,12 +45,12 @@ struct WorkoutView: View {
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.black)){
                                     
-                                    ForEach(filteredTable3, id: \.title) { workout in
+                                    ForEach(filteredTable3) { workout in
                                         NavigationLink(destination: WorkoutDetailView(workout: workout)){
                                             HStack{
                                                 
                                                 Spacer()
-                                                AsyncImage(url: workout.image){
+                                                AsyncImage(url: URL(string:workout.image)){
                                                     phase in
                                                     if let image = phase.image{
                                                         image
@@ -64,7 +64,7 @@ struct WorkoutView: View {
                                                     
                                                     Text(workout.title)
                                                         .fontWeight(.bold)
-                                                    Text("No. Exercises: " + String(workout.exercises.count))
+                                                    //                                                    Text("No. Exercises: " + String(workout.exercises.count))
                                                     
                                                 }
                                                 .frame(width: width * 0.5)
@@ -82,18 +82,24 @@ struct WorkoutView: View {
                             
                         } .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                             .listStyle(InsetListStyle())
-                            .onAppear {
-                                viewModel3.fetch()
-                            }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
+                        //                            .onAppear {
+                        //                                viewModel3.fetch()
+                        //                            }
+                            .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
                     }
                 }
             }
         }
+        
+    }
+    init(){
+        viewModel3.getData()
     }
     func deleteWorkout(at offsets: IndexSet) {
-        viewModel3.workout.remove(atOffsets: offsets)
-    }}
+        viewModel3.list.remove(atOffsets: offsets)
+    }
+}
 #Preview {
     WorkoutView()
 }

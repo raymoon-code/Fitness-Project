@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct HomeScreenView: View {
-    @ObservedObject var viewModel = ViewModel()
+    @ObservedObject var viewModel = ViewModelexercises()
     @ObservedObject var viewModel2 = ViewModel2()
     @ObservedObject var viewModel3 = ViewModel3()
     
@@ -17,7 +17,7 @@ struct HomeScreenView: View {
     @State private var searchTerm2 = ""
     @State private var searchTerm3 = ""
     
-    var filteredTable: [Exercise] {
+    var filteredTable: [todo] {
         guard !searchTerm.isEmpty else {return viewModel.exercise}
         return viewModel.exercise.filter {
             exercise in
@@ -75,14 +75,14 @@ struct HomeScreenView: View {
                                 .font(.headline)
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.black)){
-                                    ForEach(filteredTable, id: \.name) { exercise in
+                                    ForEach(filteredTable) { exercise in
                                         
-                                        NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
+//                                        NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
                                             HStack {
                                                 
                                                 
                                                 
-                                                AsyncImage(url: exercise.imageURL){
+                                                AsyncImage(url: URL(string:exercise.imageURL)){
                                                     phase in
                                                     if let image = phase.image{
                                                         image
@@ -124,9 +124,9 @@ struct HomeScreenView: View {
                                                     }
                                                 }
                                             }
-                                        }
+//                                        }
                                     }
-                                    .onDelete(perform: deleteExercise)
+//                                    .onDelete(perform: deleteExercise)
                                     .frame(height: geoh * 0.09)
                                     
                                     
@@ -142,7 +142,7 @@ struct HomeScreenView: View {
                         } .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                         .listStyle(InsetListStyle())
                         .onAppear {
-                            viewModel.fetch()
+//                            viewModel.fetch()
                             viewModel2.fetch()
                         }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
@@ -202,7 +202,7 @@ struct HomeScreenView: View {
                         } .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                         .listStyle(InsetListStyle())
                         .onAppear {
-                            viewModel.fetch()
+//                            viewModel.fetch()
                             viewModel2.fetch()
                         }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
@@ -222,9 +222,15 @@ struct HomeScreenView: View {
             }
         }
     }
-    func deleteExercise(at offsets: IndexSet) {
-        viewModel.exercise.remove(atOffsets: offsets)
+    
+    init(){
+        viewModel.getData()
     }
+     
+    
+//    func deleteExercise(at offsets: IndexSet) {
+//        viewModel.exercise.remove(atOffsets: offsets)
+//    }
     func deleteFood(at offsets: IndexSet) {
         viewModel2.food.remove(atOffsets: offsets)
     }
@@ -259,7 +265,7 @@ struct HomeScreenView: View {
             }
         }
     }
-   
+  
     
 }
 extension UIColor {

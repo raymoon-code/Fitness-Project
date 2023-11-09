@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+import Firebase
 
 struct ExercisesView: View {
-    @ObservedObject var viewModel = ViewModel()
+    @ObservedObject var viewModel = ViewModelexercises()
     @State private var searchTerm = ""
-    var filteredTable: [Exercise] {
+    var filteredTable: [todo] {
         guard !searchTerm.isEmpty else {return viewModel.exercise}
         return viewModel.exercise.filter {
             exercise in
@@ -40,14 +43,14 @@ struct ExercisesView: View {
                                 .font(.headline)
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.black)){
-                                    ForEach(filteredTable, id: \.name) { exercise in
+                                    ForEach(filteredTable) { exercise in
                                         
                                         NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
                                             HStack {
                                                 
+                                               Text("")
                                                 
-                                                
-                                                AsyncImage(url: exercise.imageURL){
+                                                AsyncImage(url: URL(string:exercise.imageURL)!){
                                                     phase in
                                                     if let image = phase.image{
                                                         image
@@ -91,7 +94,7 @@ struct ExercisesView: View {
                                             }
                                         }
                                     }
-                                    .onDelete(perform: deleteExercise)
+//                                    .onDelete(perform: deleteExercise)
                                     .frame(height: geoh * 0.11)
                                     
                                     
@@ -106,10 +109,11 @@ struct ExercisesView: View {
                             
                         } .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                             .listStyle(InsetListStyle())
-                            .onAppear {
-                                viewModel.fetch()
-                                
-                            }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
+//                            .onAppear {
+//                                viewModel.getData()
+//                                
+//                            }
+                            .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
                     }
                     
@@ -117,9 +121,13 @@ struct ExercisesView: View {
             }
         }
     }
-    func deleteExercise(at offsets: IndexSet) {
-        viewModel.exercise.remove(atOffsets: offsets)
+    
+    init(){
+        viewModel.getData()
     }
+//    func deleteExercise(at offsets: IndexSet) {
+//        viewModel.exercise.remove(atOffsets: offsets)
+//    }
 }
    
 #Preview {

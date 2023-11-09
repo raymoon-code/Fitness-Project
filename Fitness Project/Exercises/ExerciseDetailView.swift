@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 
 struct ExerciseDetailView: View {
-    @State var exercise: Exercise
+    @State var exercise: todo
     
     @State var videoID:String = ""
     
@@ -168,14 +168,14 @@ struct ExerciseDetailView2_Previews: PreviewProvider {
 //            ],
 //            imageURL: URL(string: "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg")!
 //        ))
-ExerciseDetailView(exercise: Exercise(
-            name: "Barbell Glute Bridge",
+ExerciseDetailView(exercise: todo(
+    id: "1", name: "Barbell Glute Bridge",
                   type: "Strength",
                    muscle: "Glutes",
                    equipment: "Barbell",
                    difficulty: "beginner",
                    instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
-            imageURL: URL(string: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg")!,
+            imageURL: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg",
                    videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong"))
     }
 }
