@@ -110,7 +110,7 @@ class ViewModelexercises: ObservableObject {
 class ViewModeltest: ObservableObject {
     
     @Published var list = [wout]()
-    
+    @Published var exercisebyidtest = todo(id: String(), name: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())
     func getData(){
         
         let db = Firestore.firestore()
@@ -131,6 +131,35 @@ class ViewModeltest: ObservableObject {
                 }
             } else {
                 return print("error")
+            }
+        }
+    }
+    func getExerciseByIDtest(documentID: String) {
+        let db = Firestore.firestore()
+        let exerciseRef = db.collection("exercises").document(documentID)
+        
+        exerciseRef.getDocument { document, error in
+            if let error = error {
+                print("Error getting document by ID: \(error)")
+            } else if let document = document, document.exists {
+                DispatchQueue.main.async {
+                    let data = document.data() ?? [:]
+                    self.exercisebyidtest =
+                        todo(
+                            id: document.documentID,
+                            name: data["name"] as? String ?? "",
+                            type: data["type"] as? String ?? "",
+                            muscle: data["muscle"] as? String ?? "",
+                            equipment: data["equipment"] as? String ?? "",
+                            difficulty: data["difficulty"] as? String ?? "",
+                            instructions: data["instructions"] as? String ?? "",
+                            imageURL: data["imageURL"] as? String ?? "",
+                            videoURL: data["videoURL"] as? String ?? ""
+                        )
+                    
+                }
+            } else {
+                print("Document does not exist")
             }
         }
     }
