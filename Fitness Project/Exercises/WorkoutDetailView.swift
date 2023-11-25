@@ -24,7 +24,16 @@ struct WorkoutDetailView: View {
 //    @State var woutlist = ()
 //    @State var exercises: todo
     @State private var searchTerm = ""
-    
+    var filteredTable: [Exercise2] {
+        guard !searchTerm.isEmpty else {return model2.exercises}
+        return model2.exercises.filter {
+            exercise in
+            return exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
+            exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
+            exercise.muscle.localizedCaseInsensitiveContains(searchTerm)
+        }
+        
+    }
     var body: some View {
         GeometryReader { geo in
             let geow = geo.size.width
@@ -41,69 +50,76 @@ struct WorkoutDetailView: View {
                         .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                         .zIndex(1)
                         .frame(height: geoh * 0.0001)
+//
+//                 Text("\(workout.title)")
+                    Section( header: Text("\(workout.title)")
+                                           .font(.title2)
+                                           .fontWeight(.heavy)
+                                           .foregroundColor(Color.black)  )                                            
+                    {
+                                               List(workout.ref1, id: \.self){ i in
+                                                   
+                                                   
+                                                   ForEach(filteredTable) { exercise in
+                                                       if i == exercise.id {
+                                                           NavigationLink(destination: ExerciseInWorkoutDetail(exercise: exercise)) {
+                                                               HStack {
+                                                                   Text("")
+                                                                   AsyncImage(url: URL(string:exercise.imageURL)){
+                                                                       phase in
+                                                                       if let image = phase.image{
+                                                                           image
+                                                                               .resizable()
+                                                                               .aspectRatio(contentMode: .fill)
+                                                                               .frame(width: geow * 0.1, height: geoh * 0.1)
+                                                                       }
+                                                                   }.padding()
+                                                                   Text("  ")
+                                                                   //                                Spacer()
+                                                                   VStack (spacing:0){
+                                                                       Text(exercise.name).font(.system(size: 20)).multilineTextAlignment(.center)
+                                                                           .frame(width: geow * 0.6, height: geoh * 0.04)
+                                                                           .fontWeight(.semibold)
+                                                                           .padding(.top)
+                                                                           .lineLimit(1)
+                                                                           .minimumScaleFactor(0.5)
+                                                                       HStack(spacing:1){
+                                                                           VStack(spacing:0){
+                                                                               Image(exercise.muscle == "glutes" ? "glutes" : exercise.muscle == "full-body" || exercise.muscle == "whole body" ? "full_body" : exercise.muscle == "biceps" ? "Biceps 1" : exercise.muscle == "quadriceps" ? "Quadriceps" : exercise.muscle == "triceps" ? "Triceps 1" : exercise.muscle == "core" ? "lower-abs" : exercise.muscle == "flexibility" ? "flexibility" : "Chest1")
+                                                                                   .resizable()
+                                                                                   .frame(width: 30, height: 30)
+                                                                               
+                                                                               Text(exercise.muscle.capitalized).font(.subheadline).multilineTextAlignment(.leading)
+                                                                                   .frame(width: geow * 0.3)
+                                                                                   .padding(.bottom)
+                                                                           }
+                                                                           VStack(alignment:.center,spacing:0){
+                                                                               Spacer()
+                                                                               Image( exercise.difficulty == "beginner" ? "easy" : exercise.difficulty == "intermediate" ? "medium" : "hard")
+                                                                                   .resizable()
+                                                                                   .frame(width: 30, height: 30)
+                                                                                   .padding(.top)
+                                                                               Text(exercise.difficulty.capitalized).font(.subheadline).multilineTextAlignment(.leading)
+                                                                                   .padding(.bottom)
+                                                                                   .padding(.bottom)
+                                                                               Spacer()
+                                                                           }.frame(width: geow * 0.3, height:geoh * 0.06)
+                                                                       }
+                                                                   }
+                                                               }
+                                                               
+                                                           }
+                                                           //                                    .onDelete(perform: deleteExercise)
+                                                           .frame(height: geoh * 0.11)
+                                                           
+                                                           
+                                                           
+                                                           
+                                                       }
+                                                   }
+                                               }}
+                    .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                     
-                 
-                    List(workout.ref1, id: \.self){ i in
-                       
-                        
-                        ForEach(model2.exercises) { exercise in
-                            if i == exercise.id {
-                                NavigationLink(destination: testdetail(exercise: exercise)) {
-                                                                        HStack {
-                                    
-                                                                            AsyncImage(url: URL(string:exercise.imageURL)){
-                                                                                phase in
-                                                                                if let image = phase.image{
-                                                                                    image
-                                                                                        .resizable()
-                                                                                        .aspectRatio(contentMode: .fill)
-                                                                                        .frame(width: geow * 0.1, height: geoh * 0.1)
-                                                                                }
-                                                                            }.padding()
-                                                                            Text("  ")
-                                                                            //                                Spacer()
-                                                                            VStack (spacing:0){
-                                                                                Text(exercise.name).font(.system(size: 20)).multilineTextAlignment(.center)
-                                                                                    .frame(width: geow * 0.6, height: geoh * 0.04)
-                                                                                    .fontWeight(.semibold)
-                                                                                    .padding(.top)
-                                                                                    .lineLimit(1)
-                                                                                    .minimumScaleFactor(0.5)
-                                                                                HStack(spacing:1){
-                                                                                    VStack(spacing:0){
-                                                                                        Image(exercise.muscle == "glutes" ? "glutes" : exercise.muscle == "full-body" || exercise.muscle == "whole body" ? "full_body" : exercise.muscle == "biceps" ? "Biceps 1" : exercise.muscle == "quadriceps" ? "Quadriceps" : exercise.muscle == "triceps" ? "Triceps 1" : exercise.muscle == "core" ? "lower-abs" : exercise.muscle == "flexibility" ? "flexibility" : "Chest1")
-                                                                                            .resizable()
-                                                                                            .frame(width: 30, height: 30)
-                                    
-                                                                                        Text(exercise.muscle.capitalized).font(.subheadline).multilineTextAlignment(.leading)
-                                                                                            .frame(width: geow * 0.3)
-                                                                                            .padding(.bottom)
-                                                                                    }
-                                                                                    VStack(alignment:.center,spacing:0){
-                                                                                        Spacer()
-                                                                                        Image( exercise.difficulty == "beginner" ? "easy" : exercise.difficulty == "intermediate" ? "medium" : "hard")
-                                                                                            .resizable()
-                                                                                            .frame(width: 30, height: 30)
-                                                                                            .padding(.top)
-                                                                                        Text(exercise.difficulty.capitalized).font(.subheadline).multilineTextAlignment(.leading)
-                                                                                            .padding(.bottom)
-                                                                                            .padding(.bottom)
-                                                                                        Spacer()
-                                                                                    }.frame(width: geow * 0.3, height:geoh * 0.06)
-                                                                                }
-                                                                            }
-                                                                        }
-                                  
-                                }
-                                //                                    .onDelete(perform: deleteExercise)
-                                .frame(height: geoh * 0.11)
-                                
-                                
-                                
-                                
-                                }
-                            }
-                        }
                     
                     
                     .searchable(text: $searchTerm, prompt:"Search Exercises" ){

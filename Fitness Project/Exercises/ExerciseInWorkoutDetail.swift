@@ -1,5 +1,5 @@
 //
-//  testdetail.swift
+//  ExerciseInWorkoutDetail.swift
 //  Fitness Project
 //
 //  Created by Tran Phat on 11/24/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 import AVKit
-struct testdetail: View {
+struct ExerciseInWorkoutDetail: View {
     @State var exercise: Exercise2
     
     @State var videoID:String = ""
@@ -134,7 +134,7 @@ struct testdetail: View {
 }
 
 #Preview {
-    testdetail(exercise: Exercise2(
+    ExerciseInWorkoutDetail(exercise: Exercise2(
         id: "1", name: "Barbell Glute Bridge",
                       type: "Strength",
                        muscle: "Glutes",

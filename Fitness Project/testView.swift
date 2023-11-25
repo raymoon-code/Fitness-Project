@@ -25,7 +25,7 @@ struct testView: View {
                     ForEach(model2.exercises.filter { item.ref1.contains($0.id) })  { ex in
                         
                         
-                            NavigationLink(destination: testdetail(exercise: ex)) {
+                            NavigationLink(destination: ExerciseInWorkoutDetail(exercise: ex)) {
                                 HStack{
                                     Text("")
                                     AsyncImage(url: URL(string:"\(ex.imageURL)")){
