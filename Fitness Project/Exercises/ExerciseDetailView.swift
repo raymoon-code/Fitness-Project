@@ -113,14 +113,16 @@ struct ExerciseDetailView: View {
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .padding(.top)
-                            Text("1. Lay down with a barbell across your hips")
+                            Text(exercise.instructions)
                                 .multilineTextAlignment(.center)
-                            Text("2. Raise your knees and plant your feet")
-                                .multilineTextAlignment(.center)
-                            
-                            Text("3. With your shoulder blades on the ground")
-                                .multilineTextAlignment(.center)
-                            Text("4. Thrust your hips upward")
+//                            Text("1. Lay down with a barbell across your hips")
+//                                .multilineTextAlignment(.center)
+//                            Text("2. Raise your knees and plant your feet")
+//                                .multilineTextAlignment(.center)
+//                            
+//                            Text("3. With your shoulder blades on the ground")
+//                                .multilineTextAlignment(.center)
+//                            Text("4. Thrust your hips upward")
                             
                         }
                     //} .frame(height: geo.size.height * 0.5)

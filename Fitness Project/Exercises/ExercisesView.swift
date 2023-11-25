@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Firebase
@@ -49,6 +50,17 @@ struct ExercisesView: View {
                                             HStack {
                                                 
                                                Text("")
+                                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                                        Button("delete"){
+                                                            viewModel.deleteExercise(exercise) { success in
+                                                                                                if success {
+                                                                                                    print("Exercise deleted successfully")
+                                                                                                } else {
+                                                                                                    print("Failed to delete exercise")
+                                                                                                }
+                                                                                            }
+                                                        }.tint(.red)
+                                                    }
                                                 
                                                 AsyncImage(url: URL(string:exercise.imageURL)!){
                                                     phase in
@@ -102,8 +114,13 @@ struct ExercisesView: View {
                                     
                                     
                                 }
+                            // Button to navigate to the AddExerciseView
+                                       
                         }
                         
+                        
+//
+                       
                         .searchable(text: $searchTerm, prompt:"Enter name, level of difficulty or muscle" ){
                             
                             
@@ -115,7 +132,17 @@ struct ExercisesView: View {
 //                            }
                             .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
-                    }
+                        NavigationLink(destination: AddExerciseView()) {
+                            Text("Add New Exercise")
+                                .font(.headline)
+                                .padding()
+                                .foregroundColor(.black)
+                                .background(Color(hue: 0.527, saturation: 0.73, brightness: 0.848))
+                                .cornerRadius(8)
+                        }.navigationViewStyle(StackNavigationViewStyle())
+                        .padding()
+                    } 
+                    
                     
                 }
             }
@@ -124,10 +151,24 @@ struct ExercisesView: View {
     
     init(){
         viewModel.getData()
+        viewModel.listenForChanges()
     }
-//    func deleteExercise(at offsets: IndexSet) {
-//        viewModel.exercise.remove(atOffsets: offsets)
+//    func deleteExercises(at offsets: IndexSet) {
+//        for index in offsets {
+//            let exercise = filteredTable[index]
+//            
+//            viewModel.deleteExercise(exercise) { success in
+//                if success {
+//                    // Exercise deleted successfully
+//                } else {
+//                    // Failed to delete exercise
+//                }
+//            }
+//        }
 //    }
+    func deleteExercise(at offsets: IndexSet) {
+        viewModel.exercise.remove(atOffsets: offsets)
+    }
 }
    
 #Preview {
