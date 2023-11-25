@@ -1,15 +1,14 @@
 //
-//  ExerciseDetailView.swift
+//  testdetail.swift
 //  Fitness Project
 //
-//  Created by Tran Phat on 10/19/23.
+//  Created by Tran Phat on 11/24/23.
 //
 
 import SwiftUI
 import AVKit
-
-struct ExerciseDetailView: View {
-    @State var exercise: todo
+struct testdetail: View {
+    @State var exercise: Exercise2
     
     @State var videoID:String = ""
     
@@ -25,7 +24,7 @@ struct ExerciseDetailView: View {
                 let iconWidth = geow * 0.1
                 VStack (alignment:.center){
                     ScrollView {
-                        VideoViews(exercise: $exercise, videoID: exercise.videoURL)
+                        VideoViews2(exercise: $exercise, videoID: exercise.videoURL)
                             .frame(height: geo.size.height * 0.4)
                         
                         //VStack{
@@ -134,49 +133,14 @@ struct ExerciseDetailView: View {
     }
 }
 
-//#Preview {
-//
-//    ContentView()
-//}
-
-struct ExerciseDetailView2_Previews: PreviewProvider {
-    static var previews: some View {
-//        ExerciseDetailView2(food: Foods(
-//            name: "Vegetable Stir-Fry",
-//            minute: 15,
-//            kcal: 250,
-//            carbs: 30,
-//            fat: 8,
-//            protein: 12,
-//            ingredients: [
-//                "Broccoli",
-//                "Bell peppers",
-//                "Carrots",
-//                "Snap peas",
-//                "Soy sauce",
-//                "Sesame oil",
-//                "Garlic",
-//                "Ginger",
-//                "Rice"
-//            ],
-//            directions: [
-//                "Chop vegetables into bite-sized pieces.",
-//                "Heat sesame oil in a pan and add garlic and ginger.",
-//                "Stir-fry vegetables until tender.",
-//                "Add soy sauce.",
-//                "Serve over cooked rice."
-//            ],
-//            imageURL: URL(string: "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg")!
-//        ))
-ExerciseDetailView(exercise: todo(
-    id: "1", name: "Barbell Glute Bridge",
-                  type: "Strength",
-                   muscle: "Glutes",
-                   equipment: "Barbell",
-                   difficulty: "beginner",
-                   instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
-            imageURL: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg",
-                   videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong")
-)
-    }
+#Preview {
+    testdetail(exercise: Exercise2(
+        id: "1", name: "Barbell Glute Bridge",
+                      type: "Strength",
+                       muscle: "Glutes",
+                       equipment: "Barbell",
+                       difficulty: "beginner",
+                       instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
+                imageURL: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg",
+                       videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong"))
 }

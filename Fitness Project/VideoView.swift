@@ -62,6 +62,32 @@ struct VideoViews: UIViewRepresentable {
 }
 }
 
+struct VideoViews2: UIViewRepresentable {
+    @Binding var exercise: Exercise2
+    @State var videoID: String
+    
+    func makeUIView(context: Context) -> WKWebView {
+        return WKWebView()
+    }
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        let ID = extractVideoID(from: videoID) ?? videoID
+//        guard let imageURL = URL(string: "https://img.youtube.com/vi/\(ID)/1.jpg") else {return}
+        guard let youtubeURL = URL(string: "https://www.youtube.com/embed/\(ID)") else {return}
+        uiView.scrollView.isScrollEnabled = false
+        uiView.load(URLRequest(url: youtubeURL))
+    }
+    func extractVideoID(from url: String) -> String? {
+        if let range = url.range(of: "v=") {
+            let startIndex = range.upperBound
+            let endIndex = url.index(startIndex, offsetBy: 11) // Assuming the video ID is 11 characters
+            return String(url[startIndex..<endIndex])
+        }
+        return nil
+    
+}
+}
+
 
 
 struct WebView: UIViewRepresentable {

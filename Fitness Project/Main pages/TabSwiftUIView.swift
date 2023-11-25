@@ -25,7 +25,7 @@ struct TabSwiftUIView: View {
                 Image(systemName: "fork.knife")
                 Text("Recipes")
             }
-            WorkoutView().tabItem{
+            WorkoutView( exercise: todo(id: String(), name: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())).tabItem{
                 Image(systemName: "circle")
                 Text("Workouts")
             }
