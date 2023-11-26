@@ -36,10 +36,17 @@ struct todo: Identifiable, Codable {
     var imageURL:String
     var videoURL:String
 }
-struct testtodo: Identifiable {
+struct exer: Identifiable, Codable {
+    var isSelected: Bool
     var id: String
     var name: String
-    
+    var type:String
+    var muscle:String
+    var equipment:String
+    var difficulty:String
+    var instructions:String
+    var imageURL:String
+    var videoURL:String
 }
 
 struct Exercise2: Identifiable, Codable {
@@ -175,6 +182,130 @@ class ExerciseViewModel: ObservableObject {
             }
         }
     }
+}
+
+class ViewModelexercisesforworkout: ObservableObject {
+    
+    @Published var exercise = [exer]()
+    @Published var exercisebyid = todo(id: String(), name: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())
+    
+//    func addData(exercise: todo){
+//        let db = Firestore.firestore()
+//        do {
+//          let _ =  try db.collection("exercises").addDocument( from: exercise)
+//
+//                }
+//        catch {
+//            return print("error")
+//        }
+//
+//        }
+    func listenForChanges() {
+        let db = Firestore.firestore()
+        db.collection("exercises2").addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Error fetching exercises: \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No documents")
+                return
+            }
+            
+            self.exercise = documents.compactMap { document in
+                do {
+                    return try document.data(as: exer.self)
+                } catch {
+                    print("Error decoding exercise: \(error)")
+                    return nil
+                }
+            }
+        }
+    }
+    
+    func deleteExercise(_ exercise: exer, completion: @escaping (Bool) -> Void) {
+            let db = Firestore.firestore()
+            
+            // Remove from Firestore
+            db.collection("exercises2").document(exercise.id).delete { error in
+                if let error = error {
+                    print("Error deleting document: \(error)")
+                    completion(false)
+                } else {
+                    print("Document successfully deleted from Firestore")
+                    
+                    // Remove from local array
+                    if let index = self.exercise.firstIndex(where: { $0.id == exercise.id }) {
+                        DispatchQueue.main.async {
+                            self.exercise.remove(at: index)
+                            completion(true)
+                        }
+                    } else {
+                        completion(false)
+                    }
+                }
+            }
+        }
+    func getData(){
+        let db = Firestore.firestore()
+        db.collection("exercises2").getDocuments{ snapshot, error in
+            if error == nil {
+                if let snapshot = snapshot {
+                    DispatchQueue.main.async {
+                        self.exercise = snapshot.documents.map { d in
+                            return exer( isSelected:d["isSelected"] as? Bool ?? false,
+                                id:d.documentID,
+                                         name: d["name"] as? String ?? "",
+                                             type: d["type"] as? String ?? "",
+                                             muscle: d["muscle"] as? String ?? "",
+                                             equipment: d["equipment"] as? String ?? "",
+                                             difficulty: d["difficulty"] as? String ?? "",
+                                             instructions: d["instructions"] as? String ?? "",
+                                             imageURL: (d["imageURL"] as? String ?? ""),
+                                             videoURL: d["videoURL"] as? String ?? "")
+                        }
+                    }
+                    
+                   
+                }
+            } else {
+                return print("error")
+            }
+        }
+    }
+    
+    
+    func getExerciseByID(documentID: String) {
+        let db = Firestore.firestore()
+        let exerciseRef = db.collection("exercises").document(documentID)
+        
+        exerciseRef.getDocument { document, error in
+            if let error = error {
+                print("Error getting document by ID: \(error)")
+            } else if let document = document, document.exists {
+                DispatchQueue.main.async {
+                    let data = document.data() ?? [:]
+                    self.exercisebyid =
+                        todo(
+                            id: document.documentID,
+                            name: data["name"] as? String ?? "",
+                            type: data["type"] as? String ?? "",
+                            muscle: data["muscle"] as? String ?? "",
+                            equipment: data["equipment"] as? String ?? "",
+                            difficulty: data["difficulty"] as? String ?? "",
+                            instructions: data["instructions"] as? String ?? "",
+                            imageURL: data["imageURL"] as? String ?? "",
+                            videoURL: data["videoURL"] as? String ?? ""
+                        )
+                    
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
 }
 
 class ViewModelexercises: ObservableObject {
@@ -452,9 +583,57 @@ class ViewModeltest: ObservableObject {
     @Published var list = [wout]()
     @Published var exercises: [Exercise2] = [] // Array to hold fetched exercises
     
-    init() {
-        getData()
+//    init() {
+//        getData()
+//    }
+    
+    func listenForChanges() {
+        let db = Firestore.firestore()
+        db.collection("workouts").addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Error fetching exercises: \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No documents")
+                return
+            }
+            
+            self.list = documents.compactMap { document in
+                do {
+                    return try document.data(as: wout.self)
+                } catch {
+                    print("Error decoding exercise: \(error)")
+                    return nil
+                }
+            }
+        }
     }
+    func getData2() {
+        let db = Firestore.firestore()
+        db.collection("workouts").getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching food documents: \(error)")
+                return
+            }
+            
+            guard let snapshot = snapshot else {
+                print("No food documents")
+                return
+            }
+            
+            self.list = snapshot.documents.compactMap { document in
+                do {
+                    return try document.data(as: wout.self)
+                } catch {
+                    print("Error decoding food document: \(error)")
+                    return nil
+                }
+            }
+        }
+    }
+    
     
     func getData() {
         let db = Firestore.firestore()

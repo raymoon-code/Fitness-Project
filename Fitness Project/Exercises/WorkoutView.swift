@@ -13,7 +13,7 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 struct WorkoutView: View {
-    
+    @State var woutref = [String]()
     @ObservedObject var viewModel3 = ViewModeltest()
     @ObservedObject var viewModel = ViewModel()
     @State var exercise: todo
@@ -90,17 +90,28 @@ struct WorkoutView: View {
                             
                         } .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                             .listStyle(InsetListStyle())
+                            .onAppear{
+                                viewModel3.getData2()
+                                viewModel3.listenForChanges()
+                            }
                         //                            .onAppear {
                         //                                viewModel3.fetch()
                         //                            }
                             .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
+                        NavigationLink(destination: AddWorkoutView()) {
+                            Text("Add New Workout")
+                                .font(.headline)
+                                .padding()
+                                .foregroundColor(.black)
+                                .background(Color(hue: 0.527, saturation: 0.73, brightness: 0.848))
+                                .cornerRadius(8)
+                        }.navigationViewStyle(StackNavigationViewStyle())
+                        .padding()
                     }
                 }
             }
-            .onAppear{
-                viewModel3.getData()
-            }
+        
         }
         
     }

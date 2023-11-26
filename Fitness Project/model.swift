@@ -13,7 +13,7 @@ struct todos: Identifiable {
     
 }
 
-struct wout: Identifiable {
+struct wout: Identifiable, Codable {
     var id: String
     var title: String
     var image: String
