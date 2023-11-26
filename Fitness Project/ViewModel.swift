@@ -54,6 +54,60 @@ struct Exercise2: Identifiable, Codable {
     var videoURL: String
 }
 
+struct Foods2: Identifiable, Codable {
+    var id: String
+    var name: String
+    var minute:Int
+    var kcal:Int
+    var carbs:Int
+    var fat:Int
+    var protein:Int
+    var ingredients:[String]
+    var directions:[String]
+    var imageURL:URL
+    
+    enum CodingKeys: String, CodingKey {
+           case id
+           case name
+           case minute
+            case kcal
+               case carbs
+               case fat
+               case protein
+               case ingredients
+               case directions
+               case imageURL
+           // Other cases...
+       }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        kcal = try container.decode(Int.self, forKey: .kcal)
+                carbs = try container.decode(Int.self, forKey: .carbs)
+                fat = try container.decode(Int.self, forKey: .fat)
+                protein = try container.decode(Int.self, forKey: .protein)
+                ingredients = try container.decode([String].self, forKey: .ingredients)
+                directions = try container.decode([String].self, forKey: .directions)
+        // Handle the potential issue of decoding Int from String data
+        if let minuteString = try? container.decode(String.self, forKey: .minute),
+           let convertedMinute = Int(minuteString) {
+            minute = convertedMinute
+        } else {
+            // Set a default value or handle the situation as per your application's logic
+            minute = 0 // Or any other default value you prefer
+        }
+        if let urlString = try container.decodeIfPresent(String.self, forKey: .imageURL),
+                   let url = URL(string: urlString) {
+                    imageURL = url
+                } else {
+                    // Handle the situation where imageURL cannot be decoded or set a default URL
+                    imageURL = URL(string: "https://example.com/default-image-url")!
+                }
+    }
+}
+
 class ExerciseViewModel: ObservableObject {
     @Published var exercises: [Exercise2] = []
     private var db = Firestore.firestore()
@@ -243,6 +297,84 @@ class ViewModelexercises: ObservableObject {
         }
     }
     
+}
+
+class ViewModelFoods: ObservableObject {
+    @Published var foods = [Foods2]()
+    // Other published variables or properties as needed...
+
+    func listenForChanges() {
+        let db = Firestore.firestore()
+        db.collection("Foods").addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Error fetching foods: \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No documents")
+                return
+            }
+            
+            self.foods = documents.compactMap { document in
+                do {
+                    return try document.data(as: Foods2.self)
+                } catch {
+                    print("Error decoding food: \(error)")
+                    return nil
+                }
+            }
+        }
+    }
+
+    func deleteFood(_ food: Foods2, completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        
+        // Remove from Firestore
+        db.collection("Foods").document(food.id).delete { error in
+            if let error = error {
+                print("Error deleting document: \(error)")
+                completion(false)
+            } else {
+                print("Document successfully deleted from Firestore")
+                
+                // Remove from local array
+                if let index = self.foods.firstIndex(where: { $0.id == food.id }) {
+                    DispatchQueue.main.async {
+                        self.foods.remove(at: index)
+                        completion(true)
+                    }
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
+    
+    func getData() {
+        let db = Firestore.firestore()
+        db.collection("Foods").getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching food documents: \(error)")
+                return
+            }
+            
+            guard let snapshot = snapshot else {
+                print("No food documents")
+                return
+            }
+            
+            self.foods = snapshot.documents.compactMap { document in
+                do {
+                    return try document.data(as: Foods2.self)
+                } catch {
+                    print("Error decoding food document: \(error)")
+                    return nil
+                }
+            }
+        }
+    }
+    // Additional functions for adding, updating, or getting data can be added here...
 }
 
 

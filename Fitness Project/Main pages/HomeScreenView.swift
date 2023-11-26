@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeScreenView: View {
     @ObservedObject var viewModel = ViewModelexercises()
-    @ObservedObject var viewModel2 = ViewModel2()
+    @ObservedObject var viewModel2 = ViewModelFoods()  
     @ObservedObject var viewModel3 = ViewModel3()
     
     @State private var searchTerm = ""
@@ -27,9 +27,9 @@ struct HomeScreenView: View {
         }
         
     }
-    var filteredTable2: [Foods] {
-        guard !searchTerm.isEmpty else {return viewModel2.food}
-        return viewModel2.food.filter {
+    var filteredTable2: [Foods2] {
+        guard !searchTerm.isEmpty else {return viewModel2.foods}
+        return viewModel2.foods.filter {
             food in
             return food.name.description.localizedCaseInsensitiveContains(searchTerm) ||
             food.kcal.description.localizedCaseInsensitiveContains(searchTerm) ||
@@ -77,10 +77,21 @@ struct HomeScreenView: View {
                                 .foregroundColor(Color.black)){
                                     ForEach(filteredTable) { exercise in
                                         
-//                                        NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
+                                        NavigationLink(destination: ExerciseDetailView(exercise: exercise)) {
                                             HStack {
                                                 
-                                                
+                                                Text("")
+                                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                                        Button("delete"){
+                                                            viewModel.deleteExercise(exercise) { success in
+                                                                                                if success {
+                                                                                                    print("Exercise deleted successfully")
+                                                                                                } else {
+                                                                                                    print("Failed to delete exercise")
+                                                                                                }
+                                                                                            }
+                                                        }.tint(.red)
+                                                    }
                                                 
                                                 AsyncImage(url: URL(string:exercise.imageURL)){
                                                     phase in
@@ -124,7 +135,7 @@ struct HomeScreenView: View {
                                                     }
                                                 }
                                             }
-//                                        }
+                                        }
                                     }
 //                                    .onDelete(perform: deleteExercise)
                                     .frame(height: geoh * 0.09)
@@ -143,7 +154,7 @@ struct HomeScreenView: View {
                         .listStyle(InsetListStyle())
                         .onAppear {
 //                            viewModel.fetch()
-                            viewModel2.fetch()
+                            viewModel2.getData()
                         }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
                         List{
@@ -152,11 +163,22 @@ struct HomeScreenView: View {
                                     .font(.headline)
                                     .fontWeight(.heavy)
                                     .foregroundColor(Color.black)){
-                                        ForEach(filteredTable2, id: \.self) { food in
+                                        ForEach(filteredTable2) { food in
                                             
                                             NavigationLink(destination: FoodDetailView2(food: food)) {
                                                 HStack {
-                                                    
+                                                    Text("")
+                                                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                                            Button("delete"){
+                                                                viewModel2.deleteFood(food) { success in
+                                                                    if success {
+                                                                        print("Exercise deleted successfully")
+                                                                    } else {
+                                                                        print("Failed to delete exercise")
+                                                                    }
+                                                                }
+                                                            }.tint(.red)
+                                                        }
                                                     AsyncImage(url:food.imageURL){
                                                         phase in
                                                         if let image = phase.image{
@@ -174,22 +196,18 @@ struct HomeScreenView: View {
                                                             Image( systemName: "timer")    .foregroundColor(Color.pink)
                                                             Text("\(food.minute) minute")
                                                                 .font(.title3).multilineTextAlignment(.leading)
-                                                            //                                                                .resizable()
-                                                            //                                                                .frame(width: 30, height: 30)
                                                             
-                                                            //                                                            Text("")
-                                                            //                                                                .font(.title3).multilineTextAlignment(.leading)
                                                             Image( systemName: "flame")
                                                                 .foregroundColor(Color.pink)
                                                             Text("\(food.kcal) kcal")
-                                                           
+                                                            
                                                                 .font(.title3).multilineTextAlignment(.leading)
                                                         }.padding(.leading)
                                                     }
                                                 }
                                             }
                                         }
-                                        .onDelete(perform: deleteFood)
+//                                        .onDelete(perform: deleteFood)
                                         .frame(height: geoh * 0.1)
                                         
                                         
@@ -203,7 +221,8 @@ struct HomeScreenView: View {
                         .listStyle(InsetListStyle())
                         .onAppear {
 //                            viewModel.fetch()
-                            viewModel2.fetch()
+                            viewModel2.getData()
+                            viewModel2.listenForChanges()
                         }.navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
                         
@@ -225,15 +244,18 @@ struct HomeScreenView: View {
     
     init(){
         viewModel.getData()
+        viewModel.listenForChanges()
+        viewModel2.getData()
+        viewModel2.listenForChanges()
     }
      
     
 //    func deleteExercise(at offsets: IndexSet) {
 //        viewModel.exercise.remove(atOffsets: offsets)
 //    }
-    func deleteFood(at offsets: IndexSet) {
-        viewModel2.food.remove(atOffsets: offsets)
-    }
+//    func deleteFood(at offsets: IndexSet) {
+//        viewModel2.food.remove(atOffsets: offsets)
+//    }
 
     
     struct YouTubeThumbnailView: View {

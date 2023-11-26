@@ -18,6 +18,11 @@ struct AddExerciseView: View {
     @State private var imageURL = ""
     @State private var videoURL = ""
     @State private var showAlert = false
+    @State private var showAlert2 = false
+    var isFormValid: Bool {
+            !name.isEmpty && !type.isEmpty && !muscle.isEmpty && !equipment.isEmpty &&
+            !difficulty.isEmpty && !instructions.isEmpty && !imageURL.isEmpty && !videoURL.isEmpty
+        }
     var body: some View {
         GeometryReader { geo in
             let geow = geo.size.width
@@ -33,10 +38,14 @@ struct AddExerciseView: View {
                     .fontWeight(.heavy)
                     .foregroundColor(Color.black)  )
                 {
-                    VStack {
-                        TextField("Name", text: $name)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding()
+                    VStack(spacing:1) {
+                        Text("")
+                          
+                            TextField("Name", text: $name)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .padding()
+                           
+                      
                         TextField("type", text: $type)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
@@ -62,50 +71,69 @@ struct AddExerciseView: View {
                         // Add similar input fields for other properties of `todo`
                         
                         Button(action: {
-                            let db = Firestore.firestore()
-                            let collectionRef = db.collection("exercises")
-                            let documentID = UUID().uuidString
-                            
-                            let newExerciseData: [String: Any] = [
-                                "id": documentID,
-                                "name": name,
-                                "type": type,
-                                "muscle": muscle,
-                                "equipment": equipment,
-                                "difficulty": difficulty,
-                                "instructions": instructions,
-                                "imageURL": imageURL,
-                                "videoURL": videoURL
-                            ]
-                            
-                            collectionRef.document(documentID).setData(newExerciseData) { error in
-                                if let error = error {
-                                    print("Error adding document: \(error)")
-                                } else {
-                                    print("Document added successfully with ID: \(documentID)")
-                                    // Clear the input fields after adding the document
-                                    name = ""
-                                    type = ""
-                                    muscle = ""
-                                    equipment = ""
-                                    difficulty = ""
-                                    instructions = ""
-                                    imageURL = ""
-                                    videoURL = ""
-                                    showAlert = true
+                            if isFormValid {
+                                let db = Firestore.firestore()
+                                let collectionRef = db.collection("exercises")
+                                let documentID = UUID().uuidString
+                                
+                                let newExerciseData: [String: Any] = [
+                                    "id": documentID,
+                                    "name": name,
+                                    "type": type,
+                                    "muscle": muscle,
+                                    "equipment": equipment,
+                                    "difficulty": difficulty,
+                                    "instructions": instructions,
+                                    "imageURL": imageURL,
+                                    "videoURL": videoURL
+                                ]
+                                
+                                collectionRef.document(documentID).setData(newExerciseData) { error in
+                                    if let error = error {
+                                        print("Error adding document: \(error)")
+                                    } else {
+                                        print("Document added successfully with ID: \(documentID)")
+                                        // Clear the input fields after adding the document
+                                        name = ""
+                                        type = ""
+                                        muscle = ""
+                                        equipment = ""
+                                        difficulty = ""
+                                        instructions = ""
+                                        imageURL = ""
+                                        videoURL = ""
+                                        showAlert = true
+                                    }
                                 }
+                                
+                            }
+                            else {
+                                showAlert2 = true
                             }
                         }) {
                             Text("Add Exercise")
-                              
+                            
                                 .padding()
-                                .foregroundColor(.white)
-                                .background(Color.blue)
+                            //                                .foregroundColor(.white)
+                                .foregroundColor(.black)
+                                .background(Color(hue: 0.527, saturation: 0.73, brightness: 0.848))
                                 .cornerRadius(8)
+                        
                         }
                     }
                     .padding()
-                    .alert(isPresented: $showAlert) {
+                   
+                    .alert(isPresented: $showAlert2) {
+                                Alert(
+                                    title: Text("Incomplete Form"),
+                                    message: Text("Please fill in all the required fields."),
+                                    dismissButton: .default(Text("OK")){
+                                        showAlert2 = false
+                                        showAlert = false
+                                    }
+                                )
+                            }
+                    .background(EmptyView().alert(isPresented: $showAlert) {
                         Alert(title: Text("Exercise Added"), message: Text("Exercise has been added successfully"), dismissButton: .default(Text("OK")){
                             name = ""
                             type = ""
@@ -118,7 +146,7 @@ struct AddExerciseView: View {
                             ViewModelexercises().getData()
                             showAlert = false
                         })
-                    }
+                    })
                 }
             }
         }

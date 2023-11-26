@@ -115,6 +115,7 @@ struct ExercisesView: View {
                                     
                                 }
                             // Button to navigate to the AddExerciseView
+                            
                                        
                         }
                         

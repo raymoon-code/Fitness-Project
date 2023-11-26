@@ -16,7 +16,7 @@ import SwiftUI
 import AVKit
 
 struct FoodDetailView2: View {
-    @State var food: Foods
+    @State var food: Foods2
     
     @State var videoID:String = ""
     
@@ -171,32 +171,49 @@ struct FoodDetailView2: View {
 
 struct FoodDetailView2_Previews: PreviewProvider {
     static var previews: some View {
-        FoodDetailView2(food: Foods(
-            name: "Vegetable Stir-Fry",
-            minute: 15,
-            kcal: 250,
-            carbs: 30,
-            fat: 8,
-            protein: 12,
-            ingredients: [
-                "Broccoli",
-                "Bell peppers",
-                "Carrots",
-                "Snap peas",
-                "Soy sauce",
-                "Sesame oil",
-                "Garlic",
-                "Ginger",
-                "Rice"
-            ],
-            directions: [
-                "Chop vegetables into bite-sized pieces.",
-                "Heat sesame oil in a pan and add garlic and ginger.",
-                "Stir-fry vegetables until tender.",
-                "Add soy sauce.",
-                "Serve over cooked rice."
-            ],
-            imageURL: URL(string: "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg")!
-        ))
-    }
-}
+        let jsonData = """
+                {
+                    "id": "1",
+                    "name": "Vegetable Stir-Fry",
+                    "minute": 15,
+                    "kcal": 250,
+                    "carbs": 30,
+                    "fat": 8,
+                    "protein": 12,
+                    "ingredients": [
+                        "Broccoli",
+                        "Bell peppers",
+                        "Carrots",
+                        "Snap peas",
+                        "Soy sauce",
+                        "Sesame oil",
+                        "Garlic",
+                        "Ginger",
+                        "Rice"
+                    ],
+                    "directions": [
+                        "Chop vegetables into bite-sized pieces.",
+                        "Heat sesame oil in a pan and add garlic and ginger.",
+                        "Stir-fry vegetables until tender.",
+                        "Add soy sauce.",
+                        "Serve over cooked rice."
+                    ],
+                    "imageURL": "https://lastcallattheoasis.com/wp-content/uploads/2020/06/vegetable_stir_fry.jpg"
+                }
+                """.data(using: .utf8)!
+                
+                do {
+                    // Decode the JSON data into a Foods2 instance using the provided decoder
+                    let decoder = JSONDecoder()
+                    let food = try decoder.decode(Foods2.self, from: jsonData)
+                    
+                    // Return a FoodDetailView2 preview with the decoded Foods2 instance
+                    return FoodDetailView2(food: food)
+                } catch {
+                    // Handle any decoding errors
+                    fatalError("Failed to decode Foods2 instance: \(error)")
+                }
+            }
+        }
+    
+
