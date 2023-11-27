@@ -82,14 +82,7 @@ struct DailyView: View {
             VStack{
                 
                 ZStack{
-                    Text("Generic Fitness App").onAppear {
-                        //                                woutviewModel.assignRandomWorkoutsForDays()
-                        //                                assignRandomWorkouts()
-                                                woutviewModel.getData2()
-                                                woutviewModel.listenForChanges()
-                        //
-                                               
-                                            }
+                    Text("Generic Fitness App")
                         .font(
                             Font.custom("Raleway", size: 25)
                                 .weight(.medium)
@@ -208,10 +201,10 @@ struct DailyView: View {
                                     .foregroundColor(Color.black))
                                 {
                                       
-//                                        if workoutsGenerated {
+                                        if workoutsGenerated {
                                    
                                   
-                                    ForEach(workoutsForDays[selectedday] ?? randomWorkouts, id: \.id) { workout in
+                                    ForEach( randomWorkouts , id: \.id) { workout in
                                         
                                                 NavigationLink(destination: WorkoutDetailView(workout: workout)){
                                                     
@@ -246,11 +239,12 @@ struct DailyView: View {
                                                 .isDetailLink(true)
                                                 
                                             }
-//                                        } else {
-//                                            Text("select a day to view")
-//                                        }
+                                        } else {
+                                            Text("select a day to view")
+                                        }
                                         
                                     }  
+                               
                                 .onAppear{
                                         assignRandomWorkouts()
 //                                    scrollToTop()
@@ -659,6 +653,14 @@ struct DailyView: View {
                 selectedday = formattednumDayOfWeek
               
             }
+            .onAppear {
+                //                                woutviewModel.assignRandomWorkoutsForDays()
+                //                                assignRandomWorkouts()
+                                        woutviewModel.getData2()
+//                                                            woutviewModel.listenForChanges()
+                //
+                                       
+                                    }
                
             }
        
