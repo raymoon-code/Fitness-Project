@@ -166,7 +166,8 @@ struct SignUp_View: View {
                 }
                 .sheet(isPresented: $isSignUpCircleActive) {
                     QuestionView(selectFeet: $selectFeet, selectInch: $selectInch)
-                            }
+                        .interactiveDismissDisabled()
+                }
                 
             }
             Spacer()

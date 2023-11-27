@@ -57,15 +57,18 @@ struct DailyView: View {
         }
     
     func assignRandomWorkouts() {
+        DispatchQueue.main.async{
             for dayIndex in 1...7 { // Assign random workouts for each day
                 workoutsForDays[dayIndex] = getRandomWorkouts() // Assign random workouts to each day
             }
-        
+            
             workoutsGenerated = true
         }
+    }
         
         func getRandomWorkouts() -> [wout] {
-            let shuffledWorkouts = woutviewModel.list.shuffled()
+            var shuffledWorkouts = woutviewModel.list
+            shuffledWorkouts = shuffledWorkouts.shuffled()
             print(Array(shuffledWorkouts.prefix(2)))
             return Array(shuffledWorkouts.prefix(2)) // Assuming you want 2 random workouts for each day
         }
@@ -208,7 +211,7 @@ struct DailyView: View {
 //                                        if workoutsGenerated {
                                    
                                   
-                                    ForEach(workoutsForDays[selectedday] ?? [], id: \.id) { workout in
+                                    ForEach(workoutsForDays[selectedday] ?? randomWorkouts, id: \.id) { workout in
                                         
                                                 NavigationLink(destination: WorkoutDetailView(workout: workout)){
                                                     

@@ -54,7 +54,17 @@ struct WorkoutView: View {
                                         NavigationLink(destination: WorkoutDetailView(workout: workout)){
                                             HStack{
                                                 Text("")
-//
+                                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                                        Button("delete"){
+                                                            viewModel3.deleteworkout(workout) { success in
+                                                                                                if success {
+                                                                                                    print("Workout deleted successfully")
+                                                                                                } else {
+                                                                                                    print("Failed to delete Workout")
+                                                                                                }
+                                                                                            }
+                                                        }.tint(.red)
+                                                    }
                                                 Spacer()
                                                 AsyncImage(url: URL(string:workout.image)){
                                                     phase in
@@ -82,7 +92,7 @@ struct WorkoutView: View {
                                         }
                                         .isDetailLink(true)
                                     }
-                                    .onDelete(perform: deleteWorkout)
+//                                    .onDelete(perform: deleteWorkout)
                                 }
                         }
                         .searchable(text: $searchTerm, prompt:"Enter name of the workout" ){
@@ -118,9 +128,9 @@ struct WorkoutView: View {
 //    init(){
 //        
 //    }
-    func deleteWorkout(at offsets: IndexSet) {
-        viewModel3.list.remove(atOffsets: offsets)
-    }
+//    func deleteWorkout(at offsets: IndexSet) {
+//        viewModel3.list.remove(atOffsets: offsets)
+//    }
     
 }
 struct FetchExerciseDataView3: View {

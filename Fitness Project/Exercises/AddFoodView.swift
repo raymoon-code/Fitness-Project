@@ -252,7 +252,7 @@ struct AddFoodView: View {
         let newFoodData: [String: Any] = [
             "id": documentID,
             "name": name,
-            "minute": Int(minute) ,
+            "minute": String(minute) ,
             "kcal": Int(kcal) ,
             "carbs": Int(carbs) ,
             "fat": Int(fat) ,

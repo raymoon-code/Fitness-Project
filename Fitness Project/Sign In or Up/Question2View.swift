@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Question2View: View {
-    @State private var selectlb: Int = 0
+    @State private var selectlb: Int = 150
 //    @State private var selectInch: Int = 0
     @State private var isselected2: Bool = false
     @State private var isFinished: Bool = false
@@ -38,7 +38,7 @@ struct Question2View: View {
                         }
                     if isselected2 {
                         Picker("",selection: $selectlb){
-                            ForEach(140..<300, id: \.self) {
+                            ForEach(0..<600, id: \.self) {
                                 index in
                                 Text("\(index)")
                                     .padding()

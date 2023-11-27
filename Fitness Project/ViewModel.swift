@@ -228,7 +228,7 @@ class ViewModelexercisesforworkout: ObservableObject {
             let db = Firestore.firestore()
             
             // Remove from Firestore
-            db.collection("exercises2").document(exercise.id).delete { error in
+            db.collection("exercises").document(exercise.id).delete { error in
                 if let error = error {
                     print("Error deleting document: \(error)")
                     completion(false)
@@ -691,6 +691,30 @@ class ViewModeltest: ObservableObject {
             self.exercises = fetchedExercises
         }
     }
+    
+    func deleteworkout(_ workout: wout, completion: @escaping (Bool) -> Void) {
+            let db = Firestore.firestore()
+            
+            // Remove from Firestore
+            db.collection("workouts").document(workout.id).delete { error in
+                if let error = error {
+                    print("Error deleting document: \(error)")
+                    completion(false)
+                } else {
+                    print("Document successfully deleted from Firestore")
+                    
+                    // Remove from local array
+                    if let index = self.list.firstIndex(where: { $0.id == workout.id }) {
+                        DispatchQueue.main.async {
+                            self.list.remove(at: index)
+                            completion(true)
+                        }
+                    } else {
+                        completion(false)
+                    }
+                }
+            }
+        }
     
     func getExerciseByID(documentID: String, completion: @escaping (Exercise2?) -> Void) {
         let db = Firestore.firestore()

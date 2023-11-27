@@ -93,6 +93,7 @@ struct QuestionView: View {
                 .frame(width: gw, height: gh)
                     .sheet(isPresented: $isNext, content: {
                         Question2View(selectFeet: $selectFeet, selectInch: $selectInch)
+                            .interactiveDismissDisabled()
                     })
             }
         }.background(LinearGradient(
