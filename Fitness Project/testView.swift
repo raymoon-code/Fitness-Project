@@ -73,6 +73,7 @@ struct testView: View {
                 //            FetchExerciseDataView(documentID: item.ref1)
                 
             }
+            .listRowSpacing(10)
             
             
                     .onAppear{

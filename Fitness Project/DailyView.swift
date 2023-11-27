@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct DailyView: View {
+    @ObservedObject var woutviewModel = ViewModeltest()
+    @State var workoutsForDays: [Int: [wout]] = [:]
+    @State var workoutsGenerated = false
     let today = Date()
     @State var selectedday:Int = 0
+    
     @State var waterFill:[Int] = [0,0,0,0,0,0,0,0]
     @State private var isSheetPresented = false
     @State private var progress: CGFloat = 0.1
@@ -26,6 +30,8 @@ struct DailyView: View {
     @Binding var selectInch: Int
     @Binding var selectlb: Int
     
+   
+    
     var bmi: Double {
         let totalInches = (selectFeet * 12) + selectInch
         let weightInKg = Double(selectlb) * 0.453592
@@ -36,18 +42,34 @@ struct DailyView: View {
         }
     }
     
-    var filteredTable3: [Workouts] {
-        guard !searchTerm.isEmpty else {return viewModel3.workout}
-        return viewModel3.workout.filter {
+    var filteredTable3: [wout] {
+        guard !searchTerm.isEmpty else {return woutviewModel.list}
+        return woutviewModel.list.filter {
             workout in
             return workout.title.description.localizedCaseInsensitiveContains(searchTerm)
         }
        
     }
-    var randomWorkouts: [Workouts] {
+    var randomWorkouts: [wout] {
         let shuffledWorkouts = filteredTable3.shuffled()
+        workoutsGenerated = true
             return Array(shuffledWorkouts.prefix(2))
         }
+    
+    func assignRandomWorkouts() {
+            for dayIndex in 1...7 { // Assign random workouts for each day
+                workoutsForDays[dayIndex] = getRandomWorkouts() // Assign random workouts to each day
+            }
+        
+            workoutsGenerated = true
+        }
+        
+        func getRandomWorkouts() -> [wout] {
+            let shuffledWorkouts = woutviewModel.list.shuffled()
+            print(Array(shuffledWorkouts.prefix(2)))
+            return Array(shuffledWorkouts.prefix(2)) // Assuming you want 2 random workouts for each day
+        }
+    
     var body: some View {
         NavigationStack{
         GeometryReader { geo in
@@ -57,7 +79,14 @@ struct DailyView: View {
             VStack{
                 
                 ZStack{
-                    Text("Generic Fitness App")
+                    Text("Generic Fitness App").onAppear {
+                        //                                woutviewModel.assignRandomWorkoutsForDays()
+                        //                                assignRandomWorkouts()
+                                                woutviewModel.getData2()
+                                                woutviewModel.listenForChanges()
+                        //
+                                               
+                                            }
                         .font(
                             Font.custom("Raleway", size: 25)
                                 .weight(.medium)
@@ -105,7 +134,7 @@ struct DailyView: View {
                     ForEach([1,2,3,4,5,6,7], id: \.self) { day in
                         VStack{
                             ZStack{
-                                let date = "\((((formattedDayOfMonth - 1) - formattednumDayOfWeek + day) % 31 + 1 ) )"
+                                let date = "\((((formattedDayOfMonth - 1) - formattednumDayOfWeek + day) % 30 + 1 ) )"
                                 let lastday = lastDayOfPreviousMonth()
                                 let lastDayInt = Int(lastday!)
                               
@@ -169,56 +198,77 @@ struct DailyView: View {
                         
                         VStack{
                            
-//                            List{
-//                                Section( header: Text("Today's schedule")
-//                                    .font(.headline)
-//                                    .fontWeight(.heavy)
-//                                    .foregroundColor(Color.black)){
-//                                        
-//                                        ForEach(randomWorkouts, id: \.title) { workout in
-//                                            NavigationLink(destination: WorkoutDetailView(workout: workout)){
-//                                                HStack{
-//                                                    Text("   ")
-//                                                    Spacer()
-//                                                    AsyncImage(url: workout.image){
-//                                                        phase in
-//                                                        if let image = phase.image{
-//                                                            image
-//                                                                .resizable()
-//                                                                .aspectRatio(contentMode: .fill)
-//                                                                .frame(width: geow * 0.2, height: geoh * 0.1)
-//                                                        }
-//                                                    }
-//                                                    Spacer()
-//                                                    VStack{
-//                                                        
-//                                                        Text(workout.title)
-//                                                            .fontWeight(.bold)
-//                                                        Text("No. Exercises: " + String(workout.exercises.count))
-//                                                        
-//                                                    }
-//                                                    .frame(width: geow * 0.4)
-//                                                    Spacer()
-//                                                    
-//                                                }
-//                                            }
-//                                            .isDetailLink(true)
-//                                           
+                            List{
+                                Section( header: Text("Today's schedule")
+                                    .font(.headline)
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(Color.black))
+                                {
+                                      
+//                                        if workoutsGenerated {
+                                   
+                                  
+                                    ForEach(workoutsForDays[selectedday] ?? [], id: \.id) { workout in
+                                        
+                                                NavigationLink(destination: WorkoutDetailView(workout: workout)){
+                                                    
+                                                    
+                                                    HStack{
+                                                        Text("   ")
+                                                        Spacer()
+                                                        AsyncImage(url: URL(string:workout.image)){
+                                                            phase in
+                                                            if let image = phase.image{
+                                                                image
+                                                                    .resizable()
+                                                                    .aspectRatio(contentMode: .fill)
+                                                                    .frame(width: geow * 0.2, height: geoh * 0.1)
+                                                            }
+                                                        }
+                                                        Spacer()
+                                                        VStack{
+                                                            
+                                                            Text(workout.title)
+                                                                .fontWeight(.bold)
+                                                            Text("No. Exercises: " + String(workout.ref1.count))
+                                                            
+                                                        }
+                                                        .frame(width: geow * 0.4)
+                                                        Spacer()
+                                                        
+                                                    }
+                                                    
+                                                    
+                                                }
+                                                .isDetailLink(true)
+                                                
+                                            }
+//                                        } else {
+//                                            Text("select a day to view")
 //                                        }
-//                                        
-//                                    }
-//                            }
+                                        
+                                    }  
+                                .onAppear{
+                                        assignRandomWorkouts()
+//                                    scrollToTop()
+                                    }
+                                   
+                            }
                             
+                            .listRowSpacing(10)
+                               
+                                
 
-//                            .listStyle(InsetGroupedListStyle())
-//                            .onAppear {
-//                                viewModel3.fetch()
-//                            }
+                            .listStyle(InsetGroupedListStyle())
+                            
+                           
+                         
                         }.frame(height: geoh * 0.36)
+                        
                         
                     }.frame(width: geow * 0.9)
                     .cornerRadius(20)
-                   
+                    
                     
                     
                     
@@ -304,8 +354,8 @@ struct DailyView: View {
                                         .cornerRadius(18)
                                         .overlay {HStack{
                                             Image(systemName: "timer")
-                                            let firstnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1
-                                            let secondnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday - 1)) % 31 + 1
+                                            let firstnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 30 + 1
+                                            let secondnum = ((formattedDayOfMonth - 1) - formattednumDayOfWeek + (selectedday - 1)) % 30 + 1
                                             //                                        let thismonth = formattedFullDate(monthsInFuture: 0)
                                             let nextmonth =   formattedFullDate(monthsInFuture: 1)
                                             
@@ -320,7 +370,7 @@ struct DailyView: View {
                                                     Font.custom("Raleway", size: 30)
                                                         .weight(.bold)
                                                 )
-                                            let d = "\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 31 + 1)"
+                                            let d = "\(((formattedDayOfMonth - 1) - formattednumDayOfWeek + selectedday) % 30 + 1)"
                                             let ld = lastDayOfPreviousMonth()
                                             let ldInt = Int(ld!)
 //                                            Text(d == "0" ? "ka" : "ko" )
@@ -597,13 +647,14 @@ struct DailyView: View {
                     Spacer()
                     
                 }.padding(.top)
+                   
             }
         }
                 
             } .onAppear {
                 
                 selectedday = formattednumDayOfWeek
-         
+              
             }
                
             }
@@ -619,6 +670,11 @@ struct DailyView: View {
           dateFormatter.dateFormat = "EEEE" // This will give you the full day name
           return dateFormatter.string(from: today)
       }
+    private func scrollToTop() {
+         let tableView = UITableView.appearance()
+         tableView.setContentOffset(.zero, animated: true)
+     }
+
     
     func monthForPastDay(daysAgo: Int) -> String? {
         let calendar = Calendar.current

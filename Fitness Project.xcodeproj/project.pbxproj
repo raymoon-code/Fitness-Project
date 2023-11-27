@@ -58,6 +58,7 @@
 		C8C7232D2B13BEF800F459AD /* SelectExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C7232C2B13BEF800F459AD /* SelectExerciseView.swift */; };
 		C8C7232F2B13C11500F459AD /* AddWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C7232E2B13C11500F459AD /* AddWorkoutView.swift */; };
 		C8C723332B13CECE00F459AD /* testexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C723322B13CECE00F459AD /* testexer.swift */; };
+		C8C723352B14063A00F459AD /* testschedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C723342B14063A00F459AD /* testschedule.swift */; };
 		C8CBA9512AFC3A1500EDE343 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C8CBA9502AFC3A1500EDE343 /* GoogleService-Info.plist */; };
 		C8CBA9532AFC3AB300EDE343 /* testView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CBA9522AFC3AB300EDE343 /* testView.swift */; };
 		C8E022D22AD74EBB00E1E743 /* newSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */; };
@@ -96,6 +97,7 @@
 		C8C7232C2B13BEF800F459AD /* SelectExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectExerciseView.swift; sourceTree = "<group>"; };
 		C8C7232E2B13C11500F459AD /* AddWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkoutView.swift; sourceTree = "<group>"; };
 		C8C723322B13CECE00F459AD /* testexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testexer.swift; sourceTree = "<group>"; };
+		C8C723342B14063A00F459AD /* testschedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testschedule.swift; sourceTree = "<group>"; };
 		C8CBA9502AFC3A1500EDE343 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C8CBA9522AFC3AB300EDE343 /* testView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testView.swift; sourceTree = "<group>"; };
 		C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newSwiftUIView.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				9C3F8B522AF39528009394A0 /* UserManager.swift */,
+				C8C723342B14063A00F459AD /* testschedule.swift */,
 			);
 			path = FFirestore;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				C8C723332B13CECE00F459AD /* testexer.swift in Sources */,
 				C80C1C1C2B1189E0000D5E57 /* ExerciseInWorkoutDetail.swift in Sources */,
 				C81DD0A42AE2406500FFCC35 /* ExerciseDetailView.swift in Sources */,
+				C8C723352B14063A00F459AD /* testschedule.swift in Sources */,
 				C824DA932B12DC280029E824 /* AddFoodView.swift in Sources */,
 				9CFC5D922AEA48FC004ED854 /* WorkoutView.swift in Sources */,
 				C8E022D42AD7B50400E1E743 /* SignUp_View.swift in Sources */,

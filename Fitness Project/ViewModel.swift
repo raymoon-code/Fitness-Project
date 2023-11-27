@@ -582,11 +582,21 @@ class ViewModelFoods: ObservableObject {
 class ViewModeltest: ObservableObject {
     @Published var list = [wout]()
     @Published var exercises: [Exercise2] = [] // Array to hold fetched exercises
+    @Published var workoutsForDays: [Int: [wout]] = [:]
+       @Published var workoutsGenerated = false
     
-//    init() {
-//        getData()
-//    }
-    
+    func assignRandomWorkoutsForDays() {
+       
+            for dayIndex in 1...7 {
+                workoutsForDays[dayIndex] = getRandomWorkouts()
+            }
+            workoutsGenerated = true
+        }
+
+        func getRandomWorkouts() -> [wout] {
+            let shuffledWorkouts = list.shuffled()
+            return Array(shuffledWorkouts.prefix(2))
+        }
     func listenForChanges() {
         let db = Firestore.firestore()
         db.collection("workouts").addSnapshotListener { snapshot, error in
