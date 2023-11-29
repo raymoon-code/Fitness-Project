@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+import Firebase
+import FirebaseFirestore
+
+
 struct Question2View: View {
     @State private var selectlb: Int = 150
 //    @State private var selectInch: Int = 0
@@ -14,6 +18,9 @@ struct Question2View: View {
     @State private var isFinished: Bool = false
     @Binding var selectFeet: Int
     @Binding var selectInch: Int
+    @Binding var Name: String
+    @Binding var Email: String
+    @Binding var Age: Int
     
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
@@ -59,9 +66,36 @@ struct Question2View: View {
                     .foregroundColor(.black)
                 .frame(width: gw, height: gh)
                 Button {
-                  
-                    isFinished.toggle()
                     
+                        let db = Firestore.firestore()
+                        let collectionRef = db.collection("users")
+                        let documentID = UUID().uuidString
+                        
+                        let newExerciseData: [String: Any] = [
+                            //"id": documentID,
+                            "name": Name,
+                            "age": Age,
+                            "current_weight": selectlb,
+                            "starting_weight": selectlb,
+                            "height_feet": selectFeet,
+                            "height_inches": selectInch,
+                            "email": Email,
+                            
+                        ]
+                        
+                    collectionRef.document(documentID).setData(newExerciseData) { error in
+                        if let error = error {
+                            print("Error adding document: \(error)")
+                        } else {
+                            print("Document added successfully with ID: \(documentID)")
+                            // Clear the input fields after adding the document
+                            
+                            //showAlert = true
+                            
+                        }
+                        
+                        isFinished.toggle()
+                    }
                 } label: {
                     Text("Finish")
                     .font(
@@ -85,7 +119,7 @@ struct Question2View: View {
                 .frame(width: gw, height: gh)
                     .fullScreenCover(isPresented: $isFinished, content: {
                         
-                        TabSwiftUIView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb)
+                        TabSwiftUIView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Email: $Email)
                     })
             }
         }.background(LinearGradient(
@@ -100,5 +134,5 @@ struct Question2View: View {
 }
 
 #Preview {
-    Question2View(selectFeet: .constant(5), selectInch: .constant(7))
+    Question2View(selectFeet: .constant(5), selectInch: .constant(7), Name: .constant("Daniel"), Email: .constant("A@Gmail.com"), Age: .constant(18))
 }

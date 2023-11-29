@@ -14,13 +14,14 @@ import Firebase
 struct ExercisesView: View {
     @ObservedObject var viewModel = ViewModelexercises()
     @State private var searchTerm = ""
+    @Binding var Email: String
     var filteredTable: [todo] {
         guard !searchTerm.isEmpty else {return viewModel.exercise}
         return viewModel.exercise.filter {
             exercise in
-            return exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
+            return  (exercise.email.caseInsensitiveCompare(Email) == ComparisonResult.orderedSame || exercise.email.caseInsensitiveCompare("default") == ComparisonResult.orderedSame)  && (exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
             exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.muscle.localizedCaseInsensitiveContains(searchTerm)
+            exercise.muscle.localizedCaseInsensitiveContains(searchTerm))
         }
         
     }
@@ -148,12 +149,16 @@ struct ExercisesView: View {
                 }
             }
         }
+        .onAppear{
+            viewModel.getData()
+            viewModel.listenForChanges()
+        }
     }
     
-    init(){
-        viewModel.getData()
-        viewModel.listenForChanges()
-    }
+    //init(){
+        //viewModel.getData()
+        //viewModel.listenForChanges()
+    //}
 //    func deleteExercises(at offsets: IndexSet) {
 //        for index in offsets {
 //            let exercise = filteredTable[index]
@@ -173,5 +178,5 @@ struct ExercisesView: View {
 }
    
 #Preview {
-    ExercisesView()
+    ExercisesView(Email: .constant("dnlonda@cougarnet.uh.edu"))
 }

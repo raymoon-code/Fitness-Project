@@ -13,6 +13,7 @@ final class SignInEmail: ObservableObject{
     
     @Published var Email: String = ""
     @Published var Pass: String = ""
+    @Published var Name: String = ""
     
     func signUp() async throws {
         guard !Email.isEmpty, !Pass.isEmpty else{
@@ -59,6 +60,9 @@ struct ContentView: View {
     @Binding var selectFeet: Int
     @Binding var selectInch: Int
     @Binding var selectlb: Int
+    @Binding var Name: String
+    @Binding var Email: String
+    
     var body: some View {
         
         GeometryReader{
@@ -179,7 +183,7 @@ struct ContentView: View {
                     }
                 })
                 .fullScreenCover(isPresented: $isSignInViewActive) {
-                    TabSwiftUIView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb)
+                    TabSwiftUIView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Email: $viewModel.Email)
                            }
                 
                 
@@ -214,7 +218,7 @@ struct ContentView: View {
             .foregroundColor(.black)
             .cornerRadius(10.68966)
             .fullScreenCover(isPresented: $isSignUpViewActive) {
-                SignUp_View(selectFeet: $selectFeet, selectInch: $selectInch)
+                SignUp_View( selectFeet: $selectFeet, selectInch: $selectInch, Name: $Name)
                        }
               
              

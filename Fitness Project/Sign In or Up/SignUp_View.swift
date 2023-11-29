@@ -37,11 +37,11 @@ final class SignUpEmail: ObservableObject{
 
 struct SignUp_View: View {
     @StateObject private var viewModel = SignUpEmail()
-    //@State var Name: String = ""
     //@State var Email: String = ""
     //@State var Pass: String = ""
     @Binding var selectFeet: Int
     @Binding var selectInch: Int
+    @Binding var Name: String
     @State private var isSignInViewActive = false
     @State private var isSignUpCircleActive = false
     @Environment(\.presentationMode) var presentationMode
@@ -106,15 +106,16 @@ struct SignUp_View: View {
             .padding(.top)
         VStack {
          
-            //TextField("Name", text: $viewModel.Name)
-                //.padding()
-                //.foregroundColor(.clear)
-                //.frame(width: 303, height: 60)
-                //.background(.white)
-                //.cornerRadius(20)
-                //.zIndex(6)
-                //.autocorrectionDisabled()
-            TextField("Your Email", text: $viewModel.Email)
+            TextField("Name", text: $Name)
+                .padding()
+                .foregroundColor(.black)
+                .frame(width: 303, height: 60)
+                .background(.white)
+                .cornerRadius(20)
+                .zIndex(6)
+                .autocorrectionDisabled()
+            
+            TextField("Email", text: $viewModel.Email)
                 .padding()
                 .foregroundColor(.black)
                 .frame(width: 303, height: 60)
@@ -123,8 +124,6 @@ struct SignUp_View: View {
                 .zIndex(6)
                 .autocorrectionDisabled()
                 
-                
-                
             TextField("Password", text: $viewModel.Pass)
                 .padding()
                 .foregroundColor(.black)
@@ -132,7 +131,9 @@ struct SignUp_View: View {
                 .background(.white)
                 .cornerRadius(20)
                 .zIndex(6)
-                .autocorrectionDisabled()        } .padding(.bottom)
+                .autocorrectionDisabled()
+            
+        } .padding(.bottom)
         
         
         
@@ -165,7 +166,7 @@ struct SignUp_View: View {
                     }
                 }
                 .sheet(isPresented: $isSignUpCircleActive) {
-                    QuestionView(selectFeet: $selectFeet, selectInch: $selectInch)
+                    QuestionView(selectFeet: $selectFeet, selectInch: $selectInch, Name: $Name, Email: $viewModel.Email)
                         .interactiveDismissDisabled()
                 }
                 
@@ -219,5 +220,5 @@ struct SignUp_View: View {
 }
 
 #Preview {
-    SignUp_View(selectFeet: .constant(5), selectInch: .constant(7))
+    SignUp_View(selectFeet: .constant(5), selectInch: .constant(7), Name: .constant(""))
 }

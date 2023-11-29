@@ -15,6 +15,7 @@ import FirebaseFirestoreSwift
 
 struct Exercise: Hashable, Codable {
     let name: String
+    //let email: String
     let type:String
     let muscle:String
     let equipment:String
@@ -24,10 +25,21 @@ struct Exercise: Hashable, Codable {
     let videoURL:String
 }
 
-struct todo: Identifiable, Codable {
-    
+struct UserObj: Identifiable, Codable {
+    var age: Int
+    var current_weight: Int
+    var email: String
+    var height_feet: String
+    var height_inches: String
     var id: String
     var name: String
+    var starting_weight: Int
+}
+
+struct todo: Identifiable, Codable {
+    var id: String
+    var name: String
+    var email: String
     var type:String
     var muscle:String
     var equipment:String
@@ -36,6 +48,7 @@ struct todo: Identifiable, Codable {
     var imageURL:String
     var videoURL:String
 }
+
 struct exer: Identifiable, Codable {
     var isSelected: Bool
     var id: String
@@ -48,6 +61,8 @@ struct exer: Identifiable, Codable {
     var imageURL:String
     var videoURL:String
 }
+
+
 
 struct Exercise2: Identifiable, Codable {
     var id: String
@@ -64,6 +79,7 @@ struct Exercise2: Identifiable, Codable {
 struct Foods2: Identifiable, Codable {
     var id: String
     var name: String
+    var email: String
     var minute:Int
     var kcal:Int
     var carbs:Int
@@ -77,6 +93,7 @@ struct Foods2: Identifiable, Codable {
            case id
            case name
            case minute
+            case email
             case kcal
                case carbs
                case fat
@@ -91,6 +108,8 @@ struct Foods2: Identifiable, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
+        
+        email = try container.decode(String.self, forKey: .email)
         kcal = try container.decode(Int.self, forKey: .kcal)
                 carbs = try container.decode(Int.self, forKey: .carbs)
                 fat = try container.decode(Int.self, forKey: .fat)
@@ -187,7 +206,7 @@ class ExerciseViewModel: ObservableObject {
 class ViewModelexercisesforworkout: ObservableObject {
     
     @Published var exercise = [exer]()
-    @Published var exercisebyid = todo(id: String(), name: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())
+    @Published var exercisebyid = todo(id: String(), name: String(), email: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())
     
 //    func addData(exercise: todo){
 //        let db = Firestore.firestore()
@@ -290,6 +309,7 @@ class ViewModelexercisesforworkout: ObservableObject {
                         todo(
                             id: document.documentID,
                             name: data["name"] as? String ?? "",
+                            email: data["email"] as? String ?? "",
                             type: data["type"] as? String ?? "",
                             muscle: data["muscle"] as? String ?? "",
                             equipment: data["equipment"] as? String ?? "",
@@ -311,7 +331,7 @@ class ViewModelexercisesforworkout: ObservableObject {
 class ViewModelexercises: ObservableObject {
     
     @Published var exercise = [todo]()
-    @Published var exercisebyid = todo(id: String(), name: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())
+    @Published var exercisebyid = todo(id: String(), name: String(), email: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())
     
 //    func addData(exercise: todo){
 //        let db = Firestore.firestore()
@@ -378,14 +398,16 @@ class ViewModelexercises: ObservableObject {
                 if let snapshot = snapshot {
                     DispatchQueue.main.async {
                         self.exercise = snapshot.documents.map { d in
-                            return todo( id:d.documentID, name: d["name"] as? String ?? "",
-                                             type: d["type"] as? String ?? "",
-                                             muscle: d["muscle"] as? String ?? "",
-                                             equipment: d["equipment"] as? String ?? "",
-                                             difficulty: d["difficulty"] as? String ?? "",
-                                             instructions: d["instructions"] as? String ?? "",
-                                             imageURL: (d["imageURL"] as? String ?? ""),
-                                             videoURL: d["videoURL"] as? String ?? "")
+                            return todo( id:d.documentID,
+                                        name: d["name"] as? String ?? "",
+                                        email: d["email"] as? String ?? "",
+                                        type: d["type"] as? String ?? "",
+                                        muscle: d["muscle"] as? String ?? "",
+                                        equipment: d["equipment"] as? String ?? "",
+                                        difficulty: d["difficulty"] as? String ?? "",
+                                        instructions: d["instructions"] as? String ?? "",
+                                        imageURL: (d["imageURL"] as? String ?? ""),
+                                        videoURL: d["videoURL"] as? String ?? "")
                         }
                     }
                     
@@ -412,6 +434,7 @@ class ViewModelexercises: ObservableObject {
                         todo(
                             id: document.documentID,
                             name: data["name"] as? String ?? "",
+                            email: data["email"] as? String ?? "",
                             type: data["type"] as? String ?? "",
                             muscle: data["muscle"] as? String ?? "",
                             equipment: data["equipment"] as? String ?? "",
@@ -939,3 +962,172 @@ class LogInViewModel: ObservableObject{
 
 }
 
+class UserViewModel: ObservableObject {
+    @Published var users: [UserObj] = []
+    private var db = Firestore.firestore()
+    func getUsersByEmail(email: String, completion: @escaping (UserObj?) -> Void) {
+        let db = Firestore.firestore()
+        let exerciseRef = db.collection("users").document(email)
+        
+        exerciseRef.getDocument { document, error in
+            if let error = error {
+                print("Error getting document by ID: \(error)")
+                completion(nil)
+            } else if let document = document, document.exists {
+                if let data = document.data() {
+                    let user = UserObj(
+                        age:data["age"] as? Int ?? 0,
+                        current_weight: data["current_weight"] as? Int ?? 0,
+                        email: data["email"] as? String ?? "",
+                        height_feet: data["height_feet"] as? String ?? "",
+                        height_inches: data["height_inches"] as? String ?? "",
+                        id: data["id"] as? String ?? "",
+                        name: data["name"] as? String ?? "",
+                        starting_weight: data["starting_weight"] as? Int ?? 0
+                    )
+                    completion(user)
+                } else {
+                    completion(nil)
+                }
+            } else {
+                print("Document does not exist")
+                completion(nil)
+            }
+        }
+    }
+    func fetchUsers() {
+        db.collection("exercises").getDocuments { querySnapshot, error in
+            if let error = error {
+                print("Error fetching exercises: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            
+            let fetchedExercises = documents.compactMap { document -> UserObj? in
+                let data = document.data()
+                let id = document.documentID
+                return UserObj(
+                    age:data["age"] as? Int ?? 0,
+                    current_weight: data["current_weight"] as? Int ?? 0,
+                    email: data["email"] as? String ?? "",
+                    height_feet: data["height_feet"] as? String ?? "",
+                    height_inches: data["height_inches"] as? String ?? "",
+                    id: data["id"] as? String ?? "",
+                    name: data["name"] as? String ?? "",
+                    starting_weight: data["starting_weight"] as? Int ?? 0
+                )
+            }
+            
+            DispatchQueue.main.async {
+                self.users = fetchedExercises
+            }
+        }
+    }
+}
+
+
+
+
+
+
+class ViewModelUsers: ObservableObject {
+    
+    @Published var user = [UserObj]()
+    @Published var exercisebyid = UserObj( age: Int(), current_weight: Int(), email: String(), height_feet: String(), height_inches: String(), id: String(), name: String(), starting_weight: Int())
+    
+    func addData(exercise: todo){
+        let db = Firestore.firestore()
+        do {
+          let _ =  try db.collection("users").addDocument( from: exercise)
+
+                }
+        catch {
+            return print("error")
+        }
+
+    }
+    func listenForChanges() {
+        let db = Firestore.firestore()
+        db.collection("users").addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Error fetching exercises: \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No documents")
+                return
+            }
+            
+            self.user = documents.compactMap { document in
+                do {
+                    return try document.data(as: UserObj.self)
+                } catch {
+                    print("Error decoding exercise: \(error)")
+                    return nil
+                }
+            }
+        }
+    }
+    
+    func getData(){
+        let db = Firestore.firestore()
+        db.collection("users").getDocuments{ snapshot, error in
+            if error == nil {
+                if let snapshot = snapshot {
+                    DispatchQueue.main.async {
+                        self.user = snapshot.documents.map { d in
+                            return UserObj( 
+                                age:d["age"] as? Int ?? 0,
+                                current_weight: d["current_weight"] as? Int ?? 0,
+                                email: d["email"] as? String ?? "",
+                                height_feet: d["height_feet"] as? String ?? "",
+                                height_inches: d["height_inches"] as? String ?? "",
+                                id: d.documentID,
+                                name: d["name"] as? String ?? "",
+                                starting_weight: d["starting_weight"] as? Int ?? 0
+                                )
+                            }
+                        }
+                    }
+                } else {
+                    return print("error")
+                }
+            }
+        }
+    
+    
+    func getUserByEmail(email: String) {
+        let db = Firestore.firestore()
+        let exerciseRef = db.collection("users").document(email)
+        
+        exerciseRef.getDocument { document, error in
+            if let error = error {
+                print("Error getting document by ID: \(error)")
+            } else if let document = document, document.exists {
+                DispatchQueue.main.async {
+                    let data = document.data() ?? [:]
+                    self.exercisebyid =
+                    UserObj( age:data["age"] as? Int ?? 0,
+                                    current_weight: data["current_weight"] as? Int ?? 0,
+                                    email: data["email"] as? String ?? "",
+                                    height_feet: data["height_feet"] as? String ?? "",
+                                    height_inches: data["height_inches"] as? String ?? "",
+                             id: data["id"] as? String ?? "",
+                                    name: data["name"] as? String ?? "",
+                                    starting_weight: data["starting_weight"] as? Int ?? 0
+                                                     
+                                    )
+                    
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+}

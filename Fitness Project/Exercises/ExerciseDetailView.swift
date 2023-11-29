@@ -172,6 +172,7 @@ struct ExerciseDetailView2_Previews: PreviewProvider {
 //        ))
 ExerciseDetailView(exercise: todo(
     id: "1", name: "Barbell Glute Bridge",
+    email: "dnlonda@cougarnet.uh.edu",
                   type: "Strength",
                    muscle: "Glutes",
                    equipment: "Barbell",

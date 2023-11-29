@@ -17,13 +17,15 @@ struct HomeScreenView: View {
     @State private var searchTerm2 = ""
     @State private var searchTerm3 = ""
     
+    @Binding var Email: String
+    
     var filteredTable: [todo] {
         guard !searchTerm.isEmpty else {return viewModel.exercise}
         return viewModel.exercise.filter {
             exercise in
-            return exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.muscle.localizedCaseInsensitiveContains(searchTerm)
+            return exercise.equipment.caseInsensitiveCompare(Email) == ComparisonResult.orderedSame// && (exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
+            //exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
+            //exercise.muscle.localizedCaseInsensitiveContains(searchTerm))
         }
         
     }
@@ -31,13 +33,15 @@ struct HomeScreenView: View {
         guard !searchTerm.isEmpty else {return viewModel2.foods}
         return viewModel2.foods.filter {
             food in
-            return food.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-            food.kcal.description.localizedCaseInsensitiveContains(searchTerm) ||
-            food.minute.description.localizedCaseInsensitiveContains(searchTerm) ||
-            food.ingredients.contains { step in
-                    step.localizedCaseInsensitiveContains(searchTerm)
-                
-            }
+            return food.email.compare(Email) == .orderedSame            //(food.name.description.localizedCaseInsensitiveContains(searchTerm) ||
+                //food.kcal.description.localizedCaseInsensitiveContains(searchTerm) ||
+                //food.minute.description.localizedCaseInsensitiveContains(searchTerm) ||
+                //food.ingredients.contains { step in
+                //        step.localizedCaseInsensitiveContains(searchTerm)
+                    
+                //}
+                         
+            //)
         }
         
     }
@@ -71,7 +75,7 @@ struct HomeScreenView: View {
                         
                         
                         List{
-                            Section( header: Text("Your Favorite Exercises")
+                            Section( header: Text("Your Exercises")
                                 .font(.headline)
                                 .fontWeight(.heavy)
                                 .foregroundColor(Color.black)){
@@ -240,14 +244,20 @@ struct HomeScreenView: View {
                 .background(ignoresSafeAreaEdges: .all)
             }
         }
+        .onAppear{
+            viewModel.getData()
+            viewModel.listenForChanges()
+            viewModel2.getData()
+            viewModel2.listenForChanges()
+        }
     }
     
-    init(){
-        viewModel.getData()
-        viewModel.listenForChanges()
-        viewModel2.getData()
-        viewModel2.listenForChanges()
-    }
+    //init(){
+        //viewModel.getData()
+        //viewModel.listenForChanges()
+        //viewModel2.getData()
+        //viewModel2.listenForChanges()
+    //}
      
     
 //    func deleteExercise(at offsets: IndexSet) {
@@ -300,5 +310,5 @@ extension UIColor {
 }
 
 #Preview {
-    HomeScreenView()
+    HomeScreenView(Email: .constant("default"))
 }

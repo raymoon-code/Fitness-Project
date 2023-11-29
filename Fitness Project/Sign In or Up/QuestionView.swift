@@ -12,6 +12,9 @@ struct QuestionView: View {
     @Binding var selectInch: Int
     @State private var isselected: Bool = false
     @State private var isNext: Bool = false
+    
+    @Binding var Name: String
+    @Binding var Email: String
     var body: some View {
         GeometryReader {
             geo in
@@ -92,7 +95,7 @@ struct QuestionView: View {
                     .cornerRadius(19)
                 .frame(width: gw, height: gh)
                     .sheet(isPresented: $isNext, content: {
-                        Question2View(selectFeet: $selectFeet, selectInch: $selectInch)
+                        Question3View(selectFeet: $selectFeet, selectInch: $selectInch, Name: $Name, Email: $Email)
                             .interactiveDismissDisabled()
                     })
             }
@@ -109,5 +112,5 @@ struct QuestionView: View {
 }
 
 #Preview {
-    QuestionView(selectFeet: .constant(5), selectInch: .constant(7))
+    QuestionView(selectFeet: .constant(5), selectInch: .constant(7), Name: .constant("Daniel"), Email: .constant("A@gmail.com"))
 }

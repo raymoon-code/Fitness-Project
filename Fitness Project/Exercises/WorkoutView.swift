@@ -189,7 +189,7 @@ struct FetchExerciseDataView3: View {
 }
 #Preview {
     WorkoutView( exercise: todo(
-        id: "1", name: "Barbell Glute Bridge",
+        id: "1", name: "Barbell Glute Bridge", email: "dnlonda@cougarnet.uh.edu",
                       type: "Strength",
                        muscle: "Glutes",
                        equipment: "Barbell",

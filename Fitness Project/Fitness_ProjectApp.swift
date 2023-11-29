@@ -26,11 +26,13 @@ struct Fitness_ProjectApp: App {
     @State var selectFeet: Int = 0
     @State var selectInch: Int = 0
     @State var selectlb: Int = 0
+    @State var Name: String = ""
+    @State var Email: String = ""
     //@State var profile = Profiles(firstName: "", lastName:"", age: nil, email:"", password:"", startingWeight:0, currentWeight:0)
     
     var body: some Scene {
         WindowGroup {
-            ContentView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb)
+            ContentView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Name: $Name, Email: $Email)
         }
     }
 }

@@ -11,13 +11,15 @@ struct TabSwiftUIView: View {
     @Binding var selectFeet: Int
     @Binding var selectInch: Int
     @Binding var selectlb: Int
+    @Binding var Email: String
     var body: some View {
+        
         TabView {
-            HomeScreenView().tabItem {
+            HomeScreenView(Email: $Email).tabItem {
                 Image(systemName: "house")
                 Text("Home")
             }
-            ExercisesView().tabItem {
+            ExercisesView( Email: $Email).tabItem {
                 Image(systemName: "figure.run")
                 Text("Exercises")
             }
@@ -25,7 +27,7 @@ struct TabSwiftUIView: View {
                 Image(systemName: "fork.knife")
                 Text("Recipes")
             }
-            WorkoutView( exercise: todo(id: String(), name: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())).tabItem{
+            WorkoutView( exercise: todo(id: String(), name: String(), email: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())).tabItem{
                 Image(systemName: "circle")
                 Text("Workouts")
             }
@@ -41,5 +43,5 @@ struct TabSwiftUIView: View {
 }
 
 #Preview {
-    TabSwiftUIView(selectFeet: .constant(5), selectInch: .constant(7), selectlb: .constant(148))
+    TabSwiftUIView(selectFeet: .constant(5), selectInch: .constant(7), selectlb: .constant(148), Email: .constant("dnlonda@cougarnet.uh.edu"))
 }

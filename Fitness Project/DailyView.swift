@@ -66,12 +66,12 @@ struct DailyView: View {
         }
     }
         
-        func getRandomWorkouts() -> [wout] {
-            var shuffledWorkouts = woutviewModel.list
-            shuffledWorkouts = shuffledWorkouts.shuffled()
-            print(Array(shuffledWorkouts.prefix(2)))
-            return Array(shuffledWorkouts.prefix(2)) // Assuming you want 2 random workouts for each day
-        }
+    func getRandomWorkouts() -> [wout] {
+        var shuffledWorkouts = woutviewModel.list
+        shuffledWorkouts = shuffledWorkouts.shuffled()
+        print(Array(shuffledWorkouts.prefix(2)))
+        return Array(shuffledWorkouts.prefix(2)) // Assuming you want 2 random workouts for each day
+    }
     
     var body: some View {
         NavigationStack{
