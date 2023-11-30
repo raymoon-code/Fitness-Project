@@ -53,7 +53,7 @@ struct ContentView: View {
     
     @State private var isSignUpViewActive = false
     @State private var isSignInViewActive = false
-    
+    @State private var isSignInalert = false
     //@State var profile: Profiles
     @ObservedObject var viewModel4 = ViewModel4()
     
@@ -166,6 +166,7 @@ struct ContentView: View {
                                 self.isSignInViewActive = true
                             }
                         } catch {
+                            isSignInalert = true
                             print(error)
                         }
                     }
@@ -183,7 +184,10 @@ struct ContentView: View {
                             .foregroundColor(Color(red: 0.38, green: 0.79, blue: 0.93))
                         .frame(width: 64, height: 64)
                     }
-                })
+                }) 
+                .alert(isPresented: $isSignInalert) {
+                    Alert(title: Text("Error"), message: Text("Invalid username or password"), dismissButton: .default(Text("OK")))
+                }
                 .fullScreenCover(isPresented: $isSignInViewActive) {
                     TabSwiftUIView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Email: $viewModel.Email)
                            }
