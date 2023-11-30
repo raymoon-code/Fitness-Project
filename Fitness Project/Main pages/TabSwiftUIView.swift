@@ -19,19 +19,19 @@ struct TabSwiftUIView: View {
                 Image(systemName: "house")
                 Text("Home")
             }
-            ExercisesView( Email: $Email).tabItem {
+            ExercisesView(Email: $Email).tabItem {
                 Image(systemName: "figure.run")
                 Text("Exercises")
             }
-            FoodView().tabItem {
+            FoodView(Email: $Email).tabItem {
                 Image(systemName: "fork.knife")
                 Text("Recipes")
             }
-            WorkoutView( exercise: todo(id: String(), name: String(), email: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String())).tabItem{
+            WorkoutView( exercise: todo(id: String(), name: String(), email: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String()), Email: $Email).tabItem{
                 Image(systemName: "circle")
                 Text("Workouts")
             }
-            DailyView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb).tabItem{
+            DailyView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Email: $Email).tabItem{
                 
                 Image(systemName: "calendar")
                 Text("Daily")

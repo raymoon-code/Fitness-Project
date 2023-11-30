@@ -19,29 +19,46 @@ struct HomeScreenView: View {
     
     @Binding var Email: String
     
-    var filteredTable: [todo] {
-        guard !searchTerm.isEmpty else {return viewModel.exercise}
+    var emailFilteredTableExercises: [todo]{
+        guard !Email.isEmpty else {return viewModel.exercise}
         return viewModel.exercise.filter {
             exercise in
-            return exercise.equipment.caseInsensitiveCompare(Email) == ComparisonResult.orderedSame// && (exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-            //exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
-            //exercise.muscle.localizedCaseInsensitiveContains(searchTerm))
+            return (exercise.email.compare(Email) == .orderedSame || exercise.email.compare("default") == .orderedSame)
+        }
+    }
+    
+    var filteredTable: [todo] {
+        guard !searchTerm.isEmpty else {return emailFilteredTableExercises}
+        return emailFilteredTableExercises.filter {
+            exercise in
+            return (exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
+            exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
+            exercise.muscle.localizedCaseInsensitiveContains(searchTerm))
         }
         
     }
-    var filteredTable2: [Foods2] {
-        guard !searchTerm.isEmpty else {return viewModel2.foods}
+    
+    var emailFilteredTableFoods: [Foods2]{
+        guard !Email.isEmpty else {return viewModel2.foods}
         return viewModel2.foods.filter {
+            exercise in
+            return (exercise.email.compare(Email) == .orderedSame || exercise.email.compare("default") == .orderedSame)
+        }
+    }
+    
+    var filteredTable2: [Foods2] {
+        guard !searchTerm.isEmpty else {return emailFilteredTableFoods}
+        return emailFilteredTableFoods.filter {
             food in
-            return food.email.compare(Email) == .orderedSame            //(food.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-                //food.kcal.description.localizedCaseInsensitiveContains(searchTerm) ||
-                //food.minute.description.localizedCaseInsensitiveContains(searchTerm) ||
-                //food.ingredients.contains { step in
-                //        step.localizedCaseInsensitiveContains(searchTerm)
+            return (food.name.description.localizedCaseInsensitiveContains(searchTerm) ||
+                food.kcal.description.localizedCaseInsensitiveContains(searchTerm) ||
+                food.minute.description.localizedCaseInsensitiveContains(searchTerm) ||
+                food.ingredients.contains { step in
+                        step.localizedCaseInsensitiveContains(searchTerm)
                     
-                //}
+                }
                          
-            //)
+            )
         }
         
     }
@@ -169,7 +186,7 @@ struct HomeScreenView: View {
                                     .foregroundColor(Color.black)){
                                         ForEach(filteredTable2) { food in
                                             
-                                            NavigationLink(destination: FoodDetailView2(food: food)) {
+                                            NavigationLink(destination: FoodDetailView2(food: food, Email: $Email)) {
                                                 HStack {
                                                     Text("")
                                                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -252,12 +269,13 @@ struct HomeScreenView: View {
         }
     }
     
-    //init(){
-        //viewModel.getData()
-        //viewModel.listenForChanges()
-        //viewModel2.getData()
-        //viewModel2.listenForChanges()
-    //}
+    init(Email: Binding<String>){
+        self._Email = Email
+        viewModel.getData()
+        viewModel.listenForChanges()
+        viewModel2.getData()
+        viewModel2.listenForChanges()
+    }
      
     
 //    func deleteExercise(at offsets: IndexSet) {
@@ -297,9 +315,8 @@ struct HomeScreenView: View {
             }
         }
     }
-  
-    
 }
+
 extension UIColor {
     convenience init(hex: Int) {
         let red = CGFloat((hex & 0xFF0000) >> 16) / 255.0
@@ -310,5 +327,5 @@ extension UIColor {
 }
 
 #Preview {
-    HomeScreenView(Email: .constant("default"))
+    HomeScreenView(Email: .constant("dnlonda@cougarnet.uh.edu"))
 }

@@ -24,6 +24,8 @@ struct AddFoodView: View {
     @State private var directionInput = ""
        @State private var showAlert = false
     @State private var showAlert2 = false
+    @Binding var Email: String
+    
     var isFormValid: Bool {
         !name.isEmpty  &&
             !ingredients.isEmpty && !directions.isEmpty && !imageURL.isEmpty
@@ -256,6 +258,7 @@ struct AddFoodView: View {
             "kcal": Int(kcal) ,
             "carbs": Int(carbs) ,
             "fat": Int(fat) ,
+            "email": String(Email) ,
             "protein": Int(protein) ,
             "ingredients": ingredients,
             "directions": directions,
@@ -286,6 +289,6 @@ struct AddFoodView: View {
         }
         
         #Preview {
-            AddFoodView()
+            AddFoodView(Email: .constant("dnlonda@cougarnet.uh.edu"))
         }
     

@@ -20,6 +20,8 @@ struct FoodDetailView2: View {
     
     @State var videoID:String = ""
     
+    @Binding var Email: String
+    
     var body: some View {
        
         ZStack(alignment:.top){
@@ -208,7 +210,7 @@ struct FoodDetailView2_Previews: PreviewProvider {
                     let food = try decoder.decode(Foods2.self, from: jsonData)
                     
                     // Return a FoodDetailView2 preview with the decoded Foods2 instance
-                    return FoodDetailView2(food: food)
+                    return FoodDetailView2(food: food, Email: .constant("dnlonda@cougarnet.uh.edu"))
                 } catch {
                     // Handle any decoding errors
                     fatalError("Failed to decode Foods2 instance: \(error)")

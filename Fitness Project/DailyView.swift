@@ -30,7 +30,9 @@ struct DailyView: View {
     @Binding var selectInch: Int
     @Binding var selectlb: Int
     
-   
+    @Binding var Email: String
+    
+    @State private var showProfile: Bool = false
     
     var bmi: Double {
         let totalInches = (selectFeet * 12) + selectInch
@@ -91,6 +93,18 @@ struct DailyView: View {
                     
                         .frame(width: geow * 0.9, height: geoh * 0.14, alignment: .leading)
                         .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
+                   Text("Profile")
+                            .frame(width: geow * 0.9, height: geoh * 0.14, alignment: .trailing)
+                            .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
+                            .onTapGesture{
+                                showProfile.toggle()
+                            }
+                    
+                            .sheet(isPresented: $showProfile, content: {
+                                ProfileView(searchTerm: $Email)
+                                .interactiveDismissDisabled()
+                            })
+                    
                     Rectangle()
                         .foregroundColor(.clear)
                         .frame(width: geow, height: geoh * 0.14)
@@ -849,7 +863,7 @@ struct TriangleBorder: Shape {
 
 struct DailyView_Previews: PreviewProvider {
     static var previews: some View {
-        DailyView(selectFeet: .constant(5), selectInch: .constant(7), selectlb: .constant(126))
+        DailyView(selectFeet: .constant(5), selectInch: .constant(7), selectlb: .constant(126), Email: .constant("dnlonda@cougarnet.uh.edu"))
             
     }
 }

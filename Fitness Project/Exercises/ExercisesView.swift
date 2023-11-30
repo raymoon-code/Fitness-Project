@@ -15,16 +15,27 @@ struct ExercisesView: View {
     @ObservedObject var viewModel = ViewModelexercises()
     @State private var searchTerm = ""
     @Binding var Email: String
-    var filteredTable: [todo] {
-        guard !searchTerm.isEmpty else {return viewModel.exercise}
+    //@State var Email = "a"
+    
+    
+    var filteredTable2: [todo] {
+        guard !Email.isEmpty else {return viewModel.exercise}
         return viewModel.exercise.filter {
             exercise in
-            return  (exercise.email.caseInsensitiveCompare(Email) == ComparisonResult.orderedSame || exercise.email.caseInsensitiveCompare("default") == ComparisonResult.orderedSame)  && (exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.muscle.localizedCaseInsensitiveContains(searchTerm))
+            return (exercise.email.compare(Email) == .orderedSame || exercise.email.compare("default") == .orderedSame)
         }
-        
     }
+    
+    var filteredTable: [todo] {
+        guard !searchTerm.isEmpty else {return filteredTable2}
+        return filteredTable2.filter {
+            exercise in
+            return exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
+            exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
+            exercise.muscle.localizedCaseInsensitiveContains(searchTerm)
+        }
+    }
+    
     var body: some View {
         GeometryReader { geo in
             let geow = geo.size.width
@@ -134,7 +145,7 @@ struct ExercisesView: View {
 //                            }
                             .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
-                        NavigationLink(destination: AddExerciseView()) {
+                        NavigationLink(destination: AddExerciseView(Email: $Email)) {
                             Text("Add New Exercise")
                                 .font(.headline)
                                 .padding()

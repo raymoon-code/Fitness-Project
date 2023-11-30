@@ -12,16 +12,18 @@ struct SelectExerciseView: View {
     @State private var isSelectid = [String]()
     @ObservedObject var viewModel = ViewModelexercisesforworkout()
     @State private var searchTerm = ""
+    
+    @Binding var Email: String
     var filteredTable: [exer] {
-        guard !searchTerm.isEmpty else {return viewModel.exercise}
-        return viewModel.exercise.filter {
-            exercise in
-            return exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
-            exercise.muscle.localizedCaseInsensitiveContains(searchTerm)
+            guard !searchTerm.isEmpty else {return viewModel.exercise}
+            return viewModel.exercise.filter {
+                exercise in
+                return exercise.name.description.localizedCaseInsensitiveContains(searchTerm) ||
+                exercise.difficulty.localizedCaseInsensitiveContains(searchTerm) ||
+                exercise.muscle.localizedCaseInsensitiveContains(searchTerm)
+            }
+            
         }
-        
-    }
     var body: some View {
         GeometryReader { geo in
             let geow = geo.size.width
@@ -140,8 +142,8 @@ struct SelectExerciseView: View {
 //
                        
 //                        .searchable(text: $searchTerm, prompt:"Enter name, level of difficulty or muscle" ){
-//                            
-//                            
+//
+//
 //                        } 
                         .background(Color(red: 0.625, green: 0.909, blue: 0.965))
                             .listStyle(InsetListStyle())
@@ -152,7 +154,7 @@ struct SelectExerciseView: View {
                             }
                             .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
-                        NavigationLink(destination: AddExerciseView()) {
+                        NavigationLink(destination: AddExerciseView(Email: $Email)) {
                             Text("Add New Exercise")
                                 .font(.headline)
                                 .padding()
@@ -189,5 +191,5 @@ struct SelectExerciseView: View {
 }
 
 #Preview {
-    SelectExerciseView(selectedExercises: .constant(["KrJWydOkq5BuGUVnT4nk"]))
+    SelectExerciseView(selectedExercises: .constant(["KrJWydOkq5BuGUVnT4nk"]), Email: .constant("dnlonda@cougarnet.uh.edu"))
 }

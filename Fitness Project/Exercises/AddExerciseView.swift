@@ -19,6 +19,9 @@ struct AddExerciseView: View {
     @State private var videoURL = ""
     @State private var showAlert = false
     @State private var showAlert2 = false
+    
+    @Binding var Email: String
+    
     var isFormValid: Bool {
             !name.isEmpty && !type.isEmpty && !muscle.isEmpty && !equipment.isEmpty &&
             !difficulty.isEmpty && !instructions.isEmpty && !imageURL.isEmpty && !videoURL.isEmpty
@@ -49,25 +52,34 @@ struct AddExerciseView: View {
                         TextField("type", text: $type)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
+                            .autocapitalization(.none)
                         TextField("muscle", text: $muscle)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
+                            .autocapitalization(.none)
                         TextField("equipment", text: $equipment)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
+                            .autocapitalization(.none)
                         TextField("difficulty", text: $difficulty)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
+                            .autocapitalization(.none)
+                        
                         TextField("instructions", text: $instructions)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
+                            .autocapitalization(.none)
+                        
                         TextField("imageURL", text: $imageURL)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
+                            .autocapitalization(.none)
+                        
                         TextField("videoURL", text: $videoURL)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding()
-                        
+                            .autocapitalization(.none)
                         // Add similar input fields for other properties of `todo`
                         
                         Button(action: {
@@ -81,6 +93,7 @@ struct AddExerciseView: View {
                                     "name": name,
                                     "type": type,
                                     "muscle": muscle,
+                                    "email": Email, //keeps unique to user
                                     "equipment": equipment,
                                     "difficulty": difficulty,
                                     "instructions": instructions,
@@ -154,5 +167,5 @@ struct AddExerciseView: View {
 }
         
 #Preview {
-    AddExerciseView()
+    AddExerciseView(Email: .constant("dnlonda@cougarnet.uh.edu"))
 }

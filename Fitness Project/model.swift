@@ -16,8 +16,10 @@ struct todos: Identifiable {
 struct wout: Identifiable, Codable {
     var id: String
     var title: String
+    var email: String
     var image: String
     var ref1: [String]
+    
 
 }
 

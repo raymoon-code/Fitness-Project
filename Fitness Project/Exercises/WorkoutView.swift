@@ -19,9 +19,19 @@ struct WorkoutView: View {
     @State var exercise: todo
     @State private var searchTerm = ""
     
-    var filteredTable3: [wout] {
-        guard !searchTerm.isEmpty else {return viewModel3.list}
+    @Binding var Email: String
+    
+    var emailFilteredTable: [wout]{
+        guard !Email.isEmpty else {return viewModel3.list}
         return viewModel3.list.filter {
+            exercise in
+            return (exercise.email.compare(Email) == .orderedSame || exercise.email.compare("default") == .orderedSame)
+        }
+    }
+    
+    var filteredTable3: [wout] {
+        guard !searchTerm.isEmpty else {return emailFilteredTable}
+        return emailFilteredTable.filter {
             workout in
             return workout.title.description.localizedCaseInsensitiveContains(searchTerm)
         }
@@ -107,9 +117,10 @@ struct WorkoutView: View {
                         //                            .onAppear {
                         //                                viewModel3.fetch()
                         //                            }
+                        
                             .navigationBarTitle("Generic Fitness App", displayMode: .inline)
                             .background(Color.clear)
-                        NavigationLink(destination: AddWorkoutView()) {
+                        NavigationLink(destination: AddWorkoutView(Email: $Email)) {
                             Text("Add New Workout")
                                 .font(.headline)
                                 .padding()
@@ -196,5 +207,5 @@ struct FetchExerciseDataView3: View {
                        difficulty: "beginner",
                        instructions: "4 sets of 15 reps. Rest 45 sec between sets.",
                 imageURL: "https://img.youtube.com/vi/FMyg_gsA0mI/1.jpg",
-                       videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong"))
+        videoURL: "https://www.youtube.com/watch?v=FMyg_gsA0mI&ab_channel=GirlsGoneStrong"), Email: .constant("dnlonda@cougarnet.uh.edu"))
 }

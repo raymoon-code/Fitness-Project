@@ -23,12 +23,15 @@ import Firebase
 struct ProfileView: View {
     
     @ObservedObject var viewModel = ViewModelUsers()
-    @State private var searchTerm = "dnlonda@cougarnet.uh.edu"// change this to be the log in email.
+    //@Binding var searchTerm: String// change this to be the log in email.
+    @Binding var searchTerm: String
+    
+    
     var filteredTable: [UserObj] {
         guard !searchTerm.isEmpty else {return viewModel.user}
         return viewModel.user.filter {
             exercise in
-            return exercise.email.caseInsensitiveCompare(searchTerm) == ComparisonResult.orderedSame
+            return exercise.email.caseInsensitiveCompare("dnlonda@cougarnet.uh.edu") == ComparisonResult.orderedSame
         }
     }
     
@@ -57,8 +60,10 @@ struct ProfileView: View {
         }
     }
     
-    init(){ //this works
+    init(searchTerm: Binding<String>){ //this works
+        self._searchTerm = searchTerm
         viewModel.getData()
+        //self.searchTerm = searchTerm
         //userViewModel.listenForChanges()
     }
     
@@ -66,7 +71,7 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(searchTerm: .constant("dnlonda@cougarnet.uh.edu"))
 }
 
 

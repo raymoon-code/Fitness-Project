@@ -62,8 +62,6 @@ struct exer: Identifiable, Codable {
     var videoURL:String
 }
 
-
-
 struct Exercise2: Identifiable, Codable {
     var id: String
     var name: String
@@ -111,11 +109,12 @@ struct Foods2: Identifiable, Codable {
         
         email = try container.decode(String.self, forKey: .email)
         kcal = try container.decode(Int.self, forKey: .kcal)
-                carbs = try container.decode(Int.self, forKey: .carbs)
-                fat = try container.decode(Int.self, forKey: .fat)
-                protein = try container.decode(Int.self, forKey: .protein)
-                ingredients = try container.decode([String].self, forKey: .ingredients)
-                directions = try container.decode([String].self, forKey: .directions)
+        carbs = try container.decode(Int.self, forKey: .carbs)
+        fat = try container.decode(Int.self, forKey: .fat)
+        protein = try container.decode(Int.self, forKey: .protein)
+        ingredients = try container.decode([String].self, forKey: .ingredients)
+        directions = try container.decode([String].self, forKey: .directions)
+        
         // Handle the potential issue of decoding Int from String data
         if let minuteString = try? container.decode(String.self, forKey: .minute),
            let convertedMinute = Int(minuteString) {
@@ -124,6 +123,7 @@ struct Foods2: Identifiable, Codable {
             // Set a default value or handle the situation as per your application's logic
             minute = 0 // Or any other default value you prefer
         }
+        
         if let urlString = try container.decodeIfPresent(String.self, forKey: .imageURL),
                    let url = URL(string: urlString) {
                     imageURL = url
@@ -681,11 +681,12 @@ class ViewModeltest: ObservableObject {
                     self.list = snapshot.documents.compactMap { document in
                         guard let id = document.documentID as? String,
                               let title = document["title"] as? String,
+                              let email = document["email"] as? String,
                               let image = document["image"] as? String,
                               let ref1 = document["ref1"] as? [String] else {
                             return nil
                         }
-                        return wout(id: id, title: title, image: image, ref1: ref1)
+                        return wout(id: id, title: title, email: email, image: image, ref1: ref1)
                     }
                     
                     self.fetchExercisesForWorkouts()

@@ -16,11 +16,20 @@ struct AddWorkoutView: View {
     @State private var selectedExercises = [String]()
     @State private var showAlert = false
     @State private var showSuccessAlert = false
+    
+    @Binding var Email: String
 
     var isFormValid: Bool {
         !title.isEmpty && !image.isEmpty && !references.isEmpty
     }
-
+    
+    var filteredTable: [todo] {
+        guard !Email.isEmpty else {return viewModel.exercise}
+        return viewModel.exercise.filter {
+            exercise in
+            return (exercise.email.compare(Email) == .orderedSame || exercise.email.compare("default") == .orderedSame)
+        }
+    }
     var body: some View {
         VStack(spacing: 1) {
             TextField("Title", text: $title)
@@ -54,7 +63,7 @@ struct AddWorkoutView: View {
                 let geow = geo.size.width
                 let geoh = geo.size.height
                 
-            List(viewModel.exercise){ exercise in
+            List(filteredTable){ exercise in
                 
                 
                     HStack {
@@ -166,7 +175,8 @@ struct AddWorkoutView: View {
         }
         .padding(1)
     }
-    init(){
+    init(Email: Binding<String>){
+        self._Email = Email
         viewModel.getData()
         viewModel.listenForChanges()
     }
@@ -184,6 +194,7 @@ struct AddWorkoutView: View {
         let newWorkoutData: [String: Any] = [
             "id": documentID,
             "image": image,
+            "email": Email,
             "ref1": references ,
             "title": title
             
@@ -202,5 +213,5 @@ struct AddWorkoutView: View {
 
 
 #Preview {
-    AddWorkoutView()
+    AddWorkoutView(Email: .constant("dnlonda@cougarnet.uh.edu"))
 }

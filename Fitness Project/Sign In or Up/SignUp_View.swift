@@ -123,6 +123,7 @@ struct SignUp_View: View {
                 .cornerRadius(20)
                 .zIndex(6)
                 .autocorrectionDisabled()
+                .autocapitalization(.none)
                 
             TextField("Password", text: $viewModel.Pass)
                 .padding()
@@ -132,6 +133,7 @@ struct SignUp_View: View {
                 .cornerRadius(20)
                 .zIndex(6)
                 .autocorrectionDisabled()
+                .autocapitalization(.none)
             
         } .padding(.bottom)
         
@@ -158,8 +160,10 @@ struct SignUp_View: View {
                 .onTapGesture {
                     Task{
                         do{
-                            viewModel.signUp()
-                            isSignUpCircleActive.toggle()
+                            if isFormNotEmpty(Email: viewModel.Email, Password: viewModel.Pass, Name: Name){
+                                viewModel.signUp()
+                                isSignUpCircleActive.toggle()
+                            }
                         }catch{
                             print(error)
                         }
@@ -217,6 +221,17 @@ struct SignUp_View: View {
         .padding(.bottom)
         Spacer()
     }
+    
+    func isFormNotEmpty(Email: String, Password: String, Name: String) -> Bool{
+        if(!Email.isEmpty && !Password.isEmpty && !Name.isEmpty){
+            return true
+        }
+        return false
+    }
+    
+    
+    
+    
 }
 
 #Preview {

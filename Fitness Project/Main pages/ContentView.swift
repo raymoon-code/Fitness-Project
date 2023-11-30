@@ -161,8 +161,10 @@ struct ContentView: View {
                 Button(action: {
                     Task{
                         do{
-                            try await viewModel.signIn()
-                            self.isSignInViewActive = true
+                            if isFormNotEmpty(Email: viewModel.Email, Password: viewModel.Pass){
+                                try await viewModel.signIn()
+                                self.isSignInViewActive = true
+                            }
                         } catch {
                             print(error)
                         }
@@ -257,6 +259,13 @@ struct ContentView: View {
         viewModel4.fetchLogin()
         
         
+    }
+    
+    func isFormNotEmpty(Email: String, Password: String) -> Bool{
+        if(!Email.isEmpty && !Password.isEmpty){
+            return true
+        }
+        return false
     }
     
 }

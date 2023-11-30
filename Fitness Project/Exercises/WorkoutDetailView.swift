@@ -24,6 +24,8 @@ struct WorkoutDetailView: View {
 //    @State var woutlist = ()
 //    @State var exercises: todo
     @State private var searchTerm = ""
+    
+    
     var filteredTable: [Exercise2] {
         guard !searchTerm.isEmpty else {return model2.exercises}
         return model2.exercises.filter {
@@ -34,6 +36,7 @@ struct WorkoutDetailView: View {
         }
         
     }
+    
     var body: some View {
         GeometryReader { geo in
             let geow = geo.size.width
@@ -218,7 +221,7 @@ struct FetchExerciseDataView2: View {
 
 struct WorkoutDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutDetailView(workout: wout(id: "NShaY3lbG78jn5StfcOc", title: "Leg Day", image: "https://images.unsplash.com/photo-1620188526357-ff08e03da266?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFyYmVsbHxlbnwwfHwwfHx8MA%3D%3D", ref1:  ["vSoDhCsGgUZF5nOT4kRJ","YIiZrhFd1axM2Luui42d"]))
+        WorkoutDetailView(workout: wout(id: "NShaY3lbG78jn5StfcOc", title: "Leg Day", email: "dnlonda@cougarnet.uh.edu", image: "https://images.unsplash.com/photo-1620188526357-ff08e03da266?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFyYmVsbHxlbnwwfHwwfHx8MA%3D%3D", ref1:  ["vSoDhCsGgUZF5nOT4kRJ","YIiZrhFd1axM2Luui42d"]))
     
     }
 }

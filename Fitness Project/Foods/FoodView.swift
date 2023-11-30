@@ -10,9 +10,23 @@ import SwiftUI
 struct FoodView: View {
     @ObservedObject var viewModel2 = ViewModelFoods()
     @State private var searchTerm = ""
-    var filteredTable2: [Foods2] {
-        guard !searchTerm.isEmpty else {return viewModel2.foods}
+    
+    @Binding var Email: String
+    
+    var filteredTable: [Foods2] {
+        guard !Email.isEmpty else {return viewModel2.foods}
         return viewModel2.foods.filter {
+            food in
+            return (food.email.compare(Email) == .orderedSame || food.email.compare("default") == .orderedSame)
+                
+            
+        }
+    }
+    
+    
+    var filteredTable2: [Foods2] {
+        guard !searchTerm.isEmpty else {return filteredTable}
+        return filteredTable.filter {
             food in
             return food.name.description.localizedCaseInsensitiveContains(searchTerm) ||
             food.kcal.description.localizedCaseInsensitiveContains(searchTerm) ||
@@ -22,8 +36,9 @@ struct FoodView: View {
                 
             }
         }
-        
     }
+    
+    
     var body: some View {
         GeometryReader { geo in
             let geow = geo.size.width
@@ -47,7 +62,7 @@ struct FoodView: View {
                                     .foregroundColor(Color.black)){
                                         ForEach(filteredTable2) { food in
                                             
-                                            NavigationLink(destination: FoodDetailView2(food: food)) {
+                                            NavigationLink(destination: FoodDetailView2(food: food, Email: $Email)) {
                                                 HStack {
                                                     Text("")
                                                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -104,7 +119,7 @@ struct FoodView: View {
                         
                         .searchable(text: $searchTerm, prompt:"Enter name, kcal, minute or ingredient" )
                         .listStyle(InsetListStyle())
-                    NavigationLink(destination: AddFoodView()) {
+                        NavigationLink(destination: AddFoodView(Email: $Email)) {
                         Text("Add New Food")
                             .font(.headline)
                             .padding()
@@ -132,8 +147,9 @@ struct FoodView: View {
 //    func deleteFood(at offsets: IndexSet) {
 //        viewModel2.food.remove(atOffsets: offsets)
 //    }
+
 }
 
 #Preview {
-    FoodView()
+    FoodView(Email: .constant("dnlonda@cougarnet.uh.edu"))
 }
