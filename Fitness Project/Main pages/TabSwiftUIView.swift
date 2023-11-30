@@ -28,7 +28,7 @@ struct TabSwiftUIView: View {
                 Text("Recipes")
             }
             WorkoutView( exercise: todo(id: String(), name: String(), email: String(), type: String(), muscle: String(), equipment: String(), difficulty: String(), instructions: String(), imageURL: String(), videoURL: String()), Email: $Email).tabItem{
-                Image(systemName: "circle")
+                Image(systemName: "figure.rower")
                 Text("Workouts")
             }
             DailyView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Email: $Email).tabItem{
