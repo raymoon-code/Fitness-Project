@@ -64,6 +64,7 @@
 		C8CBA9532AFC3AB300EDE343 /* testView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8CBA9522AFC3AB300EDE343 /* testView.swift */; };
 		C8E022D22AD74EBB00E1E743 /* newSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */; };
 		C8E022D42AD7B50400E1E743 /* SignUp_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E022D32AD7B50400E1E743 /* SignUp_View.swift */; };
+		C8E088942B19227A00CAE3CF /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E088932B19227900CAE3CF /* SplashScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +105,7 @@
 		C8CBA9522AFC3AB300EDE343 /* testView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testView.swift; sourceTree = "<group>"; };
 		C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newSwiftUIView.swift; sourceTree = "<group>"; };
 		C8E022D32AD7B50400E1E743 /* SignUp_View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp_View.swift; sourceTree = "<group>"; };
+		C8E088932B19227900CAE3CF /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 		C818BEEC2AD6225B00A4D559 = {
 			isa = PBXGroup;
 			children = (
+				C8E088932B19227900CAE3CF /* SplashScreenView.swift */,
 				C818BEF72AD6225B00A4D559 /* Fitness Project */,
 				C818BEF62AD6225B00A4D559 /* Products */,
 				9C54E7722AF3761500F86BFC /* Frameworks */,
@@ -387,6 +390,7 @@
 				C80A806D2AE448C80021E2D8 /* VideoView.swift in Sources */,
 				9CAA11BC2AEA61100049079E /* WorkoutDetailView.swift in Sources */,
 				C80A344D2B12AAA7002BB469 /* testadd.swift in Sources */,
+				C8E088942B19227A00CAE3CF /* SplashScreenView.swift in Sources */,
 				C84D45502AD8557000C4A8E3 /* HomeScreenView.swift in Sources */,
 				C8A0E7A22AFC6FDD00E9557B /* model.swift in Sources */,
 				9C6EE7042AE85D8C00F2CBE7 /* FoodDetailView.swift in Sources */,

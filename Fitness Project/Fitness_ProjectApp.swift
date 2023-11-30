@@ -32,7 +32,8 @@ struct Fitness_ProjectApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Name: $Name, Email: $Email)
+            SplashScreenView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Name: $Name, Email: $Email)
+//            ContentView(selectFeet: $selectFeet, selectInch: $selectInch, selectlb: $selectlb, Name: $Name, Email: $Email)
         }
     }
 }
