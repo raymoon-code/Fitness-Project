@@ -226,23 +226,23 @@ struct ContentView: View {
              
             Spacer()
             
-            Button(action: {}, label: {
-                Text("Forgot Password")
-            })
-            .frame(width: 164, height: 44, alignment: .center)
-            .background(
-            LinearGradient(
-            stops: [
-            Gradient.Stop(color: Color(red: 0.63, green: 0.85, blue: 0.98), location: 0.14),
-            Gradient.Stop(color: Color(red: 0.04, green: 0.56, blue: 0.85), location: 1.00),
-            ],
-            startPoint: UnitPoint(x: 0.5, y: -0.48),
-            endPoint: UnitPoint(x: 0.5, y: 1.31)
-            )
-            )
-            .foregroundColor(.black)
-            .cornerRadius(10.68966)
-            Spacer()
+//            Button(action: {}, label: {
+//                Text("Forgot Password")
+//            })
+//            .frame(width: 164, height: 44, alignment: .center)
+//            .background(
+//            LinearGradient(
+//            stops: [
+//            Gradient.Stop(color: Color(red: 0.63, green: 0.85, blue: 0.98), location: 0.14),
+//            Gradient.Stop(color: Color(red: 0.04, green: 0.56, blue: 0.85), location: 1.00),
+//            ],
+//            startPoint: UnitPoint(x: 0.5, y: -0.48),
+//            endPoint: UnitPoint(x: 0.5, y: 1.31)
+//            )
+//            )
+//            .foregroundColor(.black)
+//            .cornerRadius(10.68966)
+//            Spacer()
             
       
         }
