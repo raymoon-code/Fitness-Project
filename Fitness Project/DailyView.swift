@@ -93,18 +93,13 @@ struct DailyView: View {
                     
                         .frame(width: geow * 0.9, height: geoh * 0.14, alignment: .leading)
                         .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
-                   Text("Profile")
-                            .frame(width: geow * 0.9, height: geoh * 0.14, alignment: .trailing)
-                            .zIndex(/*@START_MENU_TOKEN@*/1.0/*@END_MENU_TOKEN@*/)
-                            .onTapGesture{
-                                showProfile.toggle()
-                            }
                     
-                            .sheet(isPresented: $showProfile, content: {
-                                ProfileView(searchTerm: $Email)
-                                .interactiveDismissDisabled()
-                            })
-                    
+                    NavigationLink(destination: {ProfileView(searchTerm: $Email)
+                        }, label:{
+                        Text("Profile")
+                    })
+                        .frame(width: geow * 0.9, height: geoh * 0.14, alignment: .trailing)
+                        .zIndex(1.0)
                     Rectangle()
                         .foregroundColor(.clear)
                         .frame(width: geow, height: geoh * 0.14)
