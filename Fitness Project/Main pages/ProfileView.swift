@@ -31,7 +31,7 @@ struct ProfileView: View {
         guard !searchTerm.isEmpty else {return viewModel.user}
         return viewModel.user.filter {
             exercise in
-            return exercise.email.caseInsensitiveCompare("dnlonda@cougarnet.uh.edu") == ComparisonResult.orderedSame
+            return exercise.email.caseInsensitiveCompare(searchTerm) == ComparisonResult.orderedSame
         }
     }
     
