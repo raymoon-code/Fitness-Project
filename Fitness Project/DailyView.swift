@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DailyView: View {
     @ObservedObject var woutviewModel = ViewModeltest()
+    @ObservedObject var userviewModel = UserViewModel()
     @State var workoutsForDays: [Int: [wout]] = [:]
     @State var workoutsGenerated = false
     let today = Date()
@@ -122,7 +123,11 @@ struct DailyView: View {
                     ForEach(["Sun","Mon","Tue","Wed","Thu","Fri","Sat"], id: \.self) { day in
                         
                         //                            Text(day)
-                        //                            Text(formattedDayOfWeek.prefix(3))
+//                                                    Text(formattedDayOfWeek.prefix(3))
+//                        Button(action: {
+//                            if day == formattedDayOfWeek.prefix(3) {
+//                                isSheetPresented.toggle()
+//                            }})
                         Text(day == formattedDayOfWeek.prefix(3) ? "Today" : day)
                         //                                .font(
                         //                                    Font.custom("Raleway", size: day == formattedDayOfWeek.prefix(3) ? 14 : 18)
@@ -138,12 +143,13 @@ struct DailyView: View {
                 HStack{
                     ForEach([1,2,3,4,5,6,7], id: \.self) { day in
                         VStack{
+                         
                             ZStack{
                                 let date = "\((((formattedDayOfMonth - 1) - formattednumDayOfWeek + day) % 30 + 1 ) )"
                                 let lastday = lastDayOfPreviousMonth()
                                 let lastDayInt = Int(lastday!)
-                              
-                                Text(date == "0" ? lastday! : 
+                            
+                                Text(date == "0" ? lastday! :
                                         date == "-1" ? "\(String(describing: lastDayInt! - 1))" :
                                         date == "-2" ? "\(String(describing: lastDayInt! - 2))" :
                                         date == "-3" ? "\(String(describing: lastDayInt! - 3))" :
@@ -158,6 +164,7 @@ struct DailyView: View {
                                     .onTapGesture {
                                         // Set the selectedday when the circle is tapped
                                         selectedday =  day
+                                        
                                         if waterFill[selectedday] == 0 {
                                             progress = 0.1
                                             
@@ -281,10 +288,24 @@ struct DailyView: View {
                
                 HStack {
                     Spacer()
+                    
                     ZStack {
                         
                         Button(action: {
-                            isSheetPresented = true // Toggle the sheet presentation
+                          
+                                    let currentnum = currentDayNumber() + 1
+                                    
+                                        if  selectedday == currentnum {
+                                            isSheetPresented = true
+                                        }
+                                  
+                                //                            Text(day)
+                                //                                                    Text(formattedDayOfWeek.prefix(3))
+                             
+                            
+//                            if formattedDayOfWeek.prefix(3){
+//                                // Toggle the sheet presentation
+//                            }
                             if waterFill[selectedday] == 0 {
                                 progress = 0.1
                                 
@@ -635,7 +656,7 @@ struct DailyView: View {
                                         VStack {
                                             Text("weight(lb)")
                                             Text("\(selectlb)").fontWeight(.bold)
-                                        }
+                                                                                    }
                                     }  .font(.system(size: 9))
                                 }
                                 )
@@ -666,6 +687,7 @@ struct DailyView: View {
                 //                                woutviewModel.assignRandomWorkoutsForDays()
                 //                                assignRandomWorkouts()
                                         woutviewModel.getData2()
+                userviewModel.fetchUsers()
 //                                                            woutviewModel.listenForChanges()
                 //
                                        
@@ -688,7 +710,18 @@ struct DailyView: View {
          let tableView = UITableView.appearance()
          tableView.setContentOffset(.zero, animated: true)
      }
+    
+    func currentDayNumber() -> Int {
+        let calendar = Calendar.current
+        let today = Date() // Get today's date
 
+        let dayNumber = calendar.component(.weekday, from: today)
+        
+        // Adjusting the numbering to start from Monday (1) instead of Sunday (7)
+        let adjustedDayNumber = (dayNumber + 5) % 7 + 1
+        
+        return adjustedDayNumber
+    }
     
     func monthForPastDay(daysAgo: Int) -> String? {
         let calendar = Calendar.current

@@ -604,7 +604,9 @@ class ViewModelFoods: ObservableObject {
 
 class ViewModeltest: ObservableObject {
     @Published var list = [wout]()
+    @Published var userlist = [UserObj]()
     @Published var exercises: [Exercise2] = [] // Array to hold fetched exercises
+    @Published var user: [UserObj] = []
     @Published var workoutsForDays: [Int: [wout]] = [:]
        @Published var workoutsGenerated = false
     
@@ -646,6 +648,29 @@ class ViewModeltest: ObservableObject {
     func getData2() {
         let db = Firestore.firestore()
         db.collection("workouts").getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching food documents: \(error)")
+                return
+            }
+            
+            guard let snapshot = snapshot else {
+                print("No food documents")
+                return
+            }
+            
+            self.list = snapshot.documents.compactMap { document in
+                do {
+                    return try document.data(as: wout.self)
+                } catch {
+                    print("Error decoding food document: \(error)")
+                    return nil
+                }
+            }
+        }
+    }
+    func getData3() {
+        let db = Firestore.firestore()
+        db.collection("users").getDocuments { snapshot, error in
             if let error = error {
                 print("Error fetching food documents: \(error)")
                 return
@@ -997,7 +1022,7 @@ class UserViewModel: ObservableObject {
         }
     }
     func fetchUsers() {
-        db.collection("exercises").getDocuments { querySnapshot, error in
+        db.collection("users").getDocuments { querySnapshot, error in
             if let error = error {
                 print("Error fetching exercises: \(error.localizedDescription)")
                 return
