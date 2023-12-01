@@ -65,6 +65,8 @@
 		C8E022D22AD74EBB00E1E743 /* newSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */; };
 		C8E022D42AD7B50400E1E743 /* SignUp_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E022D32AD7B50400E1E743 /* SignUp_View.swift */; };
 		C8E088942B19227A00CAE3CF /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E088932B19227900CAE3CF /* SplashScreenView.swift */; };
+		C8E088972B19C58900CAE3CF /* landscapehomeview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E088962B19C58900CAE3CF /* landscapehomeview.swift */; };
+		C8E088992B19D71500CAE3CF /* landscapedailyview.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E088982B19D71500CAE3CF /* landscapedailyview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +108,8 @@
 		C8E022D12AD74EBB00E1E743 /* newSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newSwiftUIView.swift; sourceTree = "<group>"; };
 		C8E022D32AD7B50400E1E743 /* SignUp_View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp_View.swift; sourceTree = "<group>"; };
 		C8E088932B19227900CAE3CF /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		C8E088962B19C58900CAE3CF /* landscapehomeview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = landscapehomeview.swift; sourceTree = "<group>"; };
+		C8E088982B19D71500CAE3CF /* landscapedailyview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = landscapedailyview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +220,7 @@
 		C818BEEC2AD6225B00A4D559 = {
 			isa = PBXGroup;
 			children = (
+				C8E088952B19C56100CAE3CF /* llandscade */,
 				C8E088932B19227900CAE3CF /* SplashScreenView.swift */,
 				C818BEF72AD6225B00A4D559 /* Fitness Project */,
 				C818BEF62AD6225B00A4D559 /* Products */,
@@ -264,6 +269,15 @@
 				C818BEFF2AD6225C00A4D559 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C8E088952B19C56100CAE3CF /* llandscade */ = {
+			isa = PBXGroup;
+			children = (
+				C8E088962B19C58900CAE3CF /* landscapehomeview.swift */,
+				C8E088982B19D71500CAE3CF /* landscapedailyview.swift */,
+			);
+			name = llandscade;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -384,9 +398,11 @@
 				C818BEFB2AD6225B00A4D559 /* ContentView.swift in Sources */,
 				C80C1C1F2B11C180000D5E57 /* AddExerciseView.swift in Sources */,
 				9CFAE0632AF30930009B8DF8 /* ProfileView.swift in Sources */,
+				C8E088992B19D71500CAE3CF /* landscapedailyview.swift in Sources */,
 				9CAA1A052B1742330009623A /* Question3View.swift in Sources */,
 				C818BEF92AD6225B00A4D559 /* Fitness_ProjectApp.swift in Sources */,
 				9C3F8B5A2AF3A372009394A0 /* AuthenificationViewModel.swift in Sources */,
+				C8E088972B19C58900CAE3CF /* landscapehomeview.swift in Sources */,
 				C80A806D2AE448C80021E2D8 /* VideoView.swift in Sources */,
 				9CAA11BC2AEA61100049079E /* WorkoutDetailView.swift in Sources */,
 				C80A344D2B12AAA7002BB469 /* testadd.swift in Sources */,

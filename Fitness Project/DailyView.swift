@@ -185,7 +185,7 @@ struct DailyView: View {
                                            
                                         }
                                     }
-                            }
+                            }.frame(width: geow * 0.12)
                             Image(systemName: day == selectedday ? "triangle.inset.filled" : "")
                                 .resizable()
                                 .frame(width: 14, height: 10)
@@ -279,7 +279,7 @@ struct DailyView: View {
                         }.frame(height: geoh * 0.36)
                         
                         
-                    }.frame(width: geow * 0.9)
+                    }.frame(width: geow * 0.9,height: geoh * 0.35)
                     .cornerRadius(20)
                     
                     
@@ -360,7 +360,7 @@ struct DailyView: View {
                             }// An empty Text to make the entire ZStack tappable
                         }
                     }
-                    .frame(width: 143, height: 152)
+                    .frame(width: geow * 0.4, height: geoh * 0.2)
                     .background(Color(red: 0.32, green: 0.89, blue: 1).opacity(0.37))
                     .cornerRadius(15)
                     .overlay(
@@ -663,7 +663,7 @@ struct DailyView: View {
                         }
                        
                     }
-                    .frame(width: 143, height: 152)
+                    .frame(width: geow * 0.4, height: geoh * 0.2)
                     .background(Color(red: 0.32, green: 0.89, blue: 1).opacity(0.37))
                     .cornerRadius(15)
                     .overlay(
@@ -674,6 +674,7 @@ struct DailyView: View {
                     Spacer()
                     
                 }.padding(.top)
+                    .frame(width:geow,height: geoh * 0.2)
                    
             }
         }

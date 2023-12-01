@@ -100,13 +100,13 @@ struct ExerciseDetailView: View {
                         }
                         
 
-                        Text("Recommendations:")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .padding(.top)
-                        
-                        Text(exercise.instructions)
-                            .multilineTextAlignment(.center)
+//                        Text("Recommendations:")
+//                            .font(.largeTitle)
+//                            .fontWeight(.bold)
+//                            .padding(.top)
+//                        
+//                        Text(exercise.instructions)
+//                            .multilineTextAlignment(.center)
                         
                         VStack{
                             Text("Instructions")
